@@ -1,2 +1,3 @@
 __pycache__/
 *.pyc
+backtests/fibo_ote/results/raw/
