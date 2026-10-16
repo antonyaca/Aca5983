@@ -1,0 +1,51 @@
+//@version=5
+// Cassure de volatilité de Larry Williams — règles validées sur le Nasdaq (backtest 2020-2026, repo Aca5983).
+// Niveaux = ouverture 09:30 New York ± k × amplitude (plus haut − plus bas) de la séance US de la veille.
+// Premier niveau touché = trade du jour. Stop = ouverture. Sortie à la clôture 16:00 New York (22:00 Paris).
+// À utiliser en M1 à M15. L'heure d'été est gérée automatiquement (fuseau New York).
+indicator("Williams k=0,5 — Nasdaq", overlay = true)
+
+k    = input.float(0.5, "k (part de l'amplitude de la veille)", minval = 0.05, step = 0.05)
+sess = input.session("0930-1600", "Séance (heure de New York)")
+tz   = "America/New_York"
+
+inSess  = not na(time(timeframe.period, sess, tz))
+newSess = inSess and not inSess[1]
+
+var float curH      = na
+var float curL      = na
+var float prevRange = na
+var float dayOpen   = na
+var float upL       = na
+var float dnL       = na
+var int   dir       = 0     // 0 = rien, 1 = achat déclenché, -1 = vente déclenchée
+
+if newSess
+    if not na(curH)
+        prevRange := curH - curL
+    curH    := high
+    curL    := low
+    dayOpen := open
+    upL     := na(prevRange) ? na : dayOpen + k * prevRange
+    dnL     := na(prevRange) ? na : dayOpen - k * prevRange
+    dir     := 0
+else if inSess
+    curH := math.max(curH, high)
+    curL := math.min(curL, low)
+
+buySig  = inSess and dir == 0 and not na(upL) and high >= upL and low > dnL
+sellSig = inSess and dir == 0 and not na(dnL) and low <= dnL and high < upL
+if buySig
+    dir := 1
+if sellSig
+    dir := -1
+
+plot(inSess ? upL : na, "Achat stop", color.new(color.green, 0), 2, plot.style_linebr)
+plot(inSess ? dnL : na, "Vente stop", color.new(color.red, 0), 2, plot.style_linebr)
+plot(inSess ? dayOpen : na, "Ouverture = stop loss", color.new(color.gray, 0), 1, plot.style_linebr)
+
+plotshape(buySig,  "Achat déclenché", shape.triangleup,   location.belowbar, color.green, size = size.small, text = "BUY")
+plotshape(sellSig, "Vente déclenchée", shape.triangledown, location.abovebar, color.red,   size = size.small, text = "SELL")
+
+alertcondition(buySig,  "Williams : achat",  "Nasdaq : cassure haussière Williams, stop à l'ouverture, sortie 22h00 Paris")
+alertcondition(sellSig, "Williams : vente",  "Nasdaq : cassure baissière Williams, stop à l'ouverture, sortie 22h00 Paris")
