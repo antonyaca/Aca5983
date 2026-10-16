@@ -1,8 +1,9 @@
-"""Télécharge et stocke les historiques M1 Dukascopy dans data/.
+"""Télécharge et stocke les historiques M1 (source : HistData.com, gratuite) dans data/.
 
 Un fichier par instrument et par année : data/<NOM>/<NOM>_M1_<ANNEE>.csv.gz
+Colonnes : time (UTC, ISO), open, high, low, close, volume
 Les années passées déjà présentes ne sont pas retéléchargées.
-L'année en cours est toujours rafraîchie (mise à jour incrémentale).
+L'année en cours est reconstruite mois par mois à chaque passage (mise à jour incrémentale).
 
 Variables d'environnement (optionnelles) :
   INSTRUMENTS  liste séparée par des virgules (ex: "XAUUSD,EURUSD"), défaut = tous
@@ -12,48 +13,93 @@ Variables d'environnement (optionnelles) :
 import datetime as dt
 import glob
 import gzip
+import http.cookiejar
+import io
 import json
 import os
-import shutil
-import subprocess
+import re
 import sys
-import tempfile
+import time
+import urllib.parse
+import urllib.request
+import zipfile
 
-# Nom lisible -> code instrument Dukascopy
+# Nom lisible -> code HistData
 INSTRUMENTS = {
     "XAUUSD": "xauusd",
     "EURUSD": "eurusd",
-    "SP500": "usa500idxusd",
-    "NASDAQ100": "usatechidxusd",
+    "SP500": "spxusd",
+    "NASDAQ100": "nsxusd",
 }
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
+BASE = "https://www.histdata.com"
+UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
+# HistData horodate en heure de New York fixe (EST, sans heure d'été) = UTC-5
+EST_OFFSET = dt.timedelta(hours=5)
+
+_jar = http.cookiejar.CookieJar()
+_opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_jar))
 
 
-def download(code, date_from, date_to, out_dir):
-    cmd = [
-        "npx", "-y", "dukascopy-node@1.50.0",
-        "-i", code, "-from", date_from, "-to", date_to,
-        "-t", "m1", "-p", "bid", "-v", "-f", "csv",
-        "-dir", out_dir, "-r", "5", "-rp", "2000", "-bs", "8", "-bp", "500", "-s",
-    ]
-    print("  >", " ".join(cmd), flush=True)
-    subprocess.run(cmd, check=True)
-    files = glob.glob(os.path.join(out_dir, "*.csv"))
-    if not files:
-        raise RuntimeError(f"Aucun fichier produit pour {code} {date_from}->{date_to}")
-    return max(files, key=os.path.getmtime)
+def _get(url, data=None, referer=None):
+    headers = {"User-Agent": UA}
+    if referer:
+        headers["Referer"] = referer
+    body = urllib.parse.urlencode(data).encode() if data else None
+    req = urllib.request.Request(url, data=body, headers=headers)
+    with _opener.open(req, timeout=120) as r:
+        return r.read()
 
 
-def count_rows(path_gz):
-    with gzip.open(path_gz, "rt") as f:
-        lines = f.readlines()
-    if len(lines) < 2:
-        return 0, None, None
-    first = lines[1].split(",")[0]
-    last = lines[-1].split(",")[0]
-    return len(lines) - 1, first, last
+def download_zip(code, year, month=None):
+    """Renvoie le contenu CSV brut (bytes) pour une année ou un mois, ou None si indisponible."""
+    path = f"/download-free-forex-historical-data/?/ascii/1-minute-bar-quotes/{code}/{year}"
+    if month:
+        path += f"/{month}"
+    page_url = BASE + path
+    html = _get(page_url).decode("utf-8", "ignore")
+    fields = dict(re.findall(r'<input[^>]*id="(\w+)"[^>]*value="([^"]*)"', html))
+    if "tk" not in fields:
+        return None
+    form = {
+        "tk": fields["tk"],
+        "date": fields.get("date", str(year)),
+        "datemonth": fields.get("datemonth", f"{year}{month:02d}" if month else str(year)),
+        "platform": "ASCII",
+        "timeframe": "M1",
+        "fxpair": fields.get("fxpair", code.upper()),
+    }
+    raw = _get(BASE + "/get.php", data=form, referer=page_url)
+    if raw[:2] != b"PK":
+        return None
+    with zipfile.ZipFile(io.BytesIO(raw)) as z:
+        name = next((n for n in z.namelist() if n.lower().endswith(".csv")), None)
+        return z.read(name) if name else None
+
+
+def convert(raw_csv):
+    """'20250101 180000;o;h;l;c;v' (EST) -> lignes 'ISO_UTC,o,h,l,c,v'."""
+    out = []
+    for line in raw_csv.decode("utf-8", "ignore").splitlines():
+        parts = line.strip().split(";")
+        if len(parts) < 6:
+            continue
+        try:
+            t = dt.datetime.strptime(parts[0], "%Y%m%d %H%M%S") + EST_OFFSET
+        except ValueError:
+            continue
+        out.append(f"{t:%Y-%m-%dT%H:%M:%SZ},{parts[1]},{parts[2]},{parts[3]},{parts[4]},{parts[5]}")
+    return out
+
+
+def write_gz(path, rows):
+    rows = sorted(set(rows))
+    with gzip.open(path, "wt", compresslevel=9) as f:
+        f.write("time,open,high,low,close,volume\n")
+        f.write("\n".join(rows) + "\n")
+    return len(rows)
 
 
 def main():
@@ -62,6 +108,7 @@ def main():
     start_year = int(os.environ.get("START_YEAR") or 2020)
     force = os.environ.get("FORCE") == "1"
     today = dt.date.today()
+    failures = 0
 
     for name in names:
         if name not in INSTRUMENTS:
@@ -77,27 +124,48 @@ def main():
             if os.path.exists(target) and year < today.year and not force:
                 print(f"  {year}: déjà présent, ignoré")
                 continue
-            date_from = f"{year}-01-01"
-            date_to = f"{year + 1}-01-01" if year < today.year else "now"
-            with tempfile.TemporaryDirectory() as tmp:
-                try:
-                    csv_path = download(code, date_from, date_to, tmp)
-                except Exception as exc:  # on continue avec les autres années
-                    print(f"  {year}: ÉCHEC ({exc})", file=sys.stderr)
-                    continue
-                with open(csv_path, "rb") as src, gzip.open(target, "wb", compresslevel=9) as dst:
-                    shutil.copyfileobj(src, dst)
-            print(f"  {year}: OK -> {os.path.relpath(target, ROOT)}", flush=True)
+            try:
+                rows = []
+                if year < today.year:
+                    raw = download_zip(code, year)
+                    if raw is None:  # certaines années récentes ne sont publiées que par mois
+                        for m in range(1, 13):
+                            r = download_zip(code, year, m)
+                            if r:
+                                rows += convert(r)
+                            time.sleep(1)
+                    else:
+                        rows = convert(raw)
+                else:
+                    for m in range(1, today.month + 1):
+                        r = download_zip(code, year, m)
+                        if r:
+                            rows += convert(r)
+                        time.sleep(1)
+                if not rows:
+                    raise RuntimeError("aucune donnée renvoyée")
+                n = write_gz(target, rows)
+                print(f"  {year}: OK, {n} bougies", flush=True)
+            except Exception as exc:
+                failures += 1
+                print(f"  {year}: ÉCHEC ({exc})", file=sys.stderr, flush=True)
+            time.sleep(2)
 
     # Inventaire lisible des données stockées
     manifest = {}
     for path in sorted(glob.glob(os.path.join(DATA, "*", "*.csv.gz"))):
-        rows, first, last = count_rows(path)
-        manifest[os.path.relpath(path, DATA)] = {"bougies": rows, "debut": first, "fin": last}
+        with gzip.open(path, "rt") as f:
+            lines = f.read().splitlines()
+        manifest[os.path.relpath(path, DATA)] = {
+            "bougies": max(len(lines) - 1, 0),
+            "debut": lines[1].split(",")[0] if len(lines) > 1 else None,
+            "fin": lines[-1].split(",")[0] if len(lines) > 1 else None,
+        }
+    now = dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")
     with open(os.path.join(DATA, "manifest.json"), "w") as f:
-        json.dump({"maj": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z",
-                   "fichiers": manifest}, f, indent=2, ensure_ascii=False)
-    print("Inventaire écrit dans data/manifest.json")
+        json.dump({"maj": now, "source": "HistData.com (M1, bid)", "fichiers": manifest},
+                  f, indent=2, ensure_ascii=False)
+    print(f"Inventaire écrit dans data/manifest.json ({failures} échec(s))")
 
 
 if __name__ == "__main__":
