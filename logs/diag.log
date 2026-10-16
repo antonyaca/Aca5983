@@ -1,0 +1,56 @@
+== https://datafeed.dukascopy.com/datafeed/XAUUSD/2026/08/05/10h_ticks.bi5
+HTTP/2 503 
+content-length: 107
+cache-control: no-cache
+content-type: text/html
+
+taille: 107
+== https://datafeed.dukascopy.com/datafeed/EURUSD/2025/00/06/BID_candles_min_1.bi5
+HTTP/2 503 
+content-length: 107
+cache-control: no-cache
+content-type: text/html
+
+taille: 107
+== https://www.histdata.com/download-free-forex-historical-data/?/ascii/1-minute-bar-quotes/xauusd/2025
+HTTP/1.1 200 OK
+Date: Fri, 16 Oct 2026 19:16:39 GMT
+Server: Apache/2.4.6 (CentOS) PHP/7.4.6 OpenSSL/1.0.2k-fips
+X-Powered-By: PHP/7.4.6
+X-Pingback: https://www.histdata.com/xmlrpc.php
+Set-Cookie: cookielawinfo-checkbox-necessary=yes; expires=Fri, 16-Oct-2026 20:16:39 GMT; Max-Age=3600; path=/
+Set-Cookie: cookielawinfo-checkbox-non-necessary=yes; expires=Fri, 16-Oct-2026 20:16:39 GMT; Max-Age=3600; path=/
+Link: <https://www.histdata.com/wp-json/>; rel="https://api.w.org/"
+Link: <https://www.histdata.com/?p=31>; rel=shortlink
+Vary: Accept-Encoding,User-Agent
+Transfer-Encoding: chunked
+Content-Type: text/html; charset=UTF-8
+taille: 31541
+== https://query1.finance.yahoo.com/v8/finance/chart/GC=F?interval=1m&range=5d
+HTTP/2 200 
+content-type: application/json;charset=utf-8
+y-rid: 771mde1ld4u0n
+cache-control: public, max-age=10, stale-while-revalidate=20
+vary: Origin,Accept-Encoding
+x-envoy-upstream-service-time: 22
+date: Fri, 16 Oct 2026 19:16:39 GMT
+server: ATS
+x-envoy-decorator-operation: finance-chart-api--mtls-production-usw2.finance-k8s:4080/*
+age: 2
+strict-transport-security: max-age=31536000
+referrer-policy: no-referrer-when-downgrade
+taille: 471916
+== https://stooq.com/q/d/l/?s=xauusd&i=d
+HTTP/1.1 200 OK
+Server: openresty
+Date: Fri, 16 Oct 2026 19:16:40 GMT
+Content-Type: text/html; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Cache-Control: no-store
+X-Robots-Tag: noindex, nofollow
+X-Content-Type-Options: nosniff
+Referrer-Policy: no-referrer
+Content-Security-Policy: default-src 'none'; script-src 'nonce-jk6mS_GI2Dke7PvluzcGVg'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'
+
+taille: 796
