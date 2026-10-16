@@ -1,12 +1,14 @@
-"""Backtest « bougie d'ouverture » XAUUSD M15 — sessions Londres 08:00 et New York 09:30 (heure locale).
+"""Backtest « bougie d'ouverture » M15 — sessions Londres 08:00 et New York 09:30 (heure locale).
 
+Usage : python3 backtest.py [XAUUSD|EURUSD|SP500|NASDAQ100 ...]  (défaut : les 4)
 Règles : voir README.md du même dossier.
-Données : data/XAUUSD/*.csv.gz (M1, bid, UTC). Les sorties SL/TP sont simulées minute par minute.
-Sorties : results/trades.csv.gz (tous les trades) et results/summary.json (statistiques).
+Données : data/<INSTRUMENT>/*.csv.gz (M1, bid, UTC). Les sorties SL/TP sont simulées minute par minute.
+Sorties : results/<INSTRUMENT>/trades.csv.gz et results/<INSTRUMENT>/summary.json.
 """
 import glob
 import json
 import os
+import sys
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -14,19 +16,25 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 HERE = os.path.dirname(os.path.abspath(__file__))
-OUT = os.path.join(HERE, "results")
 
-MARGIN = 0.20                      # marge SL en $
-SPREAD, SLIPPAGE, COMMISSION = 0.30, 0.10, 0.07   # $ par once, aller-retour
-COST = SPREAD + SLIPPAGE + COMMISSION              # 0,47 $ par trade
+# Paramètres par instrument (unités de prix de l'instrument).
+# marge SL : 0,20 $ sur l'or (~0,01 % du prix), équivalent proportionnel ailleurs.
+# coûts aller-retour : spread + slippage + commission.
+INSTRUMENTS = {
+    "XAUUSD":    {"margin": 0.20,   "spread": 0.30,    "slippage": 0.10,    "commission": 0.07,    "unite": "$"},
+    "EURUSD":    {"margin": 0.0001, "spread": 0.00006, "slippage": 0.00002, "commission": 0.00007, "unite": "pip=0.0001"},
+    "SP500":     {"margin": 0.50,   "spread": 0.50,    "slippage": 0.25,    "commission": 0.0,     "unite": "point"},
+    "NASDAQ100": {"margin": 2.00,   "spread": 1.00,    "slippage": 0.50,    "commission": 0.0,     "unite": "point"},
+}
 RRS = [1.0, 1.5, 2.0, 3.0]
 SESSIONS = {"Londres": ("Europe/London", 8, 0), "New York": ("America/New_York", 9, 30)}
 IS_END = pd.Timestamp("2024-01-01", tz="UTC")       # in-sample 2020-2023 / out-of-sample 2024+
-RISK_PCT = 1.0                                       # pour le drawdown en % : 1 % risqué par trade, sans composition
+CAPITAL_EUR, RISK_EUR = 10_000, 100                  # 1 % du capital de départ, fixe (sans composition)
+RISK_PCT = 100 * RISK_EUR / CAPITAL_EUR
 
 
-def load_m1():
-    files = sorted(glob.glob(os.path.join(ROOT, "data", "XAUUSD", "XAUUSD_M1_*.csv.gz")))
+def load_m1(inst):
+    files = sorted(glob.glob(os.path.join(ROOT, "data", inst, f"{inst}_M1_*.csv.gz")))
     df = pd.concat([pd.read_csv(f) for f in files], ignore_index=True)
     df["time"] = pd.to_datetime(df["time"], utc=True)
     df = df.drop_duplicates("time").sort_values("time").reset_index(drop=True)
@@ -85,8 +93,12 @@ def simulate(hi, lo, op, start, direction, sl, tp):
     return None
 
 
-def main():
-    m1 = load_m1()
+def main(inst):
+    cfg = INSTRUMENTS[inst]
+    MARGIN = cfg["margin"]
+    COST = cfg["spread"] + cfg["slippage"] + cfg["commission"]
+    OUT = os.path.join(HERE, "results", inst)
+    m1 = load_m1(inst)
     m15 = to_m15(m1)
     t15 = m15["time"].values
     pos15 = {t: k for k, t in enumerate(m15["time"])}
@@ -143,8 +155,8 @@ def main():
                     rows.append({
                         "session": sess, "date": str(d), "signal_utc": str(t_sig), "entry_utc": str(t_entry),
                         "exit_utc": str(pd.Timestamp(m1_times[k], tz="UTC")), "direction": "BUY" if direction == 1 else "SELL",
-                        "sl_variant": variant, "rr": rr, "entry": round(entry, 3), "sl": round(sl, 3), "tp": round(tp, 3),
-                        "exit": round(float(px), 3), "exit_reason": why, "risk_usd": round(risk, 3),
+                        "sl_variant": variant, "rr": rr, "entry": round(entry, 6), "sl": round(sl, 6), "tp": round(tp, 6),
+                        "exit": round(float(px), 6), "exit_reason": why, "risque_prix": round(risk, 6),
                         "fallback_A": bool(fallback) if variant == "B" else False,
                         "gross_r": gross_r, "net_r": gross_r - COST / risk,
                     })
@@ -153,10 +165,10 @@ def main():
     for col in ("entry_utc", "exit_utc"):
         trades[col] = pd.to_datetime(trades[col], utc=True)
     os.makedirs(OUT, exist_ok=True)
-    trades.to_csv(os.path.join(OUT, "trades.csv.gz"), index=False, float_format="%.5f")
+    trades.to_csv(os.path.join(OUT, "trades.csv.gz"), index=False, float_format="%.6f")
 
-    summary = {"parametres": {"cout_par_trade_usd": COST, "spread": SPREAD, "slippage": SLIPPAGE,
-                              "commission": COMMISSION, "marge_sl": MARGIN, "risque_pct_drawdown": RISK_PCT,
+    summary = {"instrument": inst,
+               "parametres": {**cfg, "cout_total": COST, "capital_eur": CAPITAL_EUR, "risque_eur": RISK_EUR,
                               "periode": [str(m1["time"].iloc[0]), str(m1["time"].iloc[-1])]},
                "signaux": stats_signals, "combinaisons": []}
 
@@ -178,7 +190,9 @@ def main():
             best = max(best, streak)
         return {"trades": int(len(r)), "win_rate": float((t["exit_reason"] == "TP").mean() * 100),
                 "profit_factor": float(pos / neg) if neg > 0 else None, "esperance_r": float(r.mean()),
-                "total_r": float(r.sum()), "max_dd_r": dd_r, "max_dd_pct": dd_pct, "pire_serie": int(best)}
+                "total_r": float(r.sum()), "max_dd_r": dd_r, "max_dd_pct": dd_pct, "pire_serie": int(best),
+                "resultat_eur": float(r.sum() * RISK_EUR), "max_dd_eur": dd_r * RISK_EUR,
+                "max_dd_pct_capital": dd_r * RISK_EUR / CAPITAL_EUR * 100}
 
     sess_sets = {"Londres": ["Londres"], "New York": ["New York"], "Les deux": ["Londres", "New York"]}
     jours = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"]
@@ -188,7 +202,7 @@ def main():
                 t = trades[trades["session"].isin(sl_list) & (trades["sl_variant"] == v) & (trades["rr"] == rr)]
                 t = t.sort_values("exit_utc")
                 combo = {"session": sname, "sl": v, "rr": rr,
-                         "risque_median_usd": float(t["risk_usd"].median()),
+                         "risque_median_prix": float(t["risque_prix"].median()),
                          "repli_A_pct": float(t["fallback_A"].mean() * 100) if v == "B" else None}
                 for col, lab in (("gross_r", "brut"), ("net_r", "net")):
                     combo[lab] = {
@@ -213,4 +227,6 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    for name in (sys.argv[1:] or list(INSTRUMENTS)):
+        print("==", name)
+        main(name.upper())
