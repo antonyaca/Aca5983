@@ -18,11 +18,6 @@ on:
   schedule:
     # Chaque dimanche 22:07 UTC (marchés fermés) : ajoute la semaine écoulée
     - cron: "7 22 * * 0"
-  push:
-    branches: [main]
-    paths:
-      - scripts/fetch_data.py
-      - .github/workflows/fetch-data.yml
 
 permissions:
   contents: write
@@ -55,9 +50,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           [ -z "$LIST" ] && LIST="XAUUSD,EURUSD,SP500,NASDAQ100"
+          mkdir -p logs
           for INST in ${LIST//,/ }; do
-            INSTRUMENTS="$INST" python scripts/fetch_data.py
-            git add data
+            INSTRUMENTS="$INST" python scripts/fetch_data.py 2>&1 | tee "logs/$INST.log" || true
+            git add data logs
             if ! git diff --cached --quiet; then
               git commit -m "Données $INST : mise à jour $(date -u +%Y-%m-%d)"
               git pull --rebase origin main
