@@ -82,6 +82,7 @@ def breakout(days, name, r0, r1, e_end, x_end, min_range_bars):
                     continue
             rows.append({"strategie": name, "reglage": f"{name} · sortie {'clôture' if rr is None else f'RR {rr}'}",
                          "day": day, "direction": "BUY" if d == 1 else "SELL", "risque": risk,
+                         "entry_hm": int(bar["hm"]), "range": rh - rl,
                          "gross_r": (px - entry) * d / risk, "motif": why})
     return rows
 
@@ -109,6 +110,7 @@ def gap_fade(days):
             px, why = walk(g, d, o, o - d * risk, cl[i - 1])
             rows.append({"strategie": "Gap fade", "reglage": f"Gap fade · gap ≥ {str(k).replace('.', ',')} ATR",
                          "day": keys[i], "direction": "BUY" if d == 1 else "SELL", "risque": risk,
+                         "entry_hm": 570, "range": abs(gap),
                          "gross_r": (px - o) * d / risk, "motif": why})
     return rows
 
