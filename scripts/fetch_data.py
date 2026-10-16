@@ -30,6 +30,9 @@ INSTRUMENTS = {
     "EURUSD": "eurusd",
     "SP500": "spxusd",
     "NASDAQ100": "nsxusd",
+    "DAX": "grxeur",
+    "CAC40": "frxeur",
+    "EUROSTOXX50": "etxeur",
 }
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
