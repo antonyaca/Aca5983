@@ -1,11 +1,4 @@
 == XAUUSD (xauusd)
-  > npx -y dukascopy-node@1.50.0 -i xauusd -from 2026-01-01 -to now -t m1 -p bid -v -f csv -dir /tmp/tmpdbossulu -r 5 -rp 2000 -bs 8 -bp 500 -s
-----------------------------------------------------
-
-Something went wrong:
- > Request failed with status 202
-
-  2026: ÉCHEC (Command '['npx', '-y', 'dukascopy-node@1.50.0', '-i', 'xauusd', '-from', '2026-01-01', '-to', 'now', '-t', 'm1', '-p', 'bid', '-v', '-f', 'csv', '-dir', '/tmp/tmpdbossulu', '-r', '5', '-rp', '2000', '-bs', '8', '-bp', '500', '-s']' returned non-zero exit status 1.)
-/home/runner/work/Aca5983/Aca5983/scripts/fetch_data.py:98: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-  json.dump({"maj": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z",
-Inventaire écrit dans data/manifest.json
+  2025: OK, 353951 bougies
+  2026: OK, 274277 bougies
+Inventaire écrit dans data/manifest.json (0 échec(s))
