@@ -1,0 +1,66 @@
+name: Historiques de marché
+
+on:
+  workflow_dispatch:
+    inputs:
+      instruments:
+        description: "Instruments (ex: XAUUSD,EURUSD,SP500,NASDAQ100) — vide = tous"
+        required: false
+        default: ""
+      start_year:
+        description: "Première année"
+        required: false
+        default: "2020"
+      force:
+        description: "Tout retélécharger (1 = oui)"
+        required: false
+        default: "0"
+  schedule:
+    # Chaque dimanche 22:07 UTC (marchés fermés) : ajoute la semaine écoulée
+    - cron: "7 22 * * 0"
+  push:
+    branches: [main]
+    paths:
+      - scripts/fetch_data.py
+      - .github/workflows/fetch-data.yml
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fetch-data
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 340
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Télécharger et enregistrer (un instrument à la fois)
+        env:
+          START_YEAR: ${{ github.event.inputs.start_year }}
+          FORCE: ${{ github.event.inputs.force }}
+          LIST: ${{ github.event.inputs.instruments }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          [ -z "$LIST" ] && LIST="XAUUSD,EURUSD,SP500,NASDAQ100"
+          for INST in ${LIST//,/ }; do
+            INSTRUMENTS="$INST" python scripts/fetch_data.py
+            git add data
+            if ! git diff --cached --quiet; then
+              git commit -m "Données $INST : mise à jour $(date -u +%Y-%m-%d)"
+              git pull --rebase origin main
+              git push origin HEAD:main
+            fi
+          done
