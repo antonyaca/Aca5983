@@ -1,0 +1,141 @@
+//@version=5
+// ORB 30 min (achats seuls) + cassure de volatilité Williams (k = 0,5) — Nasdaq.
+// Règles validées par backtest 2020-2026 (repo Aca5983). Heure de New York, heure d'été gérée automatiquement.
+//
+// ORB : range 09:30-10:00 NY (15:30-16:00 Paris). Achat stop au plus haut, stop loss au plus bas.
+//       Si le plus bas est cassé en premier : pas de trade. Entrées jusqu'à 15:00 NY (21:00 Paris).
+// Williams : ouverture 09:30 NY ± 0,5 × amplitude de la séance de la veille. Premier niveau touché = trade.
+//            Stop loss = ouverture.
+// Les deux : pas de take profit, sortie à la clôture 16:00 NY (22:00 Paris).
+//
+// Alertes : créer UNE alerte sur ce script avec la condition « Tout appel de la fonction alert() »
+// pour recevoir tous les messages (niveaux, déclenchements, annulations, rappel de clôture) sur ton téléphone.
+// À utiliser en M1 (recommandé) ou M5.
+indicator("ORB + Williams — Nasdaq", overlay = true, max_labels_count = 500)
+
+riskEUR = input.float(100.0, "Risque par trade (€)", minval = 1)
+pointEUR = input.float(1.0, "Valeur d'1 point pour 1 lot (€) — à vérifier chez ton broker", minval = 0.0001)
+k        = input.float(0.5, "Williams : k", minval = 0.05, step = 0.05)
+useORB   = input.bool(true, "Activer l'ORB 30 min (achats seuls)")
+useW     = input.bool(true, "Activer Williams")
+
+tz      = "America/New_York"
+tfMin   = timeframe.isminutes ? timeframe.multiplier : 1
+inSess  = not na(time(timeframe.period, "0930-1600", tz))
+newSess = inSess and not inSess[1]
+m       = hour(time, tz) * 60 + minute(time, tz)      // minute d'ouverture de la bougie, heure NY
+mEnd    = m + tfMin                                     // minute de clôture de la bougie
+
+f_lots(dist) => dist > 0 ? riskEUR / (dist * pointEUR) : na
+f_txt(x) => str.tostring(x, format.mintick)
+
+// ---------- état journalier
+var float curH = na
+var float curL = na
+var float prevRange = na
+var float dayOpen = na
+var float wUp = na
+var float wDn = na
+var int   wDir = 0          // 0 en attente, 1 achat, -1 vente, 9 terminé sans trade
+var float orbH = na
+var float orbL = na
+var bool  orbReady = false
+var int   orbState = 0      // 0 en attente, 1 achat, -1 annulé, 9 terminé sans trade
+
+if newSess
+    if not na(curH)
+        prevRange := curH - curL
+    curH := high
+    curL := low
+    dayOpen := open
+    wUp := na(prevRange) ? na : dayOpen + k * prevRange
+    wDn := na(prevRange) ? na : dayOpen - k * prevRange
+    wDir := 0
+    orbH := high
+    orbL := low
+    orbReady := false
+    orbState := 0
+    if useW and not na(wUp) and barstate.isconfirmed
+        alert("Nasdaq — Williams : achat stop " + f_txt(wUp) + " / vente stop " + f_txt(wDn) + " / stop loss " + f_txt(dayOpen) +
+              " (" + str.tostring(f_lots(wUp - dayOpen), "#.##") + " lot pour " + str.tostring(riskEUR) + " €). Annule l'autre ordre au 1er déclenchement.",
+              alert.freq_once_per_bar_close)
+else if inSess
+    curH := math.max(curH, high)
+    curL := math.min(curL, low)
+    if m < 600
+        orbH := math.max(orbH, high)
+        orbL := math.min(orbL, low)
+
+// ---------- fin du range ORB (clôture de la bougie qui termine à 10:00 NY)
+orbJustReady = inSess and not orbReady and m < 600 and mEnd >= 600
+if orbJustReady
+    orbReady := true
+    if useORB and barstate.isconfirmed
+        alert("Nasdaq — ORB : range " + f_txt(orbL) + " – " + f_txt(orbH) + ". Achat stop " + f_txt(orbH) + ", stop loss " + f_txt(orbL) +
+              " (" + str.tostring(f_lots(orbH - orbL), "#.##") + " lot pour " + str.tostring(riskEUR) + " €). Pas de vente. Annuler si le bas casse d'abord.",
+              alert.freq_once_per_bar_close)
+
+// ---------- déclenchements ORB (après 10:00, jusqu'à 15:00 NY)
+orbBuy = false
+orbCancel = false
+if useORB and inSess and orbReady and not orbJustReady and orbState == 0 and m < 900
+    upHit = high > orbH
+    dnHit = low < orbL
+    if upHit and dnHit
+        orbState := 9
+    else if upHit
+        orbState := 1
+        orbBuy := true
+    else if dnHit
+        orbState := -1
+        orbCancel := true
+if useORB and inSess and orbState == 0 and orbReady and m >= 900
+    orbState := 9
+
+// ---------- déclenchements Williams
+wBuy = false
+wSell = false
+if useW and inSess and not newSess and wDir == 0 and not na(wUp)
+    upHit = high >= wUp
+    dnHit = low <= wDn
+    if upHit and dnHit
+        wDir := 9
+    else if upHit
+        wDir := 1
+        wBuy := true
+    else if dnHit
+        wDir := -1
+        wSell := true
+
+if orbBuy
+    alert("Nasdaq — ORB DÉCLENCHÉ : achat à " + f_txt(orbH) + ", stop " + f_txt(orbL) + ". Pas de TP, clôture à 22h00 Paris.", alert.freq_once_per_bar)
+if orbCancel
+    alert("Nasdaq — ORB ANNULÉ : le bas du range a cassé en premier. Supprime l'achat stop.", alert.freq_once_per_bar)
+if wBuy
+    alert("Nasdaq — Williams DÉCLENCHÉ : ACHAT à " + f_txt(wUp) + ", stop " + f_txt(dayOpen) + ". Supprime la vente stop. Clôture à 22h00 Paris.", alert.freq_once_per_bar)
+if wSell
+    alert("Nasdaq — Williams DÉCLENCHÉ : VENTE à " + f_txt(wDn) + ", stop " + f_txt(dayOpen) + ". Supprime l'achat stop. Clôture à 22h00 Paris.", alert.freq_once_per_bar)
+
+// ---------- rappels
+closeSoon = inSess and m < 955 and mEnd >= 955 and (orbState == 1 or wDir == 1 or wDir == -1)
+if closeSoon and barstate.isconfirmed
+    alert("Nasdaq — Clôture dans 5 min : ferme tes positions ORB / Williams à 22h00 Paris (16h00 New York).", alert.freq_once_per_bar_close)
+cancelTime = inSess and m < 900 and mEnd >= 900 and orbState == 0 and orbReady
+if useORB and cancelTime and barstate.isconfirmed
+    alert("Nasdaq — ORB : 21h00 Paris, aucun déclenchement. Supprime l'achat stop.", alert.freq_once_per_bar_close)
+
+// ---------- affichage
+plot(useORB and inSess and orbReady ? orbH : na, "ORB haut (achat stop)", color.new(color.teal, 0), 2, plot.style_linebr)
+plot(useORB and inSess and orbReady ? orbL : na, "ORB bas (stop loss)", color.new(color.orange, 0), 2, plot.style_linebr)
+plot(useW and inSess ? wUp : na, "Williams achat stop", color.new(color.green, 0), 1, plot.style_linebr)
+plot(useW and inSess ? wDn : na, "Williams vente stop", color.new(color.red, 0), 1, plot.style_linebr)
+plot(useW and inSess ? dayOpen : na, "Ouverture (stop Williams)", color.new(color.gray, 0), 1, plot.style_linebr)
+plotshape(orbBuy, "ORB achat", shape.triangleup, location.belowbar, color.teal, size = size.small, text = "ORB")
+plotshape(wBuy, "Williams achat", shape.triangleup, location.belowbar, color.green, size = size.small, text = "W")
+plotshape(wSell, "Williams vente", shape.triangledown, location.abovebar, color.red, size = size.small, text = "W")
+plotshape(orbCancel, "ORB annulé", shape.xcross, location.belowbar, color.orange, size = size.tiny)
+
+// Conditions individuelles, si tu préfères des alertes séparées
+alertcondition(orbBuy, "ORB : achat déclenché", "Nasdaq ORB : achat déclenché, clôture 22h00 Paris")
+alertcondition(wBuy, "Williams : achat déclenché", "Nasdaq Williams : achat déclenché, clôture 22h00 Paris")
+alertcondition(wSell, "Williams : vente déclenchée", "Nasdaq Williams : vente déclenchée, clôture 22h00 Paris")
