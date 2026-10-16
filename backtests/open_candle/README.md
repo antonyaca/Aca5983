@@ -20,6 +20,6 @@ Capital 10 000 €, risque fixe 100 € par trade (1 %, sans composition).
 ## Résultat (16/10/2026, données au 09/10/2026)
 Aucune des 96 combinaisons (4 marchés × 24 réglages) n'a un profit factor net > 1 sur 2020-2026.
 - XAUUSD : seul marché avec un avantage brut constant (Londres, IS et OOS), mais plus petit que les coûts. Meilleur net : Londres · SL A · RR 3, −17 171 €.
-- EURUSD : rien avant frais ; meilleur net New York · SL B · RR 3, −12 145 €.
-- SP500 : rien avant frais ; meilleur net New York · SL A · RR 1, −18 363 €.
-- NASDAQ100 : rien avant frais ; meilleur net New York · SL B · RR 3, −5 655 € (OOS +2024 : quasi nul, PF 1,01).
+- EURUSD : un seul avantage brut stable, New York · SL B · RR 3 (+0,07 R en IS, +0,08 R en OOS), mais insuffisant après frais : −12 145 €.
+- SP500 : aucun avantage brut stable ; meilleur net New York · SL A · RR 1, −18 363 €.
+- NASDAQ100 : aucun avantage brut stable ; meilleur net New York · SL B · RR 3, −5 655 € (2024-2026 : quasi nul, PF 1,01).
