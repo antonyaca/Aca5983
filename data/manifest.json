@@ -1,5 +1,5 @@
 {
-  "maj": "2026-10-16T19:25:30+00:00",
+  "maj": "2026-10-16T19:27:38+00:00",
   "source": "HistData.com (M1, bid)",
   "fichiers": {
     "EURUSD/EURUSD_M1_2020.csv.gz": {
@@ -36,6 +36,41 @@
       "bougies": 286331,
       "debut": "2026-01-01T22:04:00Z",
       "fin": "2026-10-09T21:58:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2020.csv.gz": {
+      "bougies": 339962,
+      "debut": "2020-01-01T23:00:00Z",
+      "fin": "2020-12-31T21:13:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2021.csv.gz": {
+      "bougies": 342946,
+      "debut": "2021-01-03T23:00:00Z",
+      "fin": "2021-12-31T21:13:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2022.csv.gz": {
+      "bougies": 342711,
+      "debut": "2022-01-02T23:00:00Z",
+      "fin": "2022-12-30T21:12:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2023.csv.gz": {
+      "bougies": 299289,
+      "debut": "2023-01-02T23:00:00Z",
+      "fin": "2023-12-29T21:12:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2024.csv.gz": {
+      "bougies": 340926,
+      "debut": "2024-01-01T23:00:00Z",
+      "fin": "2024-12-31T21:12:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2025.csv.gz": {
+      "bougies": 340493,
+      "debut": "2025-01-01T23:00:00Z",
+      "fin": "2025-12-31T21:12:00Z"
+    },
+    "NASDAQ100/NASDAQ100_M1_2026.csv.gz": {
+      "bougies": 264564,
+      "debut": "2026-01-01T23:00:00Z",
+      "fin": "2026-10-09T21:13:00Z"
     },
     "SP500/SP500_M1_2020.csv.gz": {
       "bougies": 334202,
