@@ -76,58 +76,61 @@ def candidates(inst, df, tf, horaires):
     b = df.set_index("time").resample(f"{step}min", label="left", closed="left").agg(
         {"open": "first", "high": "max", "low": "min", "close": "last", "tmin": "first"}).dropna().reset_index()
     piv = swings(b)
-    bt = b["tmin"].values
+    bt = b["tmin"].values.astype(np.int64)
     t1 = df["tmin"].values; H1, L1, O1, C1 = df["high"].values, df["low"].values, df["open"].values, df["close"].values
     hm1 = df["hm"].values; day1 = df["day"].values; atr1 = df["atr"].values
     rows = []
+    n1 = len(t1)
+    inwin = (hm1 >= win[0]) & (hm1 < win[1] - 60)
+    # pour chaque minute : indice de la 1re minute suivante hors fenêtre (changement de jour ou fin de séance)
+    stop_cond = np.r_[False, day1[1:] != day1[:-1]] | (hm1 >= win[1])
+    idx = np.where(stop_cond, np.arange(n1), n1)
+    next_stop = np.minimum.accumulate(idx[::-1])[::-1]
     for (ia, ta, pa), (ib, tb, pb) in zip(piv[:-1], piv[1:]):
-        d = 1 if tb == 1 else -1                # impulsion haussière si elle finit sur un sommet
+        d = 1 if tb == 1 else -1
         size = (pb - pa) * d
-        act_bar = ib + 2                        # swing final confirmé à la clôture de ib + 2
+        act_bar = ib + 2
         if act_bar + 1 >= len(bt):
             continue
         start = int(np.searchsorted(t1, bt[act_bar] + step))
-        if start >= len(t1) or np.isnan(atr1[start]) or size < kmin * atr1[start]:
+        if start >= n1 or np.isnan(atr1[start]) or size < kmin * atr1[start]:
             continue
         entry = pb - d * 0.618 * size
         stop = pb - d * 0.786 * size - d * spread
-        tps = {"ext −0,5": pb + d * 0.5 * size, "retour à l'extrême": pb}
-        risk = (entry - stop) * d
-        # recherche du remplissage
-        k = None
-        for j in range(start, min(len(t1), start + VALID_MIN * 3)):
-            if t1[j] - t1[start] > VALID_MIN:
-                break
-            if not (win[0] <= hm1[j] < win[1] - 60):          # pas d'entrée dans la dernière heure
-                continue
-            if (H1[j] > pb) if d == 1 else (L1[j] < pb):      # nouvel extrême avant remplissage → annulé
-                break
-            if (L1[j] <= entry) if d == 1 else (H1[j] >= entry):
-                k = j
-                break
-        if k is None:
+        stop_ = int(np.searchsorted(t1, t1[start] + VALID_MIN, side="right"))
+        h, l = H1[start:stop_], L1[start:stop_]
+        cancel = (h > pb) if d == 1 else (l < pb)
+        hit = ((l <= entry) if d == 1 else (h >= entry)) & inwin[start:stop_]
+        if not hit.any():
             continue
+        f = int(hit.argmax())
+        if cancel.any() and int(cancel.argmax()) <= f:
+            continue
+        k = start + f
         fill = min(O1[k], entry) if d == 1 else max(O1[k], entry)
         risk_f = (fill - stop) * d
         if risk_f <= 0:
             continue
-        for name, tp in tps.items():
-            px, kx = None, None
+        e = int(next_stop[k + 1]) if k + 1 < n1 else n1
+        for name, tp in (("ext −0,5", pb + d * 0.5 * size), ("retour à l'extrême", pb)):
             if (L1[k] <= stop) if d == 1 else (H1[k] >= stop):
                 px, kx = stop, k
             else:
-                for j in range(k + 1, len(t1)):
-                    if day1[j] != day1[k] or hm1[j] >= win[1]:
-                        px, kx = C1[j - 1], j - 1
-                        break
-                    if (L1[j] <= stop) if d == 1 else (H1[j] >= stop):
-                        px, kx = (O1[j] if ((O1[j] < stop) if d == 1 else (O1[j] > stop)) else stop), j
-                        break
-                    if (H1[j] >= tp) if d == 1 else (L1[j] <= tp):
-                        px, kx = (O1[j] if ((O1[j] > tp) if d == 1 else (O1[j] < tp)) else tp), j
-                        break
-            if px is None:
-                continue
+                hh, ll, oo = H1[k + 1:e], L1[k + 1:e], O1[k + 1:e]
+                sl = (ll <= stop) if d == 1 else (hh >= stop)
+                tpm = (hh >= tp) if d == 1 else (ll <= tp)
+                i_sl = int(sl.argmax()) if sl.any() else 10 ** 9
+                i_tp = int(tpm.argmax()) if tpm.any() else 10 ** 9
+                if i_sl == 10 ** 9 and i_tp == 10 ** 9:
+                    if e - 1 <= k:
+                        continue
+                    px, kx = C1[e - 1], e - 1
+                elif i_sl <= i_tp:
+                    o = oo[i_sl]
+                    px, kx = (o if ((o < stop) if d == 1 else (o > stop)) else stop), k + 1 + i_sl
+                else:
+                    o = oo[i_tp]
+                    px, kx = (o if ((o > tp) if d == 1 else (o < tp)) else tp), k + 1 + i_tp
             rows.append({"instrument": inst, "tf": tf, "horaires": horaires, "objectif": name,
                          "day": pd.Timestamp(day1[k]), "t_in": t1[k], "t_out": t1[kx], "d": d,
                          "gross_r": (px - fill) * d / risk_f, "cost_r": cost / risk_f})
