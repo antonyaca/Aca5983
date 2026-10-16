@@ -143,7 +143,7 @@ def orb(inst, days):
                     px, why, _ = walk(g, int(bar["hm"]) + 1, d, entry, stop, tp)
                 label = "clôture" if rr is None else f"RR {int(rr)}"
                 rows.append({"strategie": "ORB", "reglage": f"ORB {n} min · sortie {label}",
-                             "day": day, "direction": "BUY" if d == 1 else "SELL", "entry": entry, "exit": px,
+                             "day": day, "entry_hm": int(bar["hm"]), "range": rh - rl, "direction": "BUY" if d == 1 else "SELL", "entry": entry, "exit": px,
                              "motif": why, "risque": risk, "gross_r": (px - entry) * d / risk})
     return rows
 

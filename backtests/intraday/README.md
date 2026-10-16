@@ -16,3 +16,11 @@ Capital 10 000 €, risque fixe 100 € par trade (1 R = 100 €). Heure de New 
   - 15 min : +0,106 R/trade, OOS quasi nul (+0,004 R).
   - Robustesse ORB 30 : positif chaque année (2025 ≈ 0), reste positif avec des frais doublés (+0,098 R) ou triplés (+0,066 R).
   - Mise en garde : 18 réglages testés, l'avantage baisse nettement depuis 2024.
+
+## Filtres sur l'ORB 30 min Nasdaq (`filters.py`, 16/10/2026)
+Protocole fixé avant lecture : 12 filtres candidats, seuils calculés sur 2020-2023 ; retenu si +0,03 R en IS Nasdaq, ≥ 40 % des trades gardés, et amélioration de l'IS S&P 500 (contrôle). Jugement final sur 2024-2026 sans ajustement.
+- Seul filtre retenu : **achats seulement**.
+- ORB 30 min Nasdaq, achats seulement, sortie 16:00 : 817 trades, +0,193 R/trade, +15 791 €, PF 1,31, drawdown max 2 290 €, pire série 16.
+  IS +0,266 R, OOS +0,108 R (+4 095 €) ; positif chaque année y compris 2022 ; OOS encore +0,08 R avec frais doublés.
+- Écarté à juste titre : « range étroit » (+0,47 R en IS, −0,004 R en OOS), exemple typique de sur-optimisation.
+- Sur le S&P 500, le même filtre reste négatif en OOS : l'avantage semble propre au Nasdaq.
