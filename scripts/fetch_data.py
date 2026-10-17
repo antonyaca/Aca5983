@@ -49,6 +49,7 @@ UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chr
 # HistData horodate en heure murale de New York (heure d'été incluse), malgré sa documentation « EST fixe »
 from zoneinfo import ZoneInfo
 NY = ZoneInfo("America/New_York")
+BERLIN = ZoneInfo("Europe/Berlin")
 
 _jar = http.cookiejar.CookieJar()
 _opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_jar))
@@ -100,8 +101,13 @@ def convert(raw_csv):
         try:
             # Horodatage HistData = heure murale de New York AVEC heure d'été (vérifié le 17/10/2026 :
             # pic d'ouverture du Nasdaq et du NFP décalés d'1 h l'été avec un +5 h fixe).
+            # Depuis 2019, l'horloge source suit l'heure d'été européenne (= heure de Berlin − 6 h).
             wall = dt.datetime.strptime(parts[0], "%Y%m%d %H%M%S")
-            t = wall.replace(tzinfo=NY).astimezone(dt.timezone.utc).replace(tzinfo=None)
+            if wall.year >= 2019:
+                t = (wall + dt.timedelta(hours=6)).replace(tzinfo=BERLIN)
+            else:
+                t = wall.replace(tzinfo=NY)
+            t = t.astimezone(dt.timezone.utc).replace(tzinfo=None)
         except ValueError:
             continue
         out.append(f"{t:%Y-%m-%dT%H:%M:%SZ},{parts[1]},{parts[2]},{parts[3]},{parts[4]},{parts[5]}")
