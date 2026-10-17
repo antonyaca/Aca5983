@@ -1,9 +1,19 @@
 == NASDAQ100 (nsxusd)
-  2020: OK, 339962 bougies
-  2021: OK, 342946 bougies
-  2022: OK, 342711 bougies
-  2023: OK, 299289 bougies
-  2024: OK, 340926 bougies
-  2025: OK, 340493 bougies
+  2010: OK, 40855 bougies
+  2011: OK, 331649 bougies
+  2012: OK, 325049 bougies
+  2013: OK, 314774 bougies
+  2014: OK, 318873 bougies
+  2015: OK, 335257 bougies
+  2016: OK, 341629 bougies
+  2017: OK, 330380 bougies
+  2018: OK, 348607 bougies
+  2019: OK, 341335 bougies
+  2020: déjà présent, ignoré
+  2021: déjà présent, ignoré
+  2022: déjà présent, ignoré
+  2023: déjà présent, ignoré
+  2024: déjà présent, ignoré
+  2025: déjà présent, ignoré
   2026: OK, 264564 bougies
 Inventaire écrit dans data/manifest.json (0 échec(s))
