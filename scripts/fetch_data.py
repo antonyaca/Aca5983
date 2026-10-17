@@ -37,6 +37,9 @@ INSTRUMENTS = {
     "XAGUSD": "xagusd",
     "FTSE100": "ukxgbp",
     "NIKKEI225": "jpxjpy",
+    "GBPUSD": "gbpusd",
+    "USDJPY": "usdjpy",
+    "AUDUSD": "audusd",
 }
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
