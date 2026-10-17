@@ -1,9 +1,19 @@
 == NIKKEI225 (jpxjpy)
-  2020: OK, 305865 bougies
-  2021: OK, 318141 bougies
-  2022: OK, 325967 bougies
-  2023: OK, 278565 bougies
-  2024: OK, 333456 bougies
-  2025: OK, 335938 bougies
+  2010: OK, 20339 bougies
+  2011: OK, 191642 bougies
+  2012: OK, 160209 bougies
+  2013: OK, 256035 bougies
+  2014: OK, 241703 bougies
+  2015: OK, 275366 bougies
+  2016: OK, 281637 bougies
+  2017: OK, 220622 bougies
+  2018: OK, 292655 bougies
+  2019: OK, 261901 bougies
+  2020: déjà présent, ignoré
+  2021: déjà présent, ignoré
+  2022: déjà présent, ignoré
+  2023: déjà présent, ignoré
+  2024: déjà présent, ignoré
+  2025: déjà présent, ignoré
   2026: OK, 261515 bougies
 Inventaire écrit dans data/manifest.json (0 échec(s))

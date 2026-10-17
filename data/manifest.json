@@ -1,5 +1,5 @@
 {
-  "maj": "2026-10-17T14:32:41+00:00",
+  "maj": "2026-10-17T14:35:04+00:00",
   "source": "HistData.com (M1, bid)",
   "fichiers": {
     "CAC40/CAC40_M1_2020.csv.gz": {
@@ -326,6 +326,56 @@
       "bougies": 264564,
       "debut": "2026-01-01T23:00:00Z",
       "fin": "2026-10-09T21:13:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2010.csv.gz": {
+      "bougies": 20339,
+      "debut": "2010-11-14T23:01:00Z",
+      "fin": "2010-12-31T09:52:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2011.csv.gz": {
+      "bougies": 191642,
+      "debut": "2011-01-02T23:09:00Z",
+      "fin": "2011-12-30T21:11:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2012.csv.gz": {
+      "bougies": 160209,
+      "debut": "2012-01-03T11:00:00Z",
+      "fin": "2012-12-31T21:53:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2013.csv.gz": {
+      "bougies": 256035,
+      "debut": "2013-01-02T11:00:00Z",
+      "fin": "2013-12-31T20:58:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2014.csv.gz": {
+      "bougies": 241703,
+      "debut": "2014-01-02T11:01:00Z",
+      "fin": "2014-12-31T21:55:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2015.csv.gz": {
+      "bougies": 275366,
+      "debut": "2015-01-01T23:00:00Z",
+      "fin": "2015-12-31T21:54:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2016.csv.gz": {
+      "bougies": 281637,
+      "debut": "2016-01-03T23:01:00Z",
+      "fin": "2016-12-30T21:58:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2017.csv.gz": {
+      "bougies": 220622,
+      "debut": "2017-01-02T23:00:00Z",
+      "fin": "2017-12-29T21:58:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2018.csv.gz": {
+      "bougies": 292655,
+      "debut": "2018-01-01T23:00:00Z",
+      "fin": "2018-12-31T20:13:00Z"
+    },
+    "NIKKEI225/NIKKEI225_M1_2019.csv.gz": {
+      "bougies": 261901,
+      "debut": "2019-01-01T23:01:00Z",
+      "fin": "2019-12-31T20:56:00Z"
     },
     "NIKKEI225/NIKKEI225_M1_2020.csv.gz": {
       "bougies": 305865,
