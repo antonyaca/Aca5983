@@ -1,0 +1,25 @@
+SP500: 179 séances du calendrier XNYS absentes/incomplètes dans les données (par an : {2010: np.int64(1), 2011: np.int64(7), 2012: np.int64(9), 2013: np.int64(9), 2014: np.int64(30), 2015: np.int64(10), 2016: np.int64(9), 2017: np.int64(29), 2018: np.int64(10), 2019: np.int64(1), 2020: np.int64(3), 2021: np.int64(1), 2023: np.int64(59), 2026: np.int64(1)})
+SP500: 52 jours de données hors calendrier XNYS (ignorés) ex. ['2011-09-05', '2013-07-04', '2015-01-19', '2015-07-03', '2015-09-07']
+TOM SP500: 13 trades ignorés (séance absente des données)
+Halloween SP500: 5 trades ignorés (séance absente des données)
+Pré-férié SP500: 12 trades ignorés (séance absente des données)
+Pré-FOMC SP500: 12 trades ignorés
+Expiration SP500: 12 trades ignorés (séance absente des données)
+Week-end SP500: 70 trades ignorés (séance absente des données)
+NASDAQ100: 82 séances du calendrier XNYS absentes/incomplètes dans les données (par an : {2012: np.int64(3), 2013: np.int64(4), 2014: np.int64(5), 2015: np.int64(5), 2016: np.int64(3), 2017: np.int64(4), 2020: np.int64(1), 2023: np.int64(53), 2024: np.int64(2), 2026: np.int64(2)})
+NASDAQ100: 71 jours de données hors calendrier XNYS (ignorés) ex. ['2014-09-01', '2014-11-27', '2015-01-19', '2015-02-16', '2015-05-25']
+TOM NASDAQ100: 2 trades ignorés (séance absente des données)
+Halloween NASDAQ100: 5 trades ignorés (séance absente des données)
+Pré-férié NASDAQ100: 5 trades ignorés (séance absente des données)
+Pré-FOMC NASDAQ100: 4 trades ignorés
+Expiration NASDAQ100: 22 trades ignorés (séance absente des données)
+FTSE100: 57 séances du calendrier XLON absentes/incomplètes dans les données (par an : {2010: np.int64(5), 2011: np.int64(20), 2012: np.int64(1), 2013: np.int64(7), 2014: np.int64(7), 2016: np.int64(1), 2017: np.int64(5), 2020: np.int64(2), 2021: np.int64(1), 2023: np.int64(4), 2024: np.int64(2), 2025: np.int64(1), 2026: np.int64(1)})
+FTSE100: 33 jours de données hors calendrier XLON (ignorés) ex. ['2019-04-22', '2019-05-06', '2019-08-26', '2020-04-13', '2020-05-08']
+TOM FTSE100: 5 trades ignorés (séance absente des données)
+Halloween FTSE100: 6 trades ignorés (séance absente des données)
+Pré-férié FTSE100: 5 trades ignorés (séance absente des données)
+NIKKEI225: 98 séances du calendrier XTKS absentes/incomplètes dans les données (par an : {2010: np.int64(10), 2011: np.int64(30), 2012: np.int64(7), 2013: np.int64(4), 2014: np.int64(5), 2015: np.int64(2), 2016: np.int64(3), 2017: np.int64(11), 2018: np.int64(2), 2019: np.int64(2), 2020: np.int64(3), 2021: np.int64(3), 2022: np.int64(3), 2023: np.int64(3), 2024: np.int64(6), 2025: np.int64(2), 2026: np.int64(2)})
+NIKKEI225: 207 jours de données hors calendrier XTKS (ignorés) ex. ['2011-05-04', '2011-05-05', '2011-09-19', '2011-09-23', '2011-10-10']
+TOM NIKKEI225: 7 trades ignorés (séance absente des données)
+Halloween NIKKEI225: 10 trades ignorés (séance absente des données)
+Pré-férié NIKKEI225: 11 trades ignorés (séance absente des données)
