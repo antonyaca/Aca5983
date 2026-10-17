@@ -11,3 +11,5 @@ Validées : uniquement sur le Nasdaq.
 Rejetées : tout sur S&P 500 et DAX.
 
 Avec l'ORB Nasdaq achats (corrélation journalière 0,25) : ORB + Williams = +21 991 €, OOS +7 326 €, DD 2 500 €.
+
+**Correctif 17/10/2026** : données DAX 2021-2023 corrompues ; résultats DAX invalides.

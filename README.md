@@ -20,3 +20,7 @@ Historiques de marché stockés dans le repo pour backtester sans MT5.
 
 Automatique chaque dimanche soir (onglet **Actions** > *Historiques de marché*).
 Lancement manuel possible avec le bouton **Run workflow** (choix des instruments et de l'année de départ).
+
+## Alerte qualité
+
+- **DAX** : les fichiers 2021, 2022 et 2023 contiennent des cours au niveau de l'Euro Stoxx 50 (3 200-4 400) au lieu du DAX (≈ 13 000-17 000), jusqu'au 01/12/2023. Tout résultat DAX sur cette période est invalide.

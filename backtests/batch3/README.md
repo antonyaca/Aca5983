@@ -17,3 +17,5 @@ Rejetées : nuit (S&P, Nasdaq), cassure 20 j (or, Nasdaq), inside day S&P / Nasd
 
 Portefeuille sans doublons (ORB Nasdaq achats + RSI 2 S&P + fin de mois Nasdaq + inside day or + ORB DAX achats) :
 1 967 trades, +28 445 € (2020-2026), OOS 2024+ +12 369 €, DD max 3 901 €, corrélations mensuelles faibles (< 0,25).
+
+**Correctif 17/10/2026** : données DAX 2021-2023 corrompues (niveau Euro Stoxx 50). La validation « ORB 30 min DAX achats seuls » est invalide tant que les données ne sont pas remplacées.
