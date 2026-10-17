@@ -12,7 +12,8 @@ sans la supprimer. Vérification manuelle d'un trade (02/04/2024) conforme aux r
 ## Amélioration testée : cassure et FVG en M5 / M15 (12 variantes de plus)
 `python3 backtests/gold_orb_fvg/backtest.py 1 5 15` (M1 identique au premier test : contrôle de non-régression OK).
 - M5 : stop médian 3,8 $, frais 0,12 R ; **positif avant frais** (+0,10 à +0,11 R avec EMA 200, taux de réussite 55 %) mais
-  **négatif après frais** : meilleure variante C + EMA 200 = −934 €, PF 0,95. Brut en baisse : ≈ +0,12 R en 2020-2023, ≈ +0,06 R depuis 2024.
-  Coût d'équilibre ≈ 0,44 $ par trade (hypothèse retenue : 0,47 $).
+  **négatif après frais** : meilleure variante C + EMA 200 = −934 €, PF 0,95. Brut en forte baisse : +0,18 R en 2020-2023,
+  +0,01 à +0,03 R depuis 2024. Coût d'équilibre (calcul exact, moyenne de brut / moyenne de 1/risque) : 0,33-0,38 $ sur
+  2020-2026 mais seulement 0,07-0,16 $ sur 2024-2026 (hypothèse retenue : 0,47 $). Non exploitable.
 - M15 : ≈ 0 avant frais, négatif après (−2 231 à −4 301 €).
 Aucune variante validée sur 24 au total.
