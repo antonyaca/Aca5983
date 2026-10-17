@@ -23,4 +23,6 @@ Lancement manuel possible avec le bouton **Run workflow** (choix des instruments
 
 ## Alerte qualité
 
+- **Horaires corrigés le 17/10/2026** : HistData horodate en heure de New York avec heure d'été (et, depuis 2019, selon l'heure d'été européenne). Fichiers réécrits en vrai UTC (`scripts/fix_timezone*.py`). Les backtests intraday antérieurs à cette date sont faussés l'été ; voir `backtests/campagne/README.md` pour les résultats recalculés.
+
 - **DAX** : les fichiers 2021, 2022 et 2023 contiennent des cours au niveau de l'Euro Stoxx 50 (3 200-4 400) au lieu du DAX (≈ 13 000-17 000), jusqu'au 01/12/2023. Tout résultat DAX sur cette période est invalide.
