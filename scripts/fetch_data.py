@@ -46,8 +46,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA = os.path.join(ROOT, "data")
 BASE = "https://www.histdata.com"
 UA = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124 Safari/537.36"
-# HistData horodate en heure de New York fixe (EST, sans heure d'été) = UTC-5
-EST_OFFSET = dt.timedelta(hours=5)
+# HistData horodate en heure murale de New York (heure d'été incluse), malgré sa documentation « EST fixe »
+from zoneinfo import ZoneInfo
+NY = ZoneInfo("America/New_York")
 
 _jar = http.cookiejar.CookieJar()
 _opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(_jar))
@@ -97,7 +98,10 @@ def convert(raw_csv):
         if len(parts) < 6:
             continue
         try:
-            t = dt.datetime.strptime(parts[0], "%Y%m%d %H%M%S") + EST_OFFSET
+            # Horodatage HistData = heure murale de New York AVEC heure d'été (vérifié le 17/10/2026 :
+            # pic d'ouverture du Nasdaq et du NFP décalés d'1 h l'été avec un +5 h fixe).
+            wall = dt.datetime.strptime(parts[0], "%Y%m%d %H%M%S")
+            t = wall.replace(tzinfo=NY).astimezone(dt.timezone.utc).replace(tzinfo=None)
         except ValueError:
             continue
         out.append(f"{t:%Y-%m-%dT%H:%M:%SZ},{parts[1]},{parts[2]},{parts[3]},{parts[4]},{parts[5]}")
