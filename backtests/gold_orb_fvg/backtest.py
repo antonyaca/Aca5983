@@ -28,7 +28,8 @@ from strategies import load_m1, IS_END, st  # noqa: E402
 COST = 0.47
 
 
-def main():
+def main(tf_min=1):
+    """tf_min = 1, 5 ou 15 : unité de temps de la cassure et du FVG (bougies alignées sur 09:30)."""
     df = load_m1("XAUUSD", "America/New_York")
     m15 = df.set_index("time")["close"].resample("15min", label="left", closed="left").last().dropna()
     ema = m15.ewm(span=200, adjust=False).mean()
@@ -43,20 +44,31 @@ def main():
         if rg.sum() < 27:
             continue
         rh, rl = H[rg].max(), L[rg].min()
-        idx = np.where((hm >= 600) & (hm < 720))[0]
-        brk = [(k, 1) for k in idx if C[k] > rh] + [(k, -1) for k in idx if C[k] < rl]
+        # bougies de l'unité de temps choisie, alignées sur 09:30 (index de la dernière minute de chaque bougie)
+        sess = np.where((hm >= 570) & (hm < 960))[0]
+        if len(sess) == 0:
+            continue
+        bucket = (hm[sess] - 570) // tf_min
+        bH, bL, bC, bEnd, bStart = [], [], [], [], []
+        for u in np.unique(bucket):
+            ii = sess[bucket == u]
+            bH.append(H[ii].max()); bL.append(L[ii].min()); bC.append(C[ii[-1]]); bEnd.append(ii[-1]); bStart.append(570 + u * tf_min)
+        bH, bL, bC, bEnd, bStart = map(np.array, (bH, bL, bC, bEnd, bStart))
+        cand = np.where((bStart >= 600) & (bStart < 720))[0]
+        brk = [(u, 1) for u in cand if bC[u] > rh] + [(u, -1) for u in cand if bC[u] < rl]
         if not brk:
             continue
-        b, d = min(brk)
-        # FVG
+        ub, d = min(brk)
+        b = bEnd[ub]
+        # FVG sur les bougies de l'unité de temps (3e bougie entre la cassure et 30 min après)
         f = None
-        for i in range(max(b, 2), len(hm)):
-            if hm[i] > hm[b] + 30:
+        for u in range(max(ub, 2), len(bH)):
+            if bStart[u] > bStart[ub] + max(30, tf_min * 2):
                 break
-            if d == 1 and L[i] > H[i - 2]:
-                f = i; top, stop = L[i], L[i - 2]; break
-            if d == -1 and H[i] < L[i - 2]:
-                f = i; top, stop = H[i], H[i - 2]; break
+            if d == 1 and bL[u] > bH[u - 2]:
+                f = bEnd[u]; top, stop = bL[u], bL[u - 2]; break
+            if d == -1 and bH[u] < bL[u - 2]:
+                f = bEnd[u]; top, stop = bH[u], bH[u - 2]; break
         if f is None:
             continue
         risk0 = (top - stop) * d
@@ -110,15 +122,15 @@ def main():
             for filt in ("sans filtre", "EMA 200 M15"):
                 if filt == "EMA 200 M15" and not trend_ok:
                     continue
-                for mn in ("stop libre", "stop ≥ 1,5 $"):
+                for mn in (("stop libre", "stop ≥ 1,5 $") if tf_min == 1 else ("stop libre",)):
                     if mn == "stop ≥ 1,5 $" and risk < 1.5:
                         continue
-                    rows.append({"reglage": f"{lab} | {filt} | {mn}", "day": day, "d": d, "risque": risk, "gross_r": gr})
+                    rows.append({"reglage": f"M{tf_min} | {lab} | {filt} | {mn}", "day": day, "d": d, "risque": risk, "gross_r": gr})
     t = pd.DataFrame(rows)
     t["cost_r"] = COST / t["risque"]
     t["net_r"], t["net2_r"] = t["gross_r"] - t["cost_r"], t["gross_r"] - 2 * t["cost_r"]
     out = os.path.join(HERE, "results"); os.makedirs(out, exist_ok=True)
-    t.to_csv(os.path.join(out, "trades.csv.gz"), index=False, float_format="%.6f")
+    t.to_csv(os.path.join(out, f"trades_M{tf_min}.csv.gz"), index=False, float_format="%.6f")
     res = []
     for reg, g in t.groupby("reglage"):
         is_, oos = g[g["day"] < IS_END], g[g["day"] >= IS_END]
@@ -131,13 +143,15 @@ def main():
              "par_annee": {str(y): round(float(v["net_r"].mean()), 3) for y, v in g.groupby(g["day"].dt.year)}}
         r["valide"] = bool(r["is"]["e_r"] > 0 and r["oos"]["e_r"] > 0 and (r["net"]["pf"] or 0) >= 1.10 and r["oos_x2"] > 0)
         res.append(r)
-        print(f"{'✔' if r['valide'] else ' '} {reg:58} n{r['net']['trades']:>4} WR{r['net']['win_rate']:5.1f} Eb{r['brut']['e_r']:+.3f} "
+        print(f"{'✔' if r['valide'] else ' '} {reg:64} n{r['net']['trades']:>4} WR{r['net']['win_rate']:5.1f} Eb{r['brut']['e_r']:+.3f} "
               f"En{r['net']['e_r']:+.3f} PF{r['net']['pf']:.2f} IS{r['is']['e_r']:+.3f} OOS{r['oos']['e_r']:+.3f} x2{r['oos_x2']:+.3f} "
               f"t{r['t_stat']:+.2f} {r['net']['resultat_eur']:>7.0f}€ DD{r['net']['max_dd_eur']:>6.0f}€ stop{r['risque_median']:.2f}$ "
               f"coût{r['cout_median_r']:.2f}R")
-    with open(os.path.join(out, "summary.json"), "w") as f:
+    with open(os.path.join(out, f"summary_M{tf_min}.json"), "w") as f:
         json.dump(res, f, ensure_ascii=False, indent=1)
 
 
 if __name__ == "__main__":
-    main()
+    for tf in (sys.argv[1:] or ["1"]):
+        print(f"=== cassure et FVG en M{tf}")
+        main(int(tf))
