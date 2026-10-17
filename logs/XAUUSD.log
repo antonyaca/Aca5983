@@ -1,9 +1,19 @@
 == XAUUSD (xauusd)
-  2020: OK, 354291 bougies
-  2021: OK, 353386 bougies
-  2022: OK, 354568 bougies
-  2023: OK, 308752 bougies
-  2024: OK, 355592 bougies
+  2010: OK, 346196 bougies
+  2011: OK, 352266 bougies
+  2012: OK, 354797 bougies
+  2013: OK, 355160 bougies
+  2014: OK, 351606 bougies
+  2015: OK, 351666 bougies
+  2016: OK, 353415 bougies
+  2017: OK, 352360 bougies
+  2018: OK, 353778 bougies
+  2019: OK, 352628 bougies
+  2020: déjà présent, ignoré
+  2021: déjà présent, ignoré
+  2022: déjà présent, ignoré
+  2023: déjà présent, ignoré
+  2024: déjà présent, ignoré
   2025: déjà présent, ignoré
   2026: OK, 274277 bougies
 Inventaire écrit dans data/manifest.json (0 échec(s))
