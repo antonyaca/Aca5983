@@ -49,7 +49,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          [ -z "$LIST" ] && LIST="XAUUSD,EURUSD,SP500,NASDAQ100,DAX,CAC40,EUROSTOXX50"
+          [ -z "$LIST" ] && LIST="XAUUSD,EURUSD,SP500,NASDAQ100,DAX,CAC40,EUROSTOXX50,WTI,XAGUSD,FTSE100,NIKKEI225"
           mkdir -p logs
           for INST in ${LIST//,/ }; do
             INSTRUMENTS="$INST" python scripts/fetch_data.py 2>&1 | tee "logs/$INST.log" || true

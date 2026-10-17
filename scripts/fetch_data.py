@@ -33,6 +33,10 @@ INSTRUMENTS = {
     "DAX": "grxeur",
     "CAC40": "frxeur",
     "EUROSTOXX50": "etxeur",
+    "WTI": "wtiusd",
+    "XAGUSD": "xagusd",
+    "FTSE100": "ukxgbp",
+    "NIKKEI225": "jpxjpy",
 }
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
