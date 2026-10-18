@@ -13,3 +13,11 @@ bougie clôture de l'autre côté de l'EMA 9 (A) ou objectif 1:1 en plus (B), r�
 Avant frais le croisement gagne à peine (+0,03 R) ; les frais l'annulent. Aucune des 12 combinaisons n'est validée.
 Correctif : `lib.regle_anto` réindexe désormais ses entrées (un concat multi-marchés avec index dupliqués
 gonflait le nombre de trades ; détecté ici, résultats « 2 indices » recalculés).
+
+## Optimisation TP/SL (`optimisation.py`) — 120 réglages, choisis sur 2011-2018, jugés sur 2019-2026
+- Meilleur réglage Nasdaq en découverte (stop 0,15 ATR, sans objectif, sans sortie EMA 9 = tenir jusqu'à 16:00) :
+  +0,103 R en 2011-2018 → **+0,029 R en 2019-2026 (t 0,6), 35 % de jours positifs**.
+- Meilleur S&P en découverte (stop 0,25 ATR, objectif 3 R) : +0,055 R → −0,001 R en validation.
+- 44 réglages sur 120 positifs en validation ; aucun significatif (meilleur t 1,98, choisi après coup).
+- Ce qui ressort : la sortie « clôture au-delà de l'EMA 9 » de la vidéo est la pire ; les réglages les moins mauvais
+  tiennent jusqu'au soir, ont peu de jours positifs (35-48 %) et vivent de rares grosses journées de tendance.
