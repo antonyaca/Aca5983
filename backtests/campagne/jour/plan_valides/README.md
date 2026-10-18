@@ -40,3 +40,12 @@ Recodé séparément : 3 100 trades communs avec l'agent, 7 seulement diffèrent
 |---|---|---|---|---|---|---|---|---|
 | ∝ prix 1,25 pb, règle d'Anto | 3 094 | +0,053 R | 4,01 ✔ | +1 042 | 2 807 | 65 % | 6 j | 63 % |
 | fixe 1,5 pt, règle d'Anto | 3 094 | +0,020 R | 1,53 ✘ | +399 | 7 509 | 64 % | 6 j | 56 % |
+
+## Stop de sécurité sur RSI2 / 3 baisses (`stop_securite.py`) et dimensionnement (`dimensionnement.py`)
+| | E nette | t | Pire trade |
+|---|---|---|---|
+| RSI2 sans stop / stop 3 ATR / stop 2 ATR | +0,462 / +0,430 / +0,390 R | 5,8 / 5,0 / 4,8 | −4,9 / −4,0 / −3,3 R |
+| 3 baisses sans stop / 3 ATR / 2 ATR | +0,221 / +0,213 / +0,225 R | 4,0 / 3,7 / 4,5 | −5,9 / −7,7 / −2,7 R |
+Le stop ne coupe pas les pertes de gap (ouverture déjà sous le stop). Portefeuille à 100 €/jour : pire jour
+−11 263 € (sans stop), −12 230 € (3 ATR), −8 751 € (2 ATR) ; trades swing à mi-taille : pire jour −7 812 € mais
+drawdown 22 646 € (contre 18 196 €). Conclusion : le risque de queue vient des gaps de nuit, il se gère par la taille.
