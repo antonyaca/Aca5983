@@ -32,3 +32,11 @@ Deux lectures testées sur le Williams (Nasdaq, S&P en contrôle), coût ∝ pri
 | I2 : Williams puis retournement au stop (2e trade) | trade de retournement ≈ +0,01 R : n'apporte rien | idem |
 Constat annexe : **Williams Nasdaq avec TP 1:1** (au lieu de la clôture) : 2 881 trades, +0,050 R, t 3,20, DD 2 869 €,
 **54 % de jours positifs**, +908 €/an — plus régulier mais moins rentable que la sortie en clôture (+1 350 €/an, 47 %).
+
+## Vérification indépendante de V04 (agent « jours positifs ») — `verif_v04.py`
+Williams Nasdaq, 50 % sortis à +0,5 R, reste avec stop ramené à l'entrée, sortie 16:00 ; 2e trade si le 1er perd.
+Recodé séparément : 3 100 trades communs avec l'agent, 7 seulement diffèrent de plus de 0,001 R.
+| Coût | Trades | E nette | t | €/an | DD | Jours positifs (jours tradés) | Pire série | Mois positifs |
+|---|---|---|---|---|---|---|---|---|
+| ∝ prix 1,25 pb, règle d'Anto | 3 094 | +0,053 R | 4,01 ✔ | +1 042 | 2 807 | 65 % | 6 j | 63 % |
+| fixe 1,5 pt, règle d'Anto | 3 094 | +0,020 R | 1,53 ✘ | +399 | 7 509 | 64 % | 6 j | 56 % |

@@ -1,0 +1,2976 @@
+{
+ "variantes": {
+  "V01": {
+   "label": "V01 Bougie M15 d'ouverture 1:1 Nasdaq",
+   "net": {
+    "trades": 3791,
+    "e_r": -0.1217414094007162,
+    "pf": 0.7784789691386987,
+    "win_rate": 49.90767607491427,
+    "resultat_eur": -46152.168303811515,
+    "max_dd_eur": 50681.56199267309
+   },
+   "brut": {
+    "trades": 3791,
+    "e_r": 0.00813790366773779,
+    "pf": 1.0169160067798766,
+    "win_rate": 50.38248483249802,
+    "resultat_eur": 3085.079280439396,
+    "max_dd_eur": 5258.216618556961
+   },
+   "decouverte_2011_2018": {
+    "trades": 1958,
+    "e_r": -0.23313849591717883,
+    "pf": 0.61629945745924,
+    "win_rate": 47.70173646578141,
+    "resultat_eur": -45648.51750058361,
+    "max_dd_eur": 45861.035538101714
+   },
+   "validation_2019_2026": {
+    "trades": 1833,
+    "e_r": -0.002747685778657366,
+    "pf": 0.9943646219101484,
+    "win_rate": 52.26404800872886,
+    "resultat_eur": -503.65080322789527,
+    "max_dd_eur": 5775.006729235022
+   },
+   "e_frais_x2": -0.25162072246917017,
+   "t_stat": -7.467453608584048,
+   "sans_top10": -0.12469185543478999,
+   "annees_positives": "5/16",
+   "par_annee_eur": {
+    "2011": -6607,
+    "2012": -7372,
+    "2013": -7280,
+    "2014": -7265,
+    "2015": -5106,
+    "2016": -3534,
+    "2017": -5679,
+    "2018": -2806,
+    "2019": -270,
+    "2020": -2684,
+    "2021": -1142,
+    "2022": 855,
+    "2023": 1100,
+    "2024": 629,
+    "2025": 62,
+    "2026": 945
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 92.1,
+    "jours_positifs_pct_jours_trades": 49.9,
+    "jours_50eur_ou_plus_pct": 47.2,
+    "eur_moyen_par_jour_ouvre": -11.22,
+    "eur_par_an": -2927,
+    "pire_jour_eur": -400,
+    "pire_serie_jours_perdants": 9,
+    "mois_positifs_pct": 31.6,
+    "pire_mois_eur": -1616
+   },
+   "regles": "Bougie M15 d'ouverture : sens de la bougie [ouverture, +15 min), entrée à sa clôture, stop à l'autre extrémité, objectif 1 R, sinon sortie en clôture de séance ; 1 trade max par jour.",
+   "diagnostic": {
+    "candidats": 3791,
+    "trades_pris": 3791,
+    "part_2e_trade_pct": 0.0,
+    "trades_par_an_median": 246.5,
+    "e_brute": 0.0081,
+    "cout_median_r": {
+     "2011-2018": 0.154,
+     "2019-2026": 0.03
+    },
+    "sorties_pct": {
+     "TP": 48.0,
+     "SL": 47.3,
+     "EOD": 4.7
+    },
+    "achats_pct": 51.8,
+    "net_1er_trade": -0.1217,
+    "net_2e_trade": null
+   }
+  },
+  "V02": {
+   "label": "V02 Bougie M15 d'ouverture 1:1 FTSE",
+   "net": {
+    "trades": 3774,
+    "e_r": -0.1155662156602761,
+    "pf": 0.7896794263707634,
+    "win_rate": 50.5564387917329,
+    "resultat_eur": -43614.6897901882,
+    "max_dd_eur": 44045.50902991318
+   },
+   "brut": {
+    "trades": 3774,
+    "e_r": 0.015352393522844813,
+    "pf": 1.0317792707884785,
+    "win_rate": 50.82140964493905,
+    "resultat_eur": 5793.993315521632,
+    "max_dd_eur": 3318.8174366838616
+   },
+   "decouverte_2011_2018": {
+    "trades": 1940,
+    "e_r": -0.11288863071563346,
+    "pf": 0.7946692966157997,
+    "win_rate": 51.44329896907216,
+    "resultat_eur": -21900.39435883289,
+    "max_dd_eur": 23415.76505533794
+   },
+   "validation_2019_2026": {
+    "trades": 1834,
+    "e_r": -0.11839855742287513,
+    "pf": 0.7843949684717455,
+    "win_rate": 49.61832061068702,
+    "resultat_eur": -21714.2954313553,
+    "max_dd_eur": 21789.6583815465
+   },
+   "e_frais_x2": -0.24648482484339698,
+   "t_stat": -7.054634169485898,
+   "sans_top10": -0.11848296181073821,
+   "annees_positives": "0/16",
+   "par_annee_eur": {
+    "2011": -1724,
+    "2012": -5918,
+    "2013": -1880,
+    "2014": -2088,
+    "2015": -1754,
+    "2016": -2534,
+    "2017": -4337,
+    "2018": -1666,
+    "2019": -5048,
+    "2020": -2296,
+    "2021": -2951,
+    "2022": -1361,
+    "2023": -1676,
+    "2024": -2811,
+    "2025": -2620,
+    "2026": -2952
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 91.7,
+    "jours_positifs_pct_jours_trades": 50.6,
+    "jours_50eur_ou_plus_pct": 49.0,
+    "eur_moyen_par_jour_ouvre": -10.6,
+    "eur_par_an": -2766,
+    "pire_jour_eur": -433,
+    "pire_serie_jours_perdants": 9,
+    "mois_positifs_pct": 27.9,
+    "pire_mois_eur": -1497
+   },
+   "regles": "Bougie M15 d'ouverture : sens de la bougie [ouverture, +15 min), entrée à sa clôture, stop à l'autre extrémité, objectif 1 R, sinon sortie en clôture de séance ; 1 trade max par jour.",
+   "diagnostic": {
+    "candidats": 3774,
+    "trades_pris": 3774,
+    "part_2e_trade_pct": 0.0,
+    "trades_par_an_median": 245.5,
+    "e_brute": 0.0154,
+    "cout_median_r": {
+     "2011-2018": 0.107,
+     "2019-2026": 0.086
+    },
+    "sorties_pct": {
+     "TP": 49.3,
+     "SL": 47.3,
+     "EOD": 3.5
+    },
+    "achats_pct": 50.2,
+    "net_1er_trade": -0.1156,
+    "net_2e_trade": null
+   }
+  },
+  "V03": {
+   "label": "V03 Bougie M15 d'ouverture 1:1, 4 indices",
+   "net": {
+    "trades": 5976,
+    "e_r": -0.19970602807980553,
+    "pf": 0.659610045841396,
+    "win_rate": 50.26773761713521,
+    "resultat_eur": -119344.32238049178,
+    "max_dd_eur": 120483.44803756283
+   },
+   "brut": {
+    "trades": 5976,
+    "e_r": 0.03659765181356452,
+    "pf": 1.0790204268173549,
+    "win_rate": 51.8574297188755,
+    "resultat_eur": 21870.756723786162,
+    "max_dd_eur": 3666.694316147104
+   },
+   "decouverte_2011_2018": {
+    "trades": 3060,
+    "e_r": -0.28332060006304466,
+    "pf": 0.5580362367450032,
+    "win_rate": 49.411764705882355,
+    "resultat_eur": -86696.10361929167,
+    "max_dd_eur": 87242.1812306697
+   },
+   "validation_2019_2026": {
+    "trades": 2916,
+    "e_r": -0.11196234143072742,
+    "pf": 0.7886155425962454,
+    "win_rate": 51.16598079561042,
+    "resultat_eur": -32648.218761200114,
+    "max_dd_eur": 33676.211659924054
+   },
+   "e_frais_x2": -0.4360097079731756,
+   "t_stat": -15.013350306470972,
+   "sans_top10": -0.20169445597611182,
+   "annees_positives": "0/16",
+   "par_annee_eur": {
+    "2011": -12635,
+    "2012": -21114,
+    "2013": -8539,
+    "2014": -9606,
+    "2015": -7681,
+    "2016": -8065,
+    "2017": -12105,
+    "2018": -6951,
+    "2019": -8209,
+    "2020": -6494,
+    "2021": -2847,
+    "2022": -4946,
+    "2023": -4764,
+    "2024": -4432,
+    "2025": -790,
+    "2026": -167
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 98.6,
+    "jours_positifs_pct_jours_trades": 52.1,
+    "jours_50eur_ou_plus_pct": 44.2,
+    "eur_moyen_par_jour_ouvre": -29.0,
+    "eur_par_an": -7570,
+    "pire_jour_eur": -617,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 19.5,
+    "pire_mois_eur": -2670
+   },
+   "regles": "Bougie M15 d'ouverture : sens de la bougie [ouverture, +15 min), entrée à sa clôture, stop à l'autre extrémité, objectif 1 R, sinon sortie en clôture de séance ; 1 trade max par jour. 4 indices : 1er signal du jour tous indices confondus (Nikkei, FTSE, puis US).",
+   "diagnostic": {
+    "candidats": 14899,
+    "trades_pris": 5976,
+    "part_2e_trade_pct": 32.1,
+    "trades_par_an_median": 381.0,
+    "e_brute": 0.0366,
+    "cout_median_r": {
+     "2011-2018": 0.207,
+     "2019-2026": 0.107
+    },
+    "sorties_pct": {
+     "TP": 48.9,
+     "SL": 45.0,
+     "EOD": 6.1
+    },
+    "achats_pct": 50.0,
+    "par_marche": {
+     "FTSE100": {
+      "trades": 2102,
+      "e_nette": -0.1106,
+      "resultat_eur": -23250
+     },
+     "NASDAQ100": {
+      "trades": 309,
+      "e_nette": -0.1889,
+      "resultat_eur": -5838
+     },
+     "NIKKEI225": {
+      "trades": 3565,
+      "e_nette": -0.2532,
+      "resultat_eur": -90256
+     }
+    },
+    "net_1er_trade": -0.2406,
+    "net_2e_trade": -0.1133
+   }
+  },
+  "V04": {
+   "label": "V04 Bougie M15 d'ouverture 1:2 Nasdaq",
+   "net": {
+    "trades": 3791,
+    "e_r": -0.09942736007162489,
+    "pf": 0.8549801019287757,
+    "win_rate": 37.00870482722237,
+    "resultat_eur": -37692.912203153,
+    "max_dd_eur": 48172.635200508856
+   },
+   "brut": {
+    "trades": 3791,
+    "e_r": 0.030451952996829106,
+    "pf": 1.0509250225223585,
+    "win_rate": 37.378000527565284,
+    "resultat_eur": 11544.335381097915,
+    "max_dd_eur": 7742.152268230668
+   },
+   "decouverte_2011_2018": {
+    "trades": 1958,
+    "e_r": -0.21778089484530525,
+    "pf": 0.7110128880920839,
+    "win_rate": 35.035750766087844,
+    "resultat_eur": -42641.49921071077,
+    "max_dd_eur": 43165.66508866097
+   },
+   "validation_2019_2026": {
+    "trades": 1833,
+    "e_r": 0.026997201350560694,
+    "pf": 1.0440420794605005,
+    "win_rate": 39.11620294599018,
+    "resultat_eur": 4948.587007557775,
+    "max_dd_eur": 6020.884361463061
+   },
+   "e_frais_x2": -0.22930667314007885,
+   "t_stat": -4.520549505030437,
+   "sans_top10": -0.1049587057673978,
+   "annees_positives": "6/16",
+   "par_annee_eur": {
+    "2011": -6630,
+    "2012": -6473,
+    "2013": -6199,
+    "2014": -7964,
+    "2015": -6254,
+    "2016": -4186,
+    "2017": -4399,
+    "2018": -538,
+    "2019": -1553,
+    "2020": -2206,
+    "2021": 246,
+    "2022": 1547,
+    "2023": 1052,
+    "2024": 3389,
+    "2025": 2265,
+    "2026": 208
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 92.1,
+    "jours_positifs_pct_jours_trades": 37.0,
+    "jours_50eur_ou_plus_pct": 33.6,
+    "eur_moyen_par_jour_ouvre": -9.16,
+    "eur_par_an": -2391,
+    "pire_jour_eur": -400,
+    "pire_serie_jours_perdants": 15,
+    "mois_positifs_pct": 37.4,
+    "pire_mois_eur": -2373
+   },
+   "regles": "Bougie M15 d'ouverture : sens de la bougie [ouverture, +15 min), entrée à sa clôture, stop à l'autre extrémité, objectif 2 R, sinon sortie en clôture de séance ; 1 trade max par jour.",
+   "diagnostic": {
+    "candidats": 3791,
+    "trades_pris": 3791,
+    "part_2e_trade_pct": 0.0,
+    "trades_par_an_median": 246.5,
+    "e_brute": 0.0305,
+    "cout_median_r": {
+     "2011-2018": 0.154,
+     "2019-2026": 0.03
+    },
+    "sorties_pct": {
+     "SL": 58.4,
+     "TP": 27.4,
+     "EOD": 14.2
+    },
+    "achats_pct": 51.8,
+    "net_1er_trade": -0.0994,
+    "net_2e_trade": null
+   }
+  },
+  "V05": {
+   "label": "V05 ORB 15 min 1:2 Nasdaq",
+   "net": {
+    "trades": 5346,
+    "e_r": -0.042430514771597504,
+    "pf": 0.9280398121651885,
+    "win_rate": 40.198279087167975,
+    "resultat_eur": -22683.353196896023,
+    "max_dd_eur": 36235.07427962168
+   },
+   "brut": {
+    "trades": 5346,
+    "e_r": 0.04108587270731249,
+    "pf": 1.07627542059547,
+    "win_rate": 41.058735503179946,
+    "resultat_eur": 21964.507549329257,
+    "max_dd_eur": 5736.34545469147
+   },
+   "decouverte_2011_2018": {
+    "trades": 2823,
+    "e_r": -0.1252242949418814,
+    "pf": 0.8032704214431383,
+    "win_rate": 37.90294013460857,
+    "resultat_eur": -35350.81846209311,
+    "max_dd_eur": 35687.52481129946
+   },
+   "validation_2019_2026": {
+    "trades": 2523,
+    "e_r": 0.05020794793974273,
+    "pf": 1.0934672175592897,
+    "win_rate": 42.76654776060246,
+    "resultat_eur": 12667.46526519709,
+    "max_dd_eur": 3569.791069622718
+   },
+   "e_frais_x2": -0.12594690225050753,
+   "t_stat": -2.488937371182392,
+   "sans_top10": -0.046246112408791465,
+   "annees_positives": "6/16",
+   "par_annee_eur": {
+    "2011": -4812,
+    "2012": -6301,
+    "2013": -4434,
+    "2014": -6051,
+    "2015": -5010,
+    "2016": -3536,
+    "2017": -3642,
+    "2018": -1566,
+    "2019": 409,
+    "2020": -697,
+    "2021": 4408,
+    "2022": 2088,
+    "2023": 39,
+    "2024": 3492,
+    "2025": 3489,
+    "2026": -561
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 92.6,
+    "jours_positifs_pct_jours_trades": 49.8,
+    "jours_50eur_ou_plus_pct": 41.1,
+    "eur_moyen_par_jour_ouvre": -5.51,
+    "eur_par_an": -1439,
+    "pire_jour_eur": -321,
+    "pire_serie_jours_perdants": 12,
+    "mois_positifs_pct": 45.8,
+    "pire_mois_eur": -2228
+   },
+   "regles": "ORB 15 min : ordres stop au plus haut / plus bas des 15 premières minutes, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 2 R, sinon clôture ; après une perte, 2e cassure possible.",
+   "diagnostic": {
+    "candidats": 6716,
+    "trades_pris": 5346,
+    "part_2e_trade_pct": 28.7,
+    "trades_par_an_median": 345.0,
+    "e_brute": 0.0411,
+    "cout_median_r": {
+     "2011-2018": 0.118,
+     "2019-2026": 0.021
+    },
+    "sorties_pct": {
+     "SL": 51.1,
+     "EOD": 27.1,
+     "TP": 21.8
+    },
+    "achats_pct": 51.6,
+    "net_1er_trade": -0.0309,
+    "net_2e_trade": -0.071
+   }
+  },
+  "V06": {
+   "label": "V06 ORB 60 min 1:1 Nasdaq",
+   "net": {
+    "trades": 3576,
+    "e_r": -0.016151093352542827,
+    "pf": 0.9540933250318372,
+    "win_rate": 51.118568232662184,
+    "resultat_eur": -5775.630982869315,
+    "max_dd_eur": 11528.38570854395
+   },
+   "brut": {
+    "trades": 3576,
+    "e_r": 0.03374753236333202,
+    "pf": 1.1030908145601908,
+    "win_rate": 52.880313199105146,
+    "resultat_eur": 12068.117573127533,
+    "max_dd_eur": 2688.0237979422895
+   },
+   "decouverte_2011_2018": {
+    "trades": 1872,
+    "e_r": -0.05844950918730277,
+    "pf": 0.8460807094492545,
+    "win_rate": 49.25213675213676,
+    "resultat_eur": -10941.748119863078,
+    "max_dd_eur": 11528.38570854395
+   },
+   "validation_2019_2026": {
+    "trades": 1704,
+    "e_r": 0.030317588832123033,
+    "pf": 1.0944016240621002,
+    "win_rate": 53.16901408450704,
+    "resultat_eur": 5166.117136993765,
+    "max_dd_eur": 1651.2555874283983
+   },
+   "e_frais_x2": -0.06604971906841767,
+   "t_stat": -1.2422847473318968,
+   "sans_top10": -0.01898835164684319,
+   "annees_positives": "7/16",
+   "par_annee_eur": {
+    "2011": -2141,
+    "2012": -1901,
+    "2013": -1989,
+    "2014": -613,
+    "2015": -2179,
+    "2016": -761,
+    "2017": -437,
+    "2018": -921,
+    "2019": 177,
+    "2020": 505,
+    "2021": 1455,
+    "2022": 1698,
+    "2023": 665,
+    "2024": 830,
+    "2025": -238,
+    "2026": 73
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 80.4,
+    "jours_positifs_pct_jours_trades": 50.6,
+    "jours_50eur_ou_plus_pct": 32.6,
+    "eur_moyen_par_jour_ouvre": -1.4,
+    "eur_par_an": -366,
+    "pire_jour_eur": -245,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 48.4,
+    "pire_mois_eur": -1047
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 1 R, sinon clôture ; après une perte, 2e cassure possible.",
+   "diagnostic": {
+    "candidats": 3939,
+    "trades_pris": 3576,
+    "part_2e_trade_pct": 7.4,
+    "trades_par_an_median": 232.0,
+    "e_brute": 0.0337,
+    "cout_median_r": {
+     "2011-2018": 0.071,
+     "2019-2026": 0.013
+    },
+    "sorties_pct": {
+     "EOD": 49.2,
+     "TP": 25.9,
+     "SL": 24.8
+    },
+    "achats_pct": 54.5,
+    "net_1er_trade": -0.0264,
+    "net_2e_trade": 0.1115
+   }
+  },
+  "V07": {
+   "label": "V07 ORB 60 min 1:1 S&P 500",
+   "net": {
+    "trades": 3814,
+    "e_r": -0.043938766615467674,
+    "pf": 0.890548303276837,
+    "win_rate": 50.209753539590984,
+    "resultat_eur": -16758.245587139372,
+    "max_dd_eur": 20161.60499271224
+   },
+   "brut": {
+    "trades": 3814,
+    "e_r": 0.03503945041201365,
+    "pf": 1.096631274977044,
+    "win_rate": 52.20241216570529,
+    "resultat_eur": 13364.046387142009,
+    "max_dd_eur": 4267.283640335561
+   },
+   "decouverte_2011_2018": {
+    "trades": 1992,
+    "e_r": -0.06781529220394797,
+    "pf": 0.836233189541169,
+    "win_rate": 49.44779116465863,
+    "resultat_eur": -13508.806207026435,
+    "max_dd_eur": 14073.917747672942
+   },
+   "validation_2019_2026": {
+    "trades": 1822,
+    "e_r": -0.017834464215768,
+    "pf": 0.953988819647984,
+    "win_rate": 51.042810098792536,
+    "resultat_eur": -3249.439380112929,
+    "max_dd_eur": 6739.912677994229
+   },
+   "e_frais_x2": -0.12291698364294897,
+   "t_stat": -3.252407983785024,
+   "sans_top10": -0.04665562943576278,
+   "annees_positives": "3/16",
+   "par_annee_eur": {
+    "2011": -1846,
+    "2012": -3197,
+    "2013": -2874,
+    "2014": -1647,
+    "2015": -1024,
+    "2016": -1013,
+    "2017": -605,
+    "2018": -1303,
+    "2019": -3457,
+    "2020": -1634,
+    "2021": -467,
+    "2022": 2603,
+    "2023": 302,
+    "2024": -375,
+    "2025": -562,
+    "2026": 341
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 83.5,
+    "jours_positifs_pct_jours_trades": 50.0,
+    "jours_50eur_ou_plus_pct": 36.6,
+    "eur_moyen_par_jour_ouvre": -4.07,
+    "eur_par_an": -1063,
+    "pire_jour_eur": -271,
+    "pire_serie_jours_perdants": 9,
+    "mois_positifs_pct": 44.2,
+    "pire_mois_eur": -1181
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 1 R, sinon clôture ; après une perte, 2e cassure possible.",
+   "diagnostic": {
+    "candidats": 4305,
+    "trades_pris": 3814,
+    "part_2e_trade_pct": 9.9,
+    "trades_par_an_median": 245.0,
+    "e_brute": 0.035,
+    "cout_median_r": {
+     "2011-2018": 0.1,
+     "2019-2026": 0.035
+    },
+    "sorties_pct": {
+     "EOD": 38.0,
+     "TP": 32.2,
+     "SL": 29.7
+    },
+    "achats_pct": 53.3,
+    "net_1er_trade": -0.0474,
+    "net_2e_trade": -0.0124
+   }
+  },
+  "V08": {
+   "label": "V08 ORB 60 min 1:1 FTSE",
+   "net": {
+    "trades": 3527,
+    "e_r": -0.03848144028438758,
+    "pf": 0.9108674596153945,
+    "win_rate": 49.75900198468954,
+    "resultat_eur": -13572.4039883035,
+    "max_dd_eur": 14433.378309224358
+   },
+   "brut": {
+    "trades": 3527,
+    "e_r": 0.014947906017307194,
+    "pf": 1.0368809823485523,
+    "win_rate": 50.722994045931394,
+    "resultat_eur": 5272.126452304247,
+    "max_dd_eur": 2943.1784718335675
+   },
+   "decouverte_2011_2018": {
+    "trades": 1858,
+    "e_r": -0.02775173345212956,
+    "pf": 0.9356872721645432,
+    "win_rate": 50.3767491926803,
+    "resultat_eur": -5156.272075405672,
+    "max_dd_eur": 6456.700700392943
+   },
+   "validation_2019_2026": {
+    "trades": 1669,
+    "e_r": -0.05042619480466046,
+    "pf": 0.8832668176761297,
+    "win_rate": 49.07130017974835,
+    "resultat_eur": -8416.13191289783,
+    "max_dd_eur": 9144.457657603201
+   },
+   "e_frais_x2": -0.09191078658608237,
+   "t_stat": -2.5791940440517895,
+   "sans_top10": -0.041391173247281456,
+   "annees_positives": "1/16",
+   "par_annee_eur": {
+    "2011": -988,
+    "2012": -329,
+    "2013": -382,
+    "2014": -323,
+    "2015": -87,
+    "2016": -420,
+    "2017": -1451,
+    "2018": -1176,
+    "2019": -2154,
+    "2020": -810,
+    "2021": -2553,
+    "2022": 1793,
+    "2023": -1558,
+    "2024": -1898,
+    "2025": -1045,
+    "2026": -192
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 79.1,
+    "jours_positifs_pct_jours_trades": 50.0,
+    "jours_50eur_ou_plus_pct": 40.4,
+    "eur_moyen_par_jour_ouvre": -3.3,
+    "eur_par_an": -861,
+    "pire_jour_eur": -442,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 42.1,
+    "pire_mois_eur": -1074
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 1 R, sinon clôture ; après une perte, 2e cassure possible.",
+   "diagnostic": {
+    "candidats": 3943,
+    "trades_pris": 3527,
+    "part_2e_trade_pct": 7.7,
+    "trades_par_an_median": 228.0,
+    "e_brute": 0.0149,
+    "cout_median_r": {
+     "2011-2018": 0.055,
+     "2019-2026": 0.045
+    },
+    "sorties_pct": {
+     "TP": 36.9,
+     "SL": 35.0,
+     "EOD": 28.0
+    },
+    "achats_pct": 50.3,
+    "net_1er_trade": -0.031,
+    "net_2e_trade": -0.1273
+   }
+  },
+  "V09": {
+   "label": "V09 ORB 60 min 1:1 Nikkei",
+   "net": {
+    "trades": 3320,
+    "e_r": -0.07096185925456716,
+    "pf": 0.8118111308083762,
+    "win_rate": 48.132530120481924,
+    "resultat_eur": -23559.337272516295,
+    "max_dd_eur": 25279.314071275418
+   },
+   "brut": {
+    "trades": 3320,
+    "e_r": 0.05019373269886621,
+    "pf": 1.1579532315709382,
+    "win_rate": 51.746987951807235,
+    "resultat_eur": 16664.319256023584,
+    "max_dd_eur": 3099.7690327534983
+   },
+   "decouverte_2011_2018": {
+    "trades": 1627,
+    "e_r": -0.10870879754684472,
+    "pf": 0.7462674639996772,
+    "win_rate": 48.43269821757836,
+    "resultat_eur": -17686.921360871638,
+    "max_dd_eur": 17926.29326388285
+   },
+   "validation_2019_2026": {
+    "trades": 1693,
+    "e_r": -0.03468644956671388,
+    "pf": 0.8941581021380662,
+    "win_rate": 47.84406379208506,
+    "resultat_eur": -5872.41591164466,
+    "max_dd_eur": 7427.210895691044
+   },
+   "e_frais_x2": -0.19211745120800056,
+   "t_stat": -5.208727288236726,
+   "sans_top10": -0.07415667742357247,
+   "annees_positives": "3/16",
+   "par_annee_eur": {
+    "2011": -2901,
+    "2012": -3004,
+    "2013": -1574,
+    "2014": -585,
+    "2015": -1921,
+    "2016": -2709,
+    "2017": -1716,
+    "2018": -3277,
+    "2019": -3927,
+    "2020": -1983,
+    "2021": 1000,
+    "2022": -619,
+    "2023": 869,
+    "2024": -1055,
+    "2025": -1232,
+    "2026": 1075
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 74.3,
+    "jours_positifs_pct_jours_trades": 48.2,
+    "jours_50eur_ou_plus_pct": 33.0,
+    "eur_moyen_par_jour_ouvre": -5.73,
+    "eur_par_an": -1494,
+    "pire_jour_eur": -686,
+    "pire_serie_jours_perdants": 12,
+    "mois_positifs_pct": 36.8,
+    "pire_mois_eur": -1363
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 1 R, sinon clôture ; après une perte, 2e cassure possible.",
+   "diagnostic": {
+    "candidats": 3815,
+    "trades_pris": 3320,
+    "part_2e_trade_pct": 8.0,
+    "trades_par_an_median": 217.5,
+    "e_brute": 0.0502,
+    "cout_median_r": {
+     "2011-2018": 0.15,
+     "2019-2026": 0.065
+    },
+    "sorties_pct": {
+     "EOD": 47.8,
+     "TP": 29.1,
+     "SL": 23.1
+    },
+    "achats_pct": 49.8,
+    "net_1er_trade": -0.0684,
+    "net_2e_trade": -0.1008
+   }
+  },
+  "V10": {
+   "label": "V10 ORB 60 min 1:1, 4 indices",
+   "net": {
+    "trades": 5834,
+    "e_r": -0.05267255954596797,
+    "pf": 0.8654735444550017,
+    "win_rate": 49.022968803565306,
+    "resultat_eur": -30729.171239117717,
+    "max_dd_eur": 34141.338089657664
+   },
+   "brut": {
+    "trades": 5834,
+    "e_r": 0.04109622311738682,
+    "pf": 1.118913528268752,
+    "win_rate": 51.61124442920809,
+    "resultat_eur": 23975.53656668347,
+    "max_dd_eur": 3504.220838656599
+   },
+   "decouverte_2011_2018": {
+    "trades": 2978,
+    "e_r": -0.08584774142721975,
+    "pf": 0.7996455655124033,
+    "win_rate": 48.62323707186031,
+    "resultat_eur": -25565.457397026043,
+    "max_dd_eur": 26382.637604817683
+   },
+   "validation_2019_2026": {
+    "trades": 2856,
+    "e_r": -0.01808023053953668,
+    "pf": 0.9487846653324448,
+    "win_rate": 49.43977591036415,
+    "resultat_eur": -5163.713842091674,
+    "max_dd_eur": 8280.152127272688
+   },
+   "e_frais_x2": -0.14644134220932276,
+   "t_stat": -4.903412028184752,
+   "sans_top10": -0.05446591604847074,
+   "annees_positives": "4/16",
+   "par_annee_eur": {
+    "2011": -4539,
+    "2012": -4118,
+    "2013": -1895,
+    "2014": -2459,
+    "2015": -2213,
+    "2016": -3659,
+    "2017": -3512,
+    "2018": -3171,
+    "2019": -3428,
+    "2020": -2317,
+    "2021": 962,
+    "2022": 884,
+    "2023": 1055,
+    "2024": -2163,
+    "2025": -1847,
+    "2026": 1690
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 97.5,
+    "jours_positifs_pct_jours_trades": 57.7,
+    "jours_50eur_ou_plus_pct": 39.6,
+    "eur_moyen_par_jour_ouvre": -7.47,
+    "eur_par_an": -1949,
+    "pire_jour_eur": -790,
+    "pire_serie_jours_perdants": 8,
+    "mois_positifs_pct": 41.1,
+    "pire_mois_eur": -1822
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 1 R, sinon clôture ; après une perte, 2e cassure possible. 4 indices : 1er signal du jour tous indices confondus (Nikkei, FTSE, puis US).",
+   "diagnostic": {
+    "candidats": 16002,
+    "trades_pris": 5834,
+    "part_2e_trade_pct": 31.2,
+    "trades_par_an_median": 372.5,
+    "e_brute": 0.0411,
+    "cout_median_r": {
+     "2011-2018": 0.097,
+     "2019-2026": 0.053
+    },
+    "sorties_pct": {
+     "EOD": 41.5,
+     "TP": 31.6,
+     "SL": 26.9
+    },
+    "achats_pct": 50.2,
+    "par_marche": {
+     "FTSE100": {
+      "trades": 1916,
+      "e_nette": -0.0348,
+      "resultat_eur": -6671
+     },
+     "NASDAQ100": {
+      "trades": 322,
+      "e_nette": 0.012,
+      "resultat_eur": 385
+     },
+     "NIKKEI225": {
+      "trades": 3320,
+      "e_nette": -0.071,
+      "resultat_eur": -23559
+     },
+     "SP500": {
+      "trades": 276,
+      "e_nette": -0.032,
+      "resultat_eur": -884
+     }
+    },
+    "net_1er_trade": -0.0572,
+    "net_2e_trade": -0.0426
+   }
+  },
+  "V11": {
+   "label": "V11 ORB 60 min 1:2 Nasdaq",
+   "net": {
+    "trades": 3576,
+    "e_r": -0.015315993699411182,
+    "pf": 0.9586062537485056,
+    "win_rate": 48.182326621923934,
+    "resultat_eur": -5476.999346909439,
+    "max_dd_eur": 12063.46567366969
+   },
+   "brut": {
+    "trades": 3576,
+    "e_r": 0.03458263201646366,
+    "pf": 1.1006468817518746,
+    "win_rate": 50.251677852349,
+    "resultat_eur": 12366.749209087404,
+    "max_dd_eur": 3729.2234018032714
+   },
+   "decouverte_2011_2018": {
+    "trades": 1872,
+    "e_r": -0.055423692023669716,
+    "pf": 0.8619148824497166,
+    "win_rate": 45.94017094017094,
+    "resultat_eur": -10375.315146830972,
+    "max_dd_eur": 12063.46567366969
+   },
+   "validation_2019_2026": {
+    "trades": 1704,
+    "e_r": 0.028745984741323536,
+    "pf": 1.0856685026535782,
+    "win_rate": 50.64553990610329,
+    "resultat_eur": 4898.315799921531,
+    "max_dd_eur": 2047.6021280476757
+   },
+   "e_frais_x2": -0.06521461941528603,
+   "t_stat": -1.046862474553003,
+   "sans_top10": -0.020950364584784765,
+   "annees_positives": "6/16",
+   "par_annee_eur": {
+    "2011": -1923,
+    "2012": -919,
+    "2013": -2375,
+    "2014": -188,
+    "2015": -2822,
+    "2016": -1680,
+    "2017": -1007,
+    "2018": 538,
+    "2019": -6,
+    "2020": 173,
+    "2021": 1899,
+    "2022": 1762,
+    "2023": 852,
+    "2024": 967,
+    "2025": -465,
+    "2026": -285
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 80.4,
+    "jours_positifs_pct_jours_trades": 49.3,
+    "jours_50eur_ou_plus_pct": 28.0,
+    "eur_moyen_par_jour_ouvre": -1.33,
+    "eur_par_an": -347,
+    "pire_jour_eur": -245,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 47.9,
+    "pire_mois_eur": -1177
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 2 R, sinon clôture ; après une perte, 2e cassure possible.",
+   "diagnostic": {
+    "candidats": 3628,
+    "trades_pris": 3576,
+    "part_2e_trade_pct": 7.4,
+    "trades_par_an_median": 232.0,
+    "e_brute": 0.0346,
+    "cout_median_r": {
+     "2011-2018": 0.071,
+     "2019-2026": 0.013
+    },
+    "sorties_pct": {
+     "EOD": 68.5,
+     "SL": 26.0,
+     "TP": 5.5
+    },
+    "achats_pct": 54.5,
+    "net_1er_trade": -0.0275,
+    "net_2e_trade": 0.1358
+   }
+  },
+  "V12": {
+   "label": "V12 ORB 60 min 1:1 + SMA200 Nasdaq",
+   "net": {
+    "trades": 1838,
+    "e_r": -0.01931417482918758,
+    "pf": 0.9426025353535066,
+    "win_rate": 52.28509249183896,
+    "resultat_eur": -3549.945333604677,
+    "max_dd_eur": 6345.686420056537
+   },
+   "brut": {
+    "trades": 1838,
+    "e_r": 0.02776509205748273,
+    "pf": 1.0884511021317989,
+    "win_rate": 54.24374319912949,
+    "resultat_eur": 5103.223920165326,
+    "max_dd_eur": 2156.111635142397
+   },
+   "decouverte_2011_2018": {
+    "trades": 921,
+    "e_r": -0.05543815585982982,
+    "pf": 0.8463035451890802,
+    "win_rate": 50.3800217155266,
+    "resultat_eur": -5105.854154690326,
+    "max_dd_eur": 6345.686420056537
+   },
+   "validation_2019_2026": {
+    "trades": 917,
+    "e_r": 0.016967380818818427,
+    "pf": 1.0543490217648293,
+    "win_rate": 54.19847328244275,
+    "resultat_eur": 1555.9088210856498,
+    "max_dd_eur": 1166.7741065904613
+   },
+   "e_frais_x2": -0.0663934417158579,
+   "t_stat": -1.1024599176853458,
+   "sans_top10": -0.024861564134053396,
+   "annees_positives": "6/16",
+   "par_annee_eur": {
+    "2011": -454,
+    "2012": -1154,
+    "2013": -949,
+    "2014": -1012,
+    "2015": -828,
+    "2016": -1614,
+    "2017": 987,
+    "2018": -81,
+    "2019": -833,
+    "2020": 528,
+    "2021": 1025,
+    "2022": 174,
+    "2023": 530,
+    "2024": 504,
+    "2025": -279,
+    "2026": -93
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 44.5,
+    "jours_positifs_pct_jours_trades": 52.3,
+    "jours_50eur_ou_plus_pct": 30.7,
+    "eur_moyen_par_jour_ouvre": -0.86,
+    "eur_par_an": -225,
+    "pire_jour_eur": -234,
+    "pire_serie_jours_perdants": 8,
+    "mois_positifs_pct": 44.7,
+    "pire_mois_eur": -545
+   },
+   "regles": "ORB 60 min : ordres stop au plus haut / plus bas de la 1re heure, entrées jusqu'à ouverture + 3 h, stop au bord opposé, objectif 1 R, sinon clôture ; après une perte, 2e cassure possible. Filtre : achats seulement si clôture de la veille > SMA200 journalière, ventes seulement si < SMA200.",
+   "diagnostic": {
+    "candidats": 1955,
+    "trades_pris": 1838,
+    "part_2e_trade_pct": 0.3,
+    "trades_par_an_median": 122.0,
+    "e_brute": 0.0278,
+    "cout_median_r": {
+     "2011-2018": 0.071,
+     "2019-2026": 0.013
+    },
+    "sorties_pct": {
+     "EOD": 53.6,
+     "SL": 24.3,
+     "TP": 22.1
+    },
+    "achats_pct": 84.9,
+    "net_1er_trade": -0.0186,
+    "net_2e_trade": -0.2344
+   }
+  },
+  "V13": {
+   "label": "V13 Williams 0,5 objectif 1:1 Nasdaq",
+   "net": {
+    "trades": 3390,
+    "e_r": 0.019807517924873987,
+    "pf": 1.0542785966306496,
+    "win_rate": 53.03834808259587,
+    "resultat_eur": 6714.748576532282,
+    "max_dd_eur": 8964.553525732861
+   },
+   "brut": {
+    "trades": 3390,
+    "e_r": 0.08308501705345525,
+    "pf": 1.2483254816786924,
+    "win_rate": 55.19174041297935,
+    "resultat_eur": 28165.82078112133,
+    "max_dd_eur": 2199.263568250167
+   },
+   "decouverte_2011_2018": {
+    "trades": 1774,
+    "e_r": -0.0415197864789558,
+    "pf": 0.8970651534761848,
+    "win_rate": 50.62006764374295,
+    "resultat_eur": -7365.61012136676,
+    "max_dd_eur": 8964.553525732861
+   },
+   "validation_2019_2026": {
+    "trades": 1616,
+    "e_r": 0.08713093253650396,
+    "pf": 1.2699821954162658,
+    "win_rate": 55.693069306930695,
+    "resultat_eur": 14080.35869789904,
+    "max_dd_eur": 1411.9554323227874
+   },
+   "e_frais_x2": -0.04346998120370726,
+   "t_stat": 1.385138992751397,
+   "sans_top10": 0.0169221200329397,
+   "annees_positives": "11/16",
+   "par_annee_eur": {
+    "2011": -1349,
+    "2012": -1862,
+    "2013": -4439,
+    "2014": -561,
+    "2015": 1769,
+    "2016": 166,
+    "2017": -1439,
+    "2018": 349,
+    "2019": 684,
+    "2020": 274,
+    "2021": 3393,
+    "2022": 2235,
+    "2023": 690,
+    "2024": 2535,
+    "2025": 2331,
+    "2026": 1937
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 70.1,
+    "jours_positifs_pct_jours_trades": 52.8,
+    "jours_50eur_ou_plus_pct": 39.4,
+    "eur_moyen_par_jour_ouvre": 1.63,
+    "eur_par_an": 426,
+    "pire_jour_eur": -255,
+    "pire_serie_jours_perdants": 12,
+    "mois_positifs_pct": 57.4,
+    "pire_mois_eur": -1367
+   },
+   "regles": "Williams k = 0,5 avec objectif (variante d'une stratégie validée) : ordres stop à ouverture ± 0,5 × amplitude de la veille, toute la séance, stop = ouverture, objectif 1 R au lieu de la clôture ; après une perte, l'autre niveau peut déclencher un 2e trade.",
+   "diagnostic": {
+    "candidats": 5049,
+    "trades_pris": 3390,
+    "part_2e_trade_pct": 14.9,
+    "trades_par_an_median": 217.5,
+    "e_brute": 0.0831,
+    "cout_median_r": {
+     "2011-2018": 0.092,
+     "2019-2026": 0.016
+    },
+    "sorties_pct": {
+     "EOD": 36.6,
+     "TP": 35.4,
+     "SL": 28.1
+    },
+    "achats_pct": 49.5,
+    "net_1er_trade": 0.0175,
+    "net_2e_trade": 0.0328
+   }
+  },
+  "V14": {
+   "label": "V14 Williams 0,5 objectif 1:1 S&P 500",
+   "net": {
+    "trades": 3393,
+    "e_r": -0.03454446371726255,
+    "pf": 0.9125053730944964,
+    "win_rate": 51.105216622458,
+    "resultat_eur": -11720.936539267184,
+    "max_dd_eur": 19045.840615751822
+   },
+   "brut": {
+    "trades": 3393,
+    "e_r": 0.05805877825774343,
+    "pf": 1.165880295816203,
+    "win_rate": 53.72826407309166,
+    "resultat_eur": 19699.343462852346,
+    "max_dd_eur": 2296.429051472684
+   },
+   "decouverte_2011_2018": {
+    "trades": 1778,
+    "e_r": -0.08389318813642636,
+    "pf": 0.8020857944548855,
+    "win_rate": 49.21259842519685,
+    "resultat_eur": -14916.208850656607,
+    "max_dd_eur": 16358.324495906016
+   },
+   "validation_2019_2026": {
+    "trades": 1615,
+    "e_r": 0.01978496787238034,
+    "pf": 1.054531724650325,
+    "win_rate": 53.188854489164086,
+    "resultat_eur": 3195.272311389425,
+    "max_dd_eur": 4340.230059430469
+   },
+   "e_frais_x2": -0.12714770569226852,
+   "t_stat": -2.405604100647626,
+   "sans_top10": -0.037567871645452985,
+   "annees_positives": "7/16",
+   "par_annee_eur": {
+    "2011": -1597,
+    "2012": -3416,
+    "2013": -2926,
+    "2014": -345,
+    "2015": -1740,
+    "2016": -2963,
+    "2017": -2831,
+    "2018": 901,
+    "2019": -1939,
+    "2020": -650,
+    "2021": 1342,
+    "2022": 1110,
+    "2023": 972,
+    "2024": 1209,
+    "2025": 765,
+    "2026": 385
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 70.2,
+    "jours_positifs_pct_jours_trades": 51.2,
+    "jours_50eur_ou_plus_pct": 37.8,
+    "eur_moyen_par_jour_ouvre": -2.85,
+    "eur_par_an": -743,
+    "pire_jour_eur": -275,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 43.7,
+    "pire_mois_eur": -998
+   },
+   "regles": "Williams k = 0,5 avec objectif (variante d'une stratégie validée) : ordres stop à ouverture ± 0,5 × amplitude de la veille, toute la séance, stop = ouverture, objectif 1 R au lieu de la clôture ; après une perte, l'autre niveau peut déclencher un 2e trade.",
+   "diagnostic": {
+    "candidats": 5051,
+    "trades_pris": 3393,
+    "part_2e_trade_pct": 14.8,
+    "trades_par_an_median": 218.0,
+    "e_brute": 0.0581,
+    "cout_median_r": {
+     "2011-2018": 0.12,
+     "2019-2026": 0.039
+    },
+    "sorties_pct": {
+     "EOD": 36.5,
+     "TP": 34.1,
+     "SL": 29.4
+    },
+    "achats_pct": 49.2,
+    "net_1er_trade": -0.0336,
+    "net_2e_trade": -0.0397
+   }
+  },
+  "V15": {
+   "label": "V15 Williams 0,5 objectif 1:1 Nikkei",
+   "net": {
+    "trades": 3193,
+    "e_r": -0.07579874563198859,
+    "pf": 0.8177852624018126,
+    "win_rate": 49.95302223614156,
+    "resultat_eur": -24202.539480293955,
+    "max_dd_eur": 26967.90504314597
+   },
+   "brut": {
+    "trades": 3193,
+    "e_r": 0.06959508334213378,
+    "pf": 1.2012892712634584,
+    "win_rate": 53.17882868775447,
+    "resultat_eur": 22221.710111143315,
+    "max_dd_eur": 2029.921593879029
+   },
+   "decouverte_2011_2018": {
+    "trades": 1544,
+    "e_r": -0.12270098231486538,
+    "pf": 0.7260560572040525,
+    "win_rate": 49.02849740932643,
+    "resultat_eur": -18945.031669415213,
+    "max_dd_eur": 20216.062464888753
+   },
+   "validation_2019_2026": {
+    "trades": 1649,
+    "e_r": -0.0318830067366813,
+    "pf": 0.9174226444841245,
+    "win_rate": 50.81867798665858,
+    "resultat_eur": -5257.507810878747,
+    "max_dd_eur": 7765.613663545953
+   },
+   "e_frais_x2": -0.22119257460611097,
+   "t_stat": -5.059611084537757,
+   "sans_top10": -0.07912723574587278,
+   "annees_positives": "4/16",
+   "par_annee_eur": {
+    "2011": -4440,
+    "2012": -3638,
+    "2013": -3295,
+    "2014": -1286,
+    "2015": -1371,
+    "2016": -1104,
+    "2017": -2599,
+    "2018": -1212,
+    "2019": -2194,
+    "2020": -1561,
+    "2021": 92,
+    "2022": -1809,
+    "2023": 401,
+    "2024": -1503,
+    "2025": 579,
+    "2026": 738
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 66.6,
+    "jours_positifs_pct_jours_trades": 50.3,
+    "jours_50eur_ou_plus_pct": 38.4,
+    "eur_moyen_par_jour_ouvre": -5.88,
+    "eur_par_an": -1535,
+    "pire_jour_eur": -604,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 36.8,
+    "pire_mois_eur": -1055
+   },
+   "regles": "Williams k = 0,5 avec objectif (variante d'une stratégie validée) : ordres stop à ouverture ± 0,5 × amplitude de la veille, toute la séance, stop = ouverture, objectif 1 R au lieu de la clôture ; après une perte, l'autre niveau peut déclencher un 2e trade.",
+   "diagnostic": {
+    "candidats": 4824,
+    "trades_pris": 3193,
+    "part_2e_trade_pct": 14.2,
+    "trades_par_an_median": 209.0,
+    "e_brute": 0.0696,
+    "cout_median_r": {
+     "2011-2018": 0.171,
+     "2019-2026": 0.083
+    },
+    "sorties_pct": {
+     "EOD": 35.8,
+     "TP": 35.7,
+     "SL": 28.5
+    },
+    "achats_pct": 48.7,
+    "net_1er_trade": -0.0694,
+    "net_2e_trade": -0.1145
+   }
+  },
+  "V16": {
+   "label": "V16 Williams 0,5 objectif 1:1, 4 indices",
+   "net": {
+    "trades": 5646,
+    "e_r": -0.07941390174589509,
+    "pf": 0.8116119348096734,
+    "win_rate": 48.777895855472906,
+    "resultat_eur": -44837.088925732365,
+    "max_dd_eur": 47692.645686231765
+   },
+   "brut": {
+    "trades": 5646,
+    "e_r": 0.030465254151323094,
+    "pf": 1.082893363610971,
+    "win_rate": 51.15125752745306,
+    "resultat_eur": 17200.68249383702,
+    "max_dd_eur": 3397.70459819965
+   },
+   "decouverte_2011_2018": {
+    "trades": 2887,
+    "e_r": -0.10076065061393599,
+    "pf": 0.7689165459885163,
+    "win_rate": 48.6664357464496,
+    "resultat_eur": -29089.599832243322,
+    "max_dd_eur": 30285.333764267136
+   },
+   "validation_2019_2026": {
+    "trades": 2759,
+    "e_r": -0.05707679990391099,
+    "pf": 0.859548337303108,
+    "win_rate": 48.89452700253715,
+    "resultat_eur": -15747.489093489043,
+    "max_dd_eur": 18165.637223856884
+   },
+   "e_frais_x2": -0.18929305764311327,
+   "t_stat": -7.050483497739408,
+   "sans_top10": -0.08131486187048673,
+   "annees_positives": "1/16",
+   "par_annee_eur": {
+    "2011": -5473,
+    "2012": -5376,
+    "2013": -3338,
+    "2014": -1000,
+    "2015": -5225,
+    "2016": -2574,
+    "2017": -3592,
+    "2018": -2511,
+    "2019": -5034,
+    "2020": -2861,
+    "2021": -2038,
+    "2022": -3155,
+    "2023": -829,
+    "2024": -1743,
+    "2025": -595,
+    "2026": 508
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 95.5,
+    "jours_positifs_pct_jours_trades": 55.8,
+    "jours_50eur_ou_plus_pct": 40.8,
+    "eur_moyen_par_jour_ouvre": -10.9,
+    "eur_par_an": -2844,
+    "pire_jour_eur": -604,
+    "pire_serie_jours_perdants": 8,
+    "mois_positifs_pct": 32.6,
+    "pire_mois_eur": -1736
+   },
+   "regles": "Williams k = 0,5 avec objectif (variante d'une stratégie validée) : ordres stop à ouverture ± 0,5 × amplitude de la veille, toute la séance, stop = ouverture, objectif 1 R au lieu de la clôture ; après une perte, l'autre niveau peut déclencher un 2e trade. 4 indices : 1er signal du jour tous indices confondus (Nikkei, FTSE, puis US).",
+   "diagnostic": {
+    "candidats": 20085,
+    "trades_pris": 5646,
+    "part_2e_trade_pct": 30.4,
+    "trades_par_an_median": 362.5,
+    "e_brute": 0.0305,
+    "cout_median_r": {
+     "2011-2018": 0.112,
+     "2019-2026": 0.062
+    },
+    "sorties_pct": {
+     "EOD": 35.2,
+     "TP": 34.0,
+     "SL": 30.7
+    },
+    "achats_pct": 49.0,
+    "par_marche": {
+     "FTSE100": {
+      "trades": 1659,
+      "e_nette": -0.1093,
+      "resultat_eur": -18131
+     },
+     "NASDAQ100": {
+      "trades": 467,
+      "e_nette": -0.0339,
+      "resultat_eur": -1583
+     },
+     "NIKKEI225": {
+      "trades": 3193,
+      "e_nette": -0.0758,
+      "resultat_eur": -24203
+     },
+     "SP500": {
+      "trades": 327,
+      "e_nette": -0.0281,
+      "resultat_eur": -920
+     }
+    },
+    "net_1er_trade": -0.0719,
+    "net_2e_trade": -0.0967
+   }
+  },
+  "V17": {
+   "label": "V17 Williams 0,5 1:1 + SMA200 Nasdaq",
+   "net": {
+    "trades": 1656,
+    "e_r": 0.02069844033032096,
+    "pf": 1.0604037978705954,
+    "win_rate": 52.83816425120773,
+    "resultat_eur": 3427.661718701151,
+    "max_dd_eur": 3805.1258099645934
+   },
+   "brut": {
+    "trades": 1656,
+    "e_r": 0.08037366389062016,
+    "pf": 1.255915459025387,
+    "win_rate": 55.67632850241546,
+    "resultat_eur": 13309.878740286698,
+    "max_dd_eur": 1293.0921814792187
+   },
+   "decouverte_2011_2018": {
+    "trades": 812,
+    "e_r": -0.026837385219785605,
+    "pf": 0.9282856088499669,
+    "win_rate": 50.61576354679803,
+    "resultat_eur": -2179.1956798465912,
+    "max_dd_eur": 3500.15112711502
+   },
+   "validation_2019_2026": {
+    "trades": 844,
+    "e_r": 0.06643195969843295,
+    "pf": 1.2127141172911993,
+    "win_rate": 54.976303317535546,
+    "resultat_eur": 5606.8573985477415,
+    "max_dd_eur": 1625.5333963941425
+   },
+   "e_frais_x2": -0.03897678322997824,
+   "t_stat": 1.054478251111211,
+   "sans_top10": 0.014787540102345276,
+   "annees_positives": "10/16",
+   "par_annee_eur": {
+    "2011": -66,
+    "2012": -394,
+    "2013": -1994,
+    "2014": -650,
+    "2015": 256,
+    "2016": 120,
+    "2017": 94,
+    "2018": 454,
+    "2019": -332,
+    "2020": -855,
+    "2021": 2520,
+    "2022": 1210,
+    "2023": 277,
+    "2024": 963,
+    "2025": 1338,
+    "2026": 485
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 37.0,
+    "jours_positifs_pct_jours_trades": 53.1,
+    "jours_50eur_ou_plus_pct": 36.7,
+    "eur_moyen_par_jour_ouvre": 0.83,
+    "eur_par_an": 217,
+    "pire_jour_eur": -252,
+    "pire_serie_jours_perdants": 9,
+    "mois_positifs_pct": 51.1,
+    "pire_mois_eur": -993
+   },
+   "regles": "Williams k = 0,5 avec objectif (variante d'une stratégie validée) : ordres stop à ouverture ± 0,5 × amplitude de la veille, toute la séance, stop = ouverture, objectif 1 R au lieu de la clôture ; après une perte, l'autre niveau peut déclencher un 2e trade. Filtre : achats seulement si clôture de la veille > SMA200 journalière, ventes seulement si < SMA200.",
+   "diagnostic": {
+    "candidats": 2275,
+    "trades_pris": 1656,
+    "part_2e_trade_pct": 8.1,
+    "trades_par_an_median": 107.5,
+    "e_brute": 0.0804,
+    "cout_median_r": {
+     "2011-2018": 0.091,
+     "2019-2026": 0.016
+    },
+    "sorties_pct": {
+     "EOD": 42.5,
+     "TP": 31.3,
+     "SL": 26.1
+    },
+    "achats_pct": 83.6,
+    "net_1er_trade": 0.0236,
+    "net_2e_trade": -0.0117
+   }
+  },
+  "V18": {
+   "label": "V18 1er repli EMA20 M5 Nasdaq",
+   "net": {
+    "trades": 3512,
+    "e_r": -0.02574452807672566,
+    "pf": 0.9254470839842004,
+    "win_rate": 50.02847380410023,
+    "resultat_eur": -9041.478260546051,
+    "max_dd_eur": 13800.354743551386
+   },
+   "brut": {
+    "trades": 3512,
+    "e_r": 0.01751490515387674,
+    "pf": 1.0541255860955474,
+    "win_rate": 51.93621867881549,
+    "resultat_eur": 6151.2346900415105,
+    "max_dd_eur": 3707.894715257948
+   },
+   "decouverte_2011_2018": {
+    "trades": 1810,
+    "e_r": -0.060723133103732924,
+    "pf": 0.833488633397389,
+    "win_rate": 48.34254143646409,
+    "resultat_eur": -10990.88709177566,
+    "max_dd_eur": 13800.354743551386
+   },
+   "validation_2019_2026": {
+    "trades": 1702,
+    "e_r": 0.011453635906166902,
+    "pf": 1.0352711884536259,
+    "win_rate": 51.8213866039953,
+    "resultat_eur": 1949.4088312296067,
+    "max_dd_eur": 2188.6568392402924
+   },
+   "e_frais_x2": -0.06900396130732805,
+   "t_stat": -2.0096716521244367,
+   "sans_top10": -0.02866002597327284,
+   "annees_positives": "6/16",
+   "par_annee_eur": {
+    "2011": 283,
+    "2012": -1506,
+    "2013": -3996,
+    "2014": -1087,
+    "2015": -1964,
+    "2016": -1403,
+    "2017": -1661,
+    "2018": 344,
+    "2019": -635,
+    "2020": 1111,
+    "2021": 374,
+    "2022": 740,
+    "2023": -25,
+    "2024": -936,
+    "2025": 1411,
+    "2026": -91
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 82.0,
+    "jours_positifs_pct_jours_trades": 50.3,
+    "jours_50eur_ou_plus_pct": 31.2,
+    "eur_moyen_par_jour_ouvre": -2.2,
+    "eur_par_an": -573,
+    "pire_jour_eur": -228,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 42.1,
+    "pire_mois_eur": -1415
+   },
+   "regles": "1er repli sur l'EMA20 M5 dans le sens des 30 premières minutes : bougie M5 (début entre ouverture + 30 et + 175 min) dont le bas touche l'EMA20 et qui clôture au-dessus (miroir en vente) ; entrée à sa clôture ; stop et objectif à 0,5 × ATR14 (1:1) ; repli suivant possible après une perte.",
+   "diagnostic": {
+    "candidats": 3641,
+    "trades_pris": 3512,
+    "part_2e_trade_pct": 4.0,
+    "trades_par_an_median": 228.5,
+    "e_brute": 0.0175,
+    "cout_median_r": {
+     "2011-2018": 0.067,
+     "2019-2026": 0.012
+    },
+    "sorties_pct": {
+     "EOD": 52.6,
+     "SL": 23.8,
+     "TP": 23.7
+    },
+    "achats_pct": 52.5,
+    "net_1er_trade": -0.0225,
+    "net_2e_trade": -0.1051
+   }
+  },
+  "V19": {
+   "label": "V19 1er repli EMA20 M5 S&P 500",
+   "net": {
+    "trades": 3472,
+    "e_r": -0.04080308890999949,
+    "pf": 0.8866861881168199,
+    "win_rate": 48.61751152073733,
+    "resultat_eur": -14166.83246955182,
+    "max_dd_eur": 16289.043718325485
+   },
+   "brut": {
+    "trades": 3472,
+    "e_r": 0.020304172819928256,
+    "pf": 1.0616723011856612,
+    "win_rate": 51.18087557603687,
+    "resultat_eur": 7049.60880307909,
+    "max_dd_eur": 2567.9662346124155
+   },
+   "decouverte_2011_2018": {
+    "trades": 1771,
+    "e_r": -0.08457306478323894,
+    "pf": 0.7831206702660496,
+    "win_rate": 46.80971202710333,
+    "resultat_eur": -14977.889773111616,
+    "max_dd_eur": 15754.820357059663
+   },
+   "validation_2019_2026": {
+    "trades": 1701,
+    "e_r": 0.004768120538270404,
+    "pf": 1.0144929849438296,
+    "win_rate": 50.499706055261605,
+    "resultat_eur": 811.0573035597957,
+    "max_dd_eur": 3087.6719454147105
+   },
+   "e_frais_x2": -0.10191035063992723,
+   "t_stat": -3.114150727090171,
+   "sans_top10": -0.043780128617334595,
+   "annees_positives": "7/16",
+   "par_annee_eur": {
+    "2011": -1259,
+    "2012": -2674,
+    "2013": -2171,
+    "2014": -2183,
+    "2015": -1152,
+    "2016": -2886,
+    "2017": -2725,
+    "2018": 71,
+    "2019": 389,
+    "2020": 141,
+    "2021": 745,
+    "2022": -1559,
+    "2023": 314,
+    "2024": 260,
+    "2025": 772,
+    "2026": -251
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 81.7,
+    "jours_positifs_pct_jours_trades": 48.5,
+    "jours_50eur_ou_plus_pct": 31.6,
+    "eur_moyen_par_jour_ouvre": -3.44,
+    "eur_par_an": -899,
+    "pire_jour_eur": -227,
+    "pire_serie_jours_perdants": 13,
+    "mois_positifs_pct": 40.0,
+    "pire_mois_eur": -1212
+   },
+   "regles": "1er repli sur l'EMA20 M5 dans le sens des 30 premières minutes : bougie M5 (début entre ouverture + 30 et + 175 min) dont le bas touche l'EMA20 et qui clôture au-dessus (miroir en vente) ; entrée à sa clôture ; stop et objectif à 0,5 × ATR14 (1:1) ; repli suivant possible après une perte.",
+   "diagnostic": {
+    "candidats": 3584,
+    "trades_pris": 3472,
+    "part_2e_trade_pct": 3.2,
+    "trades_par_an_median": 225.5,
+    "e_brute": 0.0203,
+    "cout_median_r": {
+     "2011-2018": 0.087,
+     "2019-2026": 0.027
+    },
+    "sorties_pct": {
+     "EOD": 49.8,
+     "TP": 25.8,
+     "SL": 24.4
+    },
+    "achats_pct": 50.4,
+    "net_1er_trade": -0.0431,
+    "net_2e_trade": 0.029
+   }
+  },
+  "V20": {
+   "label": "V20 Gap & go confirmé Nasdaq",
+   "net": {
+    "trades": 881,
+    "e_r": 0.041968072769493714,
+    "pf": 1.136318162199875,
+    "win_rate": 54.710556186152104,
+    "resultat_eur": 3697.387210992396,
+    "max_dd_eur": 1128.08836858771
+   },
+   "brut": {
+    "trades": 881,
+    "e_r": 0.0746634897348667,
+    "pf": 1.255276160462951,
+    "win_rate": 56.186152099886485,
+    "resultat_eur": 6577.8534456417565,
+    "max_dd_eur": 972.5485041703301
+   },
+   "decouverte_2011_2018": {
+    "trades": 407,
+    "e_r": 0.018700396350471098,
+    "pf": 1.0567374852787796,
+    "win_rate": 52.579852579852584,
+    "resultat_eur": 761.1061314641736,
+    "max_dd_eur": 1128.08836858771
+   },
+   "validation_2019_2026": {
+    "trades": 474,
+    "e_r": 0.06194685821789499,
+    "pf": 1.2141911005825603,
+    "win_rate": 56.540084388185655,
+    "resultat_eur": 2936.2810795282226,
+    "max_dd_eur": 1009.9778710477668
+   },
+   "e_frais_x2": 0.009272655804120724,
+   "t_stat": 1.660428730361295,
+   "sans_top10": 0.03101495699077963,
+   "annees_positives": "11/16",
+   "par_annee_eur": {
+    "2011": 73,
+    "2012": 488,
+    "2013": -92,
+    "2014": 568,
+    "2015": 482,
+    "2016": -235,
+    "2017": -396,
+    "2018": -128,
+    "2019": 681,
+    "2020": 712,
+    "2021": 28,
+    "2022": 943,
+    "2023": 141,
+    "2024": 557,
+    "2025": -258,
+    "2026": 132
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 21.4,
+    "jours_positifs_pct_jours_trades": 54.7,
+    "jours_50eur_ou_plus_pct": 33.4,
+    "eur_moyen_par_jour_ouvre": 0.9,
+    "eur_par_an": 235,
+    "pire_jour_eur": -121,
+    "pire_serie_jours_perdants": 9,
+    "mois_positifs_pct": 54.2,
+    "pire_mois_eur": -394
+   },
+   "regles": "Gap & go confirmé : |gap| ≥ 0,25 × ATR14 et 1re bougie M15 dans le sens du gap ; entrée à sa clôture dans le sens du gap ; stop = clôture de la veille ; objectif 1:1 ; 1 trade max par jour.",
+   "diagnostic": {
+    "candidats": 881,
+    "trades_pris": 881,
+    "part_2e_trade_pct": 0.0,
+    "trades_par_an_median": 58.0,
+    "e_brute": 0.0747,
+    "cout_median_r": {
+     "2011-2018": 0.049,
+     "2019-2026": 0.01
+    },
+    "sorties_pct": {
+     "EOD": 53.6,
+     "TP": 24.9,
+     "SL": 21.6
+    },
+    "achats_pct": 60.5,
+    "net_1er_trade": 0.042,
+    "net_2e_trade": null
+   }
+  }
+ },
+ "diagnostics_par_marche": {
+  "A1 NIKKEI225": {
+   "label": "diag A1 NIKKEI225 (diagnostic, non compté)",
+   "net": {
+    "trades": 3565,
+    "e_r": -0.2531729555960424,
+    "pf": 0.5862029102575885,
+    "win_rate": 50.07012622720898,
+    "resultat_eur": -90256.15866998912,
+    "max_dd_eur": 92095.13387912033
+   },
+   "brut": {
+    "trades": 3565,
+    "e_r": 0.04973974049692968,
+    "pf": 1.1101900378914276,
+    "win_rate": 52.45441795231417,
+    "resultat_eur": 17732.21748715543,
+    "max_dd_eur": 2601.865515600039
+   },
+   "decouverte_2011_2018": {
+    "trades": 1709,
+    "e_r": -0.3922434487149948,
+    "pf": 0.4417205513778049,
+    "win_rate": 48.74195435927443,
+    "resultat_eur": -67034.4053853926,
+    "max_dd_eur": 67105.83395682133
+   },
+   "validation_2019_2026": {
+    "trades": 1856,
+    "e_r": -0.1251172051971795,
+    "pf": 0.7631490443684724,
+    "win_rate": 51.293103448275865,
+    "resultat_eur": -23221.753284596518,
+    "max_dd_eur": 25321.771730726963
+   },
+   "e_frais_x2": -0.5560856516890145,
+   "t_stat": -14.507536086109653,
+   "sans_top10": -0.25664339187245655,
+   "annees_positives": "1/16",
+   "par_annee_eur": {
+    "2011": -9671,
+    "2012": -15625,
+    "2013": -7261,
+    "2014": -8381,
+    "2015": -5818,
+    "2016": -5809,
+    "2017": -9063,
+    "2018": -5406,
+    "2019": -5700,
+    "2020": -5977,
+    "2021": -2047,
+    "2022": -3710,
+    "2023": -4240,
+    "2024": -1716,
+    "2025": -815,
+    "2026": 984
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 86.6,
+    "jours_positifs_pct_jours_trades": 50.1,
+    "jours_50eur_ou_plus_pct": 42.4,
+    "eur_moyen_par_jour_ouvre": -21.93,
+    "eur_par_an": -5725,
+    "pire_jour_eur": -700,
+    "pire_serie_jours_perdants": 14,
+    "mois_positifs_pct": 18.4,
+    "pire_mois_eur": -2049
+   },
+   "regles": "voir règle A1",
+   "diagnostic": {
+    "candidats": 3565,
+    "trades_pris": 3565,
+    "part_2e_trade_pct": 0.0,
+    "trades_par_an_median": 231.0,
+    "e_brute": 0.0497,
+    "cout_median_r": {
+     "2011-2018": 0.3,
+     "2019-2026": 0.124
+    },
+    "sorties_pct": {
+     "TP": 48.8,
+     "SL": 43.8,
+     "EOD": 7.5
+    },
+    "achats_pct": 50.1,
+    "net_1er_trade": -0.2532,
+    "net_2e_trade": null
+   }
+  },
+  "A1 SP500": {
+   "label": "diag A1 SP500 (diagnostic, non compté)",
+   "net": {
+    "trades": 3769,
+    "e_r": -0.19986624300426875,
+    "pf": 0.666085358153414,
+    "win_rate": 49.24383125497479,
+    "resultat_eur": -75329.58698830889,
+    "max_dd_eur": 75643.3749291923
+   },
+   "brut": {
+    "trades": 3769,
+    "e_r": 0.0003517024445119003,
+    "pf": 1.0007130050249204,
+    "win_rate": 50.09286282833643,
+    "resultat_eur": 132.55665133653523,
+    "max_dd_eur": 7759.1618415981775
+   },
+   "decouverte_2011_2018": {
+    "trades": 1931,
+    "e_r": -0.31118238759139805,
+    "pf": 0.5275774549078948,
+    "win_rate": 46.97048161574314,
+    "resultat_eur": -60089.31904389897,
+    "max_dd_eur": 60305.390472470346
+   },
+   "validation_2019_2026": {
+    "trades": 1838,
+    "e_r": -0.08291767107948819,
+    "pf": 0.8451213170572925,
+    "win_rate": 51.63220892274211,
+    "resultat_eur": -15240.26794440993,
+    "max_dd_eur": 15614.890979873502
+   },
+   "e_frais_x2": -0.40008418845304944,
+   "t_stat": -12.029201229338808,
+   "sans_top10": -0.20301249378699154,
+   "annees_positives": "1/16",
+   "par_annee_eur": {
+    "2011": -6619,
+    "2012": -10483,
+    "2013": -7955,
+    "2014": -8265,
+    "2015": -5345,
+    "2016": -6187,
+    "2017": -8629,
+    "2018": -6605,
+    "2019": -4134,
+    "2020": -2707,
+    "2021": 1752,
+    "2022": -1769,
+    "2023": -1335,
+    "2024": -4028,
+    "2025": -842,
+    "2026": -2178
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 91.6,
+    "jours_positifs_pct_jours_trades": 49.2,
+    "jours_50eur_ou_plus_pct": 47.1,
+    "eur_moyen_par_jour_ouvre": -18.31,
+    "eur_par_an": -4778,
+    "pire_jour_eur": -400,
+    "pire_serie_jours_perdants": 10,
+    "mois_positifs_pct": 22.6,
+    "pire_mois_eur": -1871
+   },
+   "regles": "voir règle A1",
+   "diagnostic": {
+    "candidats": 3769,
+    "trades_pris": 3769,
+    "part_2e_trade_pct": 0.0,
+    "trades_par_an_median": 242.0,
+    "e_brute": 0.0004,
+    "cout_median_r": {
+     "2011-2018": 0.222,
+     "2019-2026": 0.085
+    },
+    "sorties_pct": {
+     "TP": 49.0,
+     "SL": 48.9,
+     "EOD": 2.1
+    },
+    "achats_pct": 50.1,
+    "net_1er_trade": -0.1999,
+    "net_2e_trade": null
+   }
+  },
+  "D1 FTSE100": {
+   "label": "diag D1 FTSE100 (diagnostic, non compté)",
+   "net": {
+    "trades": 3554,
+    "e_r": -0.10803371312437887,
+    "pf": 0.754605088378311,
+    "win_rate": 45.77940348902645,
+    "resultat_eur": -38395.18164440425,
+    "max_dd_eur": 39548.81937022309
+   },
+   "brut": {
+    "trades": 3554,
+    "e_r": -0.052569371398971894,
+    "pf": 0.8718755349797984,
+    "win_rate": 47.1862689926843,
+    "resultat_eur": -18683.15459519461,
+    "max_dd_eur": 20259.286211911494
+   },
+   "decouverte_2011_2018": {
+    "trades": 1824,
+    "e_r": -0.09054368278113345,
+    "pf": 0.7895536395566781,
+    "win_rate": 46.92982456140351,
+    "resultat_eur": -16515.16773927874,
+    "max_dd_eur": 17749.450642836273
+   },
+   "validation_2019_2026": {
+    "trades": 1730,
+    "e_r": -0.12647406881575443,
+    "pf": 0.7194365567941364,
+    "win_rate": 44.566473988439306,
+    "resultat_eur": -21880.013905125514,
+    "max_dd_eur": 22374.856729569146
+   },
+   "e_frais_x2": -0.16349805484978588,
+   "t_stat": -7.596898901657287,
+   "sans_top10": -0.1111189092847686,
+   "annees_positives": "0/16",
+   "par_annee_eur": {
+    "2011": -630,
+    "2012": -1786,
+    "2013": -1991,
+    "2014": -982,
+    "2015": -3802,
+    "2016": -1740,
+    "2017": -4067,
+    "2018": -1517,
+    "2019": -2317,
+    "2020": -1304,
+    "2021": -4115,
+    "2022": -3172,
+    "2023": -3484,
+    "2024": -3057,
+    "2025": -3708,
+    "2026": -722
+   },
+   "valide": false,
+   "jour": {
+    "jours_ouvres": 4115,
+    "jours_avec_trade_pct": 70.8,
+    "jours_positifs_pct_jours_trades": 46.6,
+    "jours_50eur_ou_plus_pct": 34.0,
+    "eur_moyen_par_jour_ouvre": -9.33,
+    "eur_par_an": -2435,
+    "pire_jour_eur": -481,
+    "pire_serie_jours_perdants": 13,
+    "mois_positifs_pct": 33.7,
+    "pire_mois_eur": -1307
+   },
+   "regles": "voir règle D1",
+   "diagnostic": {
+    "candidats": 5161,
+    "trades_pris": 3554,
+    "part_2e_trade_pct": 18.0,
+    "trades_par_an_median": 232.0,
+    "e_brute": -0.0526,
+    "cout_median_r": {
+     "2011-2018": 0.055,
+     "2019-2026": 0.049
+    },
+    "sorties_pct": {
+     "SL": 35.0,
+     "EOD": 34.9,
+     "TP": 30.2
+    },
+    "achats_pct": 50.4,
+    "net_1er_trade": -0.0983,
+    "net_2e_trade": -0.1525
+   }
+  }
+ },
+ "controle_williams_cloture": {
+  "label": "CTRL Williams 0,5 Nasdaq sortie clôture (contrôle)",
+  "net": {
+   "trades": 2884,
+   "e_r": 0.042543731428595126,
+   "pf": 1.099661589744732,
+   "win_rate": 45.52704576976422,
+   "resultat_eur": 12269.612144006835,
+   "max_dd_eur": 8184.647955445876
+  },
+  "brut": {
+   "trades": 2884,
+   "e_r": 0.10344379817601973,
+   "pf": 1.2640117427804813,
+   "win_rate": 47.988904299583915,
+   "resultat_eur": 29833.19139396409,
+   "max_dd_eur": 3062.224276209972
+  },
+  "decouverte_2011_2018": {
+   "trades": 1499,
+   "e_r": -0.008481297582693233,
+   "pf": 0.9819683630742381,
+   "win_rate": 42.89526350900601,
+   "resultat_eur": -1271.3465076457155,
+   "max_dd_eur": 8184.647955445876
+  },
+  "validation_2019_2026": {
+   "trades": 1385,
+   "e_r": 0.09776865452456715,
+   "pf": 1.2574018020294266,
+   "win_rate": 48.375451263537904,
+   "resultat_eur": 13540.95865165255,
+   "max_dd_eur": 1394.2470246974353
+  },
+  "e_frais_x2": -0.018356335318829464,
+  "t_stat": 1.936650113608231,
+  "sans_top10": 0.020723114495995607,
+  "annees_positives": "12/16",
+  "par_annee_eur": {
+   "2011": -1814,
+   "2012": -553,
+   "2013": -4092,
+   "2014": 118,
+   "2015": -235,
+   "2016": 1220,
+   "2017": 368,
+   "2018": 3717,
+   "2019": 1751,
+   "2020": 1061,
+   "2021": 2443,
+   "2022": 2224,
+   "2023": 855,
+   "2024": 3082,
+   "2025": 1437,
+   "2026": 689
+  },
+  "valide": false,
+  "jour": {
+   "jours_ouvres": 4115,
+   "jours_avec_trade_pct": 70.1,
+   "jours_positifs_pct_jours_trades": 45.5,
+   "jours_50eur_ou_plus_pct": 28.4,
+   "eur_moyen_par_jour_ouvre": 2.98,
+   "eur_par_an": 778,
+   "pire_jour_eur": -134,
+   "pire_serie_jours_perdants": 18,
+   "mois_positifs_pct": 51.6,
+   "pire_mois_eur": -1588
+  },
+  "regles": "contrôle",
+  "diagnostic": {
+   "candidats": 2884,
+   "trades_pris": 2884,
+   "part_2e_trade_pct": 0.0,
+   "trades_par_an_median": 185.5,
+   "e_brute": 0.1034,
+   "cout_median_r": {
+    "2011-2018": 0.089,
+    "2019-2026": 0.016
+   },
+   "sorties_pct": {
+    "EOD": 66.9,
+    "SL": 33.1
+   },
+   "achats_pct": 49.4,
+   "net_1er_trade": 0.0425,
+   "net_2e_trade": null
+  }
+ },
+ "sensibilite_cout_proportionnel": {
+  "V01": {
+   "label": "V01 coût ∝ prix (information)",
+   "net": {
+    "trades": 3791,
+    "e_r": -0.05076537320873996,
+    "pf": 0.9007340270893229,
+    "win_rate": 50.27697177525718,
+    "resultat_eur": -19245.152983433316,
+    "max_dd_eur": 21924.049743560703
+   },
+   "brut": {
+    "trades": 3791,
+    "e_r": 0.00813790366773779,
+    "pf": 1.0169160067798766,
+    "win_rate": 50.38248483249802,
+    "resultat_eur": 3085.079280439396,
+    "max_dd_eur": 5258.216618556961
+   },
+   "decouverte_2011_2018": {
+    "trades": 1958,
+    "e_r": -0.08992419140246727,
+    "pf": 0.8306082215800059,
+    "win_rate": 48.46782431052094,
+    "resultat_eur": -17607.156676603092,
+    "max_dd_eur": 17890.764131358977
+   },
+   "validation_2019_2026": {
+    "trades": 1833,
+    "e_r": -0.008936150064540243,
+    "pf": 0.9817861228480183,
+    "win_rate": 52.209492635024546,
+    "resultat_eur": -1637.9963068302268,
+    "max_dd_eur": 5514.253549960955
+   },
+   "e_frais_x2": -0.1096686500852177,
+   "t_stat": -3.1701508047587152,
+   "sans_top10": -0.053522640008733045,
+   "annees_positives": "5/16",
+   "par_annee_eur": {
+    "2011": -1144,
+    "2012": -2005,
+    "2013": -2021,
+    "2014": -3706,
+    "2015": -2699,
+    "2016": -690,
+    "2017": -3442,
+    "2018": -1900,
+    "2019": 634,
+    "2020": -2540,
+    "2021": -1383,
+    "2022": 831,
+    "2023": 971,
+    "2024": 29,
+    "2025": -612,
+    "2026": 432
+   },
+   "valide": false
+  },
+  "V04": {
+   "label": "V04 coût ∝ prix (information)",
+   "net": {
+    "trades": 3791,
+    "e_r": -0.02845132387964864,
+    "pf": 0.9553403450097445,
+    "win_rate": 37.193352677393825,
+    "resultat_eur": -10785.8968827748,
+    "max_dd_eur": 19308.52198769725
+   },
+   "brut": {
+    "trades": 3791,
+    "e_r": 0.030451952996829106,
+    "pf": 1.0509250225223585,
+    "win_rate": 37.378000527565284,
+    "resultat_eur": 11544.335381097915,
+    "max_dd_eur": 7742.152268230668
+   },
+   "decouverte_2011_2018": {
+    "trades": 1958,
+    "e_r": -0.07456659033059368,
+    "pf": 0.8863783949214494,
+    "win_rate": 35.495403472931564,
+    "resultat_eur": -14600.138386730243,
+    "max_dd_eur": 16502.45555534421
+   },
+   "validation_2019_2026": {
+    "trades": 1833,
+    "e_r": 0.020808737064677823,
+    "pf": 1.03374977722715,
+    "win_rate": 39.00709219858156,
+    "resultat_eur": 3814.241503955445,
+    "max_dd_eur": 5262.363356919656
+   },
+   "e_frais_x2": -0.08735460075612639,
+   "t_stat": -1.309264682440103,
+   "sans_top10": -0.03378715312346783,
+   "annees_positives": "6/16",
+   "par_annee_eur": {
+    "2011": -1167,
+    "2012": -1106,
+    "2013": -940,
+    "2014": -4405,
+    "2015": -3848,
+    "2016": -1342,
+    "2017": -2161,
+    "2018": 369,
+    "2019": -649,
+    "2020": -2062,
+    "2021": 5,
+    "2022": 1523,
+    "2023": 923,
+    "2024": 2789,
+    "2025": 1591,
+    "2026": -305
+   },
+   "valide": false
+  },
+  "V05": {
+   "label": "V05 coût ∝ prix (information)",
+   "net": {
+    "trades": 5346,
+    "e_r": 0.004611196769960478,
+    "pf": 1.0082289912118256,
+    "win_rate": 40.74074074074074,
+    "resultat_eur": 2465.1457932208714,
+    "max_dd_eur": 10582.72744306305
+   },
+   "brut": {
+    "trades": 5346,
+    "e_r": 0.04108587270731249,
+    "pf": 1.07627542059547,
+    "win_rate": 41.058735503179946,
+    "resultat_eur": 21964.507549329257,
+    "max_dd_eur": 5736.34545469147
+   },
+   "decouverte_2011_2018": {
+    "trades": 2823,
+    "e_r": -0.032910156001067364,
+    "pf": 0.9431892864975443,
+    "win_rate": 38.85936946510804,
+    "resultat_eur": -9290.537039101318,
+    "max_dd_eur": 10582.72744306305
+   },
+   "validation_2019_2026": {
+    "trades": 2523,
+    "e_r": 0.046594065922799015,
+    "pf": 1.0864175829221687,
+    "win_rate": 42.84581847007531,
+    "resultat_eur": 11755.68283232219,
+    "max_dd_eur": 3755.8115331494037
+   },
+   "e_frais_x2": -0.03186347916739154,
+   "t_stat": 0.27117881635659713,
+   "sans_top10": 0.0008879728094294175,
+   "annees_positives": "7/16",
+   "par_annee_eur": {
+    "2011": 592,
+    "2012": -1233,
+    "2013": 361,
+    "2014": -2659,
+    "2015": -2897,
+    "2016": -1052,
+    "2017": -1621,
+    "2018": -781,
+    "2019": 1182,
+    "2020": -565,
+    "2021": 4225,
+    "2022": 2051,
+    "2023": -78,
+    "2024": 3004,
+    "2025": 2932,
+    "2026": -994
+   },
+   "valide": false
+  },
+  "V06": {
+   "label": "V06 coût ∝ prix (information)",
+   "net": {
+    "trades": 3576,
+    "e_r": 0.011446007988858092,
+    "pf": 1.0338619306076329,
+    "win_rate": 51.985458612975386,
+    "resultat_eur": 4093.0924568156533,
+    "max_dd_eur": 3346.279030110155
+   },
+   "brut": {
+    "trades": 3576,
+    "e_r": 0.03374753236333202,
+    "pf": 1.1030908145601908,
+    "win_rate": 52.880313199105146,
+    "resultat_eur": 12068.117573127533,
+    "max_dd_eur": 2688.0237979422895
+   },
+   "decouverte_2011_2018": {
+    "trades": 1872,
+    "e_r": -0.0038640418014534114,
+    "pf": 0.9890357635841792,
+    "win_rate": 50.85470085470085,
+    "resultat_eur": -723.3486252320786,
+    "max_dd_eur": 3346.279030110155
+   },
+   "validation_2019_2026": {
+    "trades": 1704,
+    "e_r": 0.028265499307791854,
+    "pf": 1.0877272173025765,
+    "win_rate": 53.22769953051644,
+    "resultat_eur": 4816.441082047732,
+    "max_dd_eur": 1690.659128682087
+   },
+   "e_frais_x2": -0.010855516385615837,
+   "t_stat": 0.8823450059256855,
+   "sans_top10": 0.008690199911096926,
+   "annees_positives": "10/16",
+   "par_annee_eur": {
+    "2011": -167,
+    "2012": 59,
+    "2013": -168,
+    "2014": 699,
+    "2015": -1240,
+    "2016": 217,
+    "2017": 424,
+    "2018": -548,
+    "2019": 502,
+    "2020": 567,
+    "2021": 1378,
+    "2022": 1683,
+    "2023": 616,
+    "2024": 641,
+    "2025": -473,
+    "2026": -98
+   },
+   "valide": false
+  },
+  "V11": {
+   "label": "V11 coût ∝ prix (information)",
+   "net": {
+    "trades": 3576,
+    "e_r": 0.012281107641989728,
+    "pf": 1.0345842728843044,
+    "win_rate": 49.272930648769574,
+    "resultat_eur": 4391.7240927755265,
+    "max_dd_eur": 4894.982806054827
+   },
+   "brut": {
+    "trades": 3576,
+    "e_r": 0.03458263201646366,
+    "pf": 1.1006468817518746,
+    "win_rate": 50.251677852349,
+    "resultat_eur": 12366.749209087404,
+    "max_dd_eur": 3729.2234018032714
+   },
+   "decouverte_2011_2018": {
+    "trades": 1872,
+    "e_r": -0.0008382246378203572,
+    "pf": 0.9977462271862497,
+    "win_rate": 47.91666666666667,
+    "resultat_eur": -156.91565219997088,
+    "max_dd_eur": 4894.982806054827
+   },
+   "validation_2019_2026": {
+    "trades": 1704,
+    "e_r": 0.026693895216992357,
+    "pf": 1.0792962372767585,
+    "win_rate": 50.762910798122064,
+    "resultat_eur": 4548.639744975498,
+    "max_dd_eur": 2161.8063467404054
+   },
+   "e_frais_x2": -0.0100204167324842,
+   "t_stat": 0.840837837187704,
+   "sans_top10": 0.006730578394792613,
+   "annees_positives": "10/16",
+   "par_annee_eur": {
+    "2011": 52,
+    "2012": 1041,
+    "2013": -554,
+    "2014": 1123,
+    "2015": -1883,
+    "2016": -702,
+    "2017": -146,
+    "2018": 911,
+    "2019": 319,
+    "2020": 235,
+    "2021": 1822,
+    "2022": 1748,
+    "2023": 803,
+    "2024": 777,
+    "2025": -700,
+    "2026": -456
+   },
+   "valide": false
+  },
+  "V12": {
+   "label": "V12 coût ∝ prix (information)",
+   "net": {
+    "trades": 1838,
+    "e_r": 0.00511271688568824,
+    "pf": 1.0157596692248536,
+    "win_rate": 53.264417845484225,
+    "resultat_eur": 939.7173635894985,
+    "max_dd_eur": 2694.4694676437343
+   },
+   "brut": {
+    "trades": 1838,
+    "e_r": 0.02776509205748273,
+    "pf": 1.0884511021317989,
+    "win_rate": 54.24374319912949,
+    "resultat_eur": 5103.223920165326,
+    "max_dd_eur": 2156.111635142397
+   },
+   "decouverte_2011_2018": {
+    "trades": 921,
+    "e_r": -0.004410580905675078,
+    "pf": 0.9868589665987452,
+    "win_rate": 52.00868621064061,
+    "resultat_eur": -406.2145014126747,
+    "max_dd_eur": 2694.4694676437343
+   },
+   "validation_2019_2026": {
+    "trades": 917,
+    "e_r": 0.014677555779740174,
+    "pf": 1.0468703312828032,
+    "win_rate": 54.52562704471101,
+    "resultat_eur": 1345.931865002174,
+    "max_dd_eur": 1193.2963005153629
+   },
+   "e_frais_x2": -0.017539658286106246,
+   "t_stat": 0.29236543704792795,
+   "sans_top10": -0.00029147809358175467,
+   "annees_positives": "8/16",
+   "par_annee_eur": {
+    "2011": -215,
+    "2012": -130,
+    "2013": 19,
+    "2014": -195,
+    "2015": -311,
+    "2016": -1177,
+    "2017": 1467,
+    "2018": 136,
+    "2019": -662,
+    "2020": 562,
+    "2021": 983,
+    "2022": 167,
+    "2023": 504,
+    "2024": 392,
+    "2025": -404,
+    "2026": -196
+   },
+   "valide": false
+  },
+  "V13": {
+   "label": "V13 coût ∝ prix (information)",
+   "net": {
+    "trades": 3390,
+    "e_r": 0.054747307717912044,
+    "pf": 1.1575356749763037,
+    "win_rate": 54.18879056047198,
+    "resultat_eur": 18559.33731637218,
+    "max_dd_eur": 2841.972309205928
+   },
+   "brut": {
+    "trades": 3390,
+    "e_r": 0.08308501705345525,
+    "pf": 1.2483254816786924,
+    "win_rate": 55.19174041297935,
+    "resultat_eur": 28165.82078112133,
+    "max_dd_eur": 2199.263568250167
+   },
+   "decouverte_2011_2018": {
+    "trades": 1774,
+    "e_r": 0.02766266840986238,
+    "pf": 1.0749595991743521,
+    "win_rate": 52.87485907553551,
+    "resultat_eur": 4907.357375909586,
+    "max_dd_eur": 2841.972309205928
+   },
+   "validation_2019_2026": {
+    "trades": 1616,
+    "e_r": 0.08448007388900122,
+    "pf": 1.2608142927686339,
+    "win_rate": 55.63118811881188,
+    "resultat_eur": 13651.9799404626,
+    "max_dd_eur": 1362.337524948297
+   },
+   "e_frais_x2": 0.026409598382368855,
+   "t_stat": 3.8458692027928185,
+   "sans_top10": 0.051970561292195926,
+   "annees_positives": "14/16",
+   "par_annee_eur": {
+    "2011": 888,
+    "2012": 477,
+    "2013": -2066,
+    "2014": 1003,
+    "2015": 2873,
+    "2016": 1327,
+    "2017": -336,
+    "2018": 743,
+    "2019": 1082,
+    "2020": 348,
+    "2021": 3294,
+    "2022": 2219,
+    "2023": 632,
+    "2024": 2322,
+    "2025": 2050,
+    "2026": 1705
+   },
+   "valide": true
+  },
+  "V17": {
+   "label": "V17 coût ∝ prix (information)",
+   "net": {
+    "trades": 1656,
+    "e_r": 0.05161656416975644,
+    "pf": 1.1577604877001422,
+    "win_rate": 54.166666666666664,
+    "resultat_eur": 8547.703026511666,
+    "max_dd_eur": 1538.6454000530737
+   },
+   "brut": {
+    "trades": 1656,
+    "e_r": 0.08037366389062016,
+    "pf": 1.255915459025387,
+    "win_rate": 55.67632850241546,
+    "resultat_eur": 13309.878740286698,
+    "max_dd_eur": 1293.0921814792187
+   },
+   "decouverte_2011_2018": {
+    "trades": 812,
+    "e_r": 0.039205182923585526,
+    "pf": 1.1148270844490564,
+    "win_rate": 53.44827586206896,
+    "resultat_eur": 3183.4608533951446,
+    "max_dd_eur": 1532.2553608525025
+   },
+   "validation_2019_2026": {
+    "trades": 844,
+    "e_r": 0.06355737171939006,
+    "pf": 1.2027488940472333,
+    "win_rate": 54.85781990521327,
+    "resultat_eur": 5364.242173116521,
+    "max_dd_eur": 1513.1875557881003
+   },
+   "e_frais_x2": 0.022859464448892725,
+   "t_stat": 2.6387477811733326,
+   "sans_top10": 0.045906205149107725,
+   "annees_positives": "13/16",
+   "par_annee_eur": {
+    "2011": 157,
+    "2012": 776,
+    "2013": -721,
+    "2014": 136,
+    "2015": 867,
+    "2016": 660,
+    "2017": 637,
+    "2018": 672,
+    "2019": -150,
+    "2020": -808,
+    "2021": 2469,
+    "2022": 1203,
+    "2023": 244,
+    "2024": 844,
+    "2025": 1199,
+    "2026": 363
+   },
+   "valide": false
+  },
+  "V18": {
+   "label": "V18 coût ∝ prix (information)",
+   "net": {
+    "trades": 3512,
+    "e_r": -0.0020392872637878027,
+    "pf": 0.9938795128884125,
+    "win_rate": 51.252847380410024,
+    "resultat_eur": -716.1976870422762,
+    "max_dd_eur": 6659.470903318503
+   },
+   "brut": {
+    "trades": 3512,
+    "e_r": 0.01751490515387674,
+    "pf": 1.0541255860955474,
+    "win_rate": 51.93621867881549,
+    "resultat_eur": 6151.2346900415105,
+    "max_dd_eur": 3707.894715257948
+   },
+   "decouverte_2011_2018": {
+    "trades": 1810,
+    "e_r": -0.012953510368570472,
+    "pf": 0.9619316430306194,
+    "win_rate": 50.66298342541437,
+    "resultat_eur": -2344.585376711256,
+    "max_dd_eur": 6659.470903318503
+   },
+   "validation_2019_2026": {
+    "trades": 1702,
+    "e_r": 0.009567495238948178,
+    "pf": 1.0293786289487987,
+    "win_rate": 51.8801410105758,
+    "resultat_eur": 1628.3876896689796,
+    "max_dd_eur": 2368.9642225748157
+   },
+   "e_frais_x2": -0.02159347968145234,
+   "t_stat": -0.1594594532027534,
+   "sans_top10": -0.004884506499673813,
+   "annees_positives": "8/16",
+   "par_annee_eur": {
+    "2011": 1851,
+    "2012": 63,
+    "2013": -2325,
+    "2014": 87,
+    "2015": -1170,
+    "2016": -597,
+    "2017": -896,
+    "2018": 641,
+    "2019": -360,
+    "2020": 1166,
+    "2021": 300,
+    "2022": 727,
+    "2023": -65,
+    "2024": -1100,
+    "2025": 1222,
+    "2026": -261
+   },
+   "valide": false
+  },
+  "V20": {
+   "label": "V20 coût ∝ prix (information)",
+   "net": {
+    "trades": 881,
+    "e_r": 0.05869999067035115,
+    "pf": 1.1957135205370777,
+    "win_rate": 55.39160045402951,
+    "resultat_eur": 5171.469178057937,
+    "max_dd_eur": 1055.428130544744
+   },
+   "brut": {
+    "trades": 881,
+    "e_r": 0.0746634897348667,
+    "pf": 1.255276160462951,
+    "win_rate": 56.186152099886485,
+    "resultat_eur": 6577.8534456417565,
+    "max_dd_eur": 972.5485041703301
+   },
+   "decouverte_2011_2018": {
+    "trades": 407,
+    "e_r": 0.05641256439344652,
+    "pf": 1.1811451456150548,
+    "win_rate": 54.054054054054056,
+    "resultat_eur": 2295.991370813273,
+    "max_dd_eur": 852.1297694733761
+   },
+   "validation_2019_2026": {
+    "trades": 474,
+    "e_r": 0.06066408876043593,
+    "pf": 1.209143951542794,
+    "win_rate": 56.540084388185655,
+    "resultat_eur": 2875.477807244663,
+    "max_dd_eur": 1055.4281305447446
+   },
+   "e_frais_x2": 0.04273649160583559,
+   "t_stat": 2.323621600074743,
+   "sans_top10": 0.047960222863280964,
+   "annees_positives": "12/16",
+   "par_annee_eur": {
+    "2011": 310,
+    "2012": 802,
+    "2013": 161,
+    "2014": 767,
+    "2015": 636,
+    "2016": -108,
+    "2017": -211,
+    "2018": -61,
+    "2019": 752,
+    "2020": 724,
+    "2021": 13,
+    "2022": 940,
+    "2023": 134,
+    "2024": 524,
+    "2025": -302,
+    "2026": 90
+   },
+   "valide": false
+  },
+  "CTRL": {
+   "label": "CTRL coût ∝ prix (information)",
+   "net": {
+    "trades": 2884,
+    "e_r": 0.0759894165592063,
+    "pf": 1.1866824524034767,
+    "win_rate": 46.7753120665742,
+    "resultat_eur": 21915.347735675095,
+    "max_dd_eur": 3521.1631331003746
+   },
+   "brut": {
+    "trades": 2884,
+    "e_r": 0.10344379817601973,
+    "pf": 1.2640117427804813,
+    "win_rate": 47.988904299583915,
+    "resultat_eur": 29833.19139396409,
+    "max_dd_eur": 3062.224276209972
+   },
+   "decouverte_2011_2018": {
+    "trades": 1499,
+    "e_r": 0.05828871168073472,
+    "pf": 1.1352836736562286,
+    "win_rate": 45.29686457638425,
+    "resultat_eur": 8737.477880942135,
+    "max_dd_eur": 3521.1631331003746
+   },
+   "validation_2019_2026": {
+    "trades": 1385,
+    "e_r": 0.0951470747634149,
+    "pf": 1.2495460027288692,
+    "win_rate": 48.375451263537904,
+    "resultat_eur": 13177.869854732964,
+    "max_dd_eur": 1469.2764278588925
+   },
+   "e_frais_x2": 0.048535034942392884,
+   "t_stat": 3.4673943629525374,
+   "sans_top10": 0.05407280071342554,
+   "annees_positives": "15/16",
+   "par_annee_eur": {
+    "2011": 21,
+    "2012": 1305,
+    "2013": -2129,
+    "2014": 1403,
+    "2015": 640,
+    "2016": 2170,
+    "2017": 1286,
+    "2018": 4042,
+    "2019": 2084,
+    "2020": 1117,
+    "2021": 2360,
+    "2022": 2211,
+    "2023": 807,
+    "2024": 2902,
+    "2025": 1195,
+    "2026": 502
+   },
+   "valide": true
+  }
+ },
+ "donnees": {
+  "NASDAQ100": {
+   "seances_valables_par_an": {
+    "2010": 33,
+    "2011": 252,
+    "2012": 247,
+    "2013": 248,
+    "2014": 247,
+    "2015": 246,
+    "2016": 249,
+    "2017": 247,
+    "2018": 251,
+    "2019": 252,
+    "2020": 250,
+    "2021": 252,
+    "2022": 251,
+    "2023": 140,
+    "2024": 250,
+    "2025": 250,
+    "2026": 191
+   },
+   "rejets": {
+    "hors_calendrier": 99,
+    "1re_minute": 75,
+    "minutes<50%": 5,
+    "trou>30min": 57
+   }
+  },
+  "SP500": {
+   "seances_valables_par_an": {
+    "2010": 28,
+    "2011": 251,
+    "2012": 248,
+    "2013": 248,
+    "2014": 247,
+    "2015": 247,
+    "2016": 249,
+    "2017": 247,
+    "2018": 251,
+    "2019": 252,
+    "2020": 250,
+    "2021": 252,
+    "2022": 251,
+    "2023": 141,
+    "2024": 250,
+    "2025": 250,
+    "2026": 193
+   },
+   "rejets": {
+    "hors_calendrier": 99,
+    "1re_minute": 77,
+    "minutes<50%": 9,
+    "trou>30min": 52
+   }
+  },
+  "FTSE100": {
+   "seances_valables_par_an": {
+    "2010": 28,
+    "2011": 231,
+    "2012": 251,
+    "2013": 246,
+    "2014": 246,
+    "2015": 253,
+    "2016": 252,
+    "2017": 247,
+    "2018": 253,
+    "2019": 253,
+    "2020": 252,
+    "2021": 252,
+    "2022": 250,
+    "2023": 135,
+    "2024": 251,
+    "2025": 252,
+    "2026": 194
+   },
+   "rejets": {
+    "hors_calendrier": 36,
+    "1re_minute": 45,
+    "minutes<50%": 2,
+    "trou>30min": 115
+   }
+  },
+  "NIKKEI225": {
+   "seances_valables_par_an": {
+    "2010": 15,
+    "2011": 176,
+    "2012": 213,
+    "2013": 241,
+    "2014": 233,
+    "2015": 241,
+    "2016": 242,
+    "2017": 227,
+    "2018": 243,
+    "2019": 235,
+    "2020": 239,
+    "2021": 242,
+    "2022": 241,
+    "2023": 243,
+    "2024": 239,
+    "2025": 240,
+    "2026": 185
+   },
+   "rejets": {
+    "hors_calendrier": 244,
+    "1re_minute": 23,
+    "minutes<50%": 125,
+    "trou>30min": 6
+   }
+  }
+ }
+}

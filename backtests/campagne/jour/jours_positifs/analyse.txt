@@ -1,0 +1,39 @@
+1. Structure gain / perte (trades pris, 2011-2026, nets de frais)
+var  réussite  jours+  gain moy  perte moy p* équil.   marge  E brute  E nette      t
+V01     45.5%   48.4%    +1.023     -0.782     43.3%   +2.2   +0.101   +0.040  +2.00
+V02     64.8%   64.4%    +0.410     -0.768     65.2%   -0.4   +0.055   -0.005  -0.47
+V03     50.2%   53.1%    +0.658     -0.637     49.2%   +1.0   +0.075   +0.014  +1.01
+V04     64.4%   64.9%    +0.461     -0.760     62.3%   +2.1   +0.086   +0.026  +2.03
+V05     53.3%   53.2%    +0.344     -0.493     58.9%   -5.6   -0.022   -0.047  -3.26
+V06     66.1%   66.0%    +0.211     -0.528     71.4%   -5.3   -0.014   -0.039  -4.28
+V07     55.1%   55.5%    +0.260     -0.392     60.2%   -5.1   -0.009   -0.030  -3.00
+V08     60.3%   60.0%    +0.203     -0.397     66.2%   -5.9   -0.013   -0.035  -4.03
+V09     67.2%   67.3%    +0.208     -0.517     71.3%   -4.1   -0.006   -0.028  -3.47
+V10     69.0%   69.1%    +0.204     -0.552     73.0%   -4.0   -0.005   -0.026  -2.10
+V11     51.8%   51.8%    +0.550     -0.591     51.8%   +0.0   +0.022   +0.000  +0.01
+V12     57.2%   57.2%    +0.397     -0.454     53.4%   +3.8   +0.076   +0.033  +1.06
+V13     67.9%   67.9%    +0.219     -0.547     71.4%   -3.5   -0.005   -0.026  -3.87
+V14     54.3%   54.3%    +0.344     -0.420     55.0%   -0.7   +0.038   -0.006  -0.43
+V15     56.3%   57.2%    +0.284     -0.448     61.2%   -4.9   -0.006   -0.033  -2.63
+V16     80.4%   80.4%    +0.440     -1.141     72.2%   +8.2   +0.193   +0.130  +2.18
+
+2. Relation jours positifs ↔ espérance nette (16 variantes)
+   Spearman(jours positifs %, E nette) = -0.07 ; Spearman(taux de réussite, E nette) = -0.07
+   jours positifs  0-55 % :  5 variantes, E nette médiane +0.000 R, E > 0 : V01, V03, V11
+   jours positifs 55-65 % :  6 variantes, E nette médiane -0.018 R, E > 0 : V04, V12
+   jours positifs 65-100 % :  5 variantes, E nette médiane -0.026 R, E > 0 : V16
+   Même signal Williams, sorties différentes : V01 jours+ 48 % E +0.040 DD 12268 € pire série 18 j ; V03 jours+ 53 % E +0.014 DD 11855 € pire série 18 j ; V02 jours+ 64 % E -0.005 DD 11084 € pire série 6 j ; V04 jours+ 65 % E +0.026 DD 7748 € pire série 6 j
+
+3. Information hors verdict — coût proportionnel au prix (1,25 pb aller-retour) au lieu de 1,5 pt fixe
+   ✔ V01 coût ∝ prix (info)                        n 3479 En+0.074 PF1.18 D+0.037 V+0.114 x2+0.047 t+3.70 -top10+0.054 ans+15/16    25705€ DD  4385€
+   ✔ V01 coût fixe 0,75 pt (info)                  n 3479 En+0.071 PF1.17 D+0.019 V+0.127 x2+0.040 t+3.53 -top10+0.051 ans+13/16    24570€ DD  6147€ | jours+ 49.9 % | 1558 €/an
+   V01 coût fixe, 2019-2026 seul : n 1657 E +0.117 t +4.10
+   ✔ V04 coût ∝ prix (info)                        n 3281 En+0.060 PF1.23 D+0.045 V+0.076 x2+0.033 t+4.64 -top10+0.050 ans+14/16    19530€ DD  2587€
+   ✔ V04 coût fixe 0,75 pt (info)                  n 3281 En+0.056 PF1.22 D+0.027 V+0.089 x2+0.026 t+4.38 -top10+0.046 ans+13/16    18449€ DD  4081€ | jours+ 65.7 % | 1170 €/an
+   V04 coût fixe, 2019-2026 seul : n 1569 E +0.078 t +4.32
+
+4. Références hors budget : stratégies swing DÉJÀ validées (trades existants), 1 trade par jour (lib.regle_anto)
+   ✔ réf. RSI2 (swing validé)                      n  192 En+0.506 PF3.00 D+0.409 V+0.608 x2+0.412 t+6.31 -top10+0.413 ans+13/15     9722€ DD   740€
+     réussite 74.5 % | jours trade    5% | positifs   74% | ≥50€   61% |  +2.36 €/jour |   +617 €/an | pire série 7 j | mois+ 46% | pire mois -364 € | pire jour -364 €
+   ✔ réf. 3_baisses (swing validé)                 n  284 En+0.213 PF1.79 D+0.117 V+0.334 x2+0.158 t+3.58 -top10+0.146 ans+13/16     6059€ DD  1099€
+     réussite 73.6 % | jours trade    7% | positifs   74% | ≥50€   39% |  +1.47 €/jour |   +384 €/an | pire série 4 j | mois+ 55% | pire mois -589 € | pire jour -589 €
