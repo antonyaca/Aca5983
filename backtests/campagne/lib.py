@@ -100,3 +100,55 @@ def line(r):
     return (f"{'✔' if r['valide'] else '✘'} {r['label']:45} n{n['trades']:>5} En{n['e_r']:+.3f} PF{(n['pf'] or 0):.2f} "
             f"D{r['decouverte_2011_2018']['e_r']:+.3f} V{r['validation_2019_2026']['e_r']:+.3f} x2{r['e_frais_x2']:+.3f} "
             f"t{r['t_stat']:+.2f} -top10{r['sans_top10']:+.3f} ans+{r['annees_positives']} {n['resultat_eur']:>8.0f}€ DD{n['max_dd_eur']:>6.0f}€")
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# Campagne 2 « 1 trade par jour » (18/10/2026) — ajouts, n'altèrent rien de ce qui précède.
+DATA_END = pd.Timestamp("2026-10-09")   # dernière séance des données
+
+def regle_anto(t):
+    """Règle d'Anto : chaque jour, 1er trade ; un 2e trade seulement si le 1er est perdant (net < 0) ; puis stop.
+    `t` = TOUS les trades candidats, pris un à la fois (pas de chevauchement), colonnes : day, t_in, t_out, gross_r,
+    cost_r (t_in/t_out triables : Timestamp ou minutes). Si la stratégie couvre plusieurs marchés, c'est le 1er signal
+    de la journée, tous marchés confondus, puis le 1er signal entrant APRÈS la sortie du 1er trade.
+    Retourne le sous-ensemble des trades réellement pris."""
+    t = t.sort_values(["day", "t_in"])
+    keep = []
+    for _, g in t.groupby("day", sort=False):
+        first = g.iloc[0]
+        keep.append(first.name)
+        if first["gross_r"] - first["cost_r"] < 0:
+            nxt = g[g["t_in"] >= first["t_out"]]
+            nxt = nxt[nxt.index != first.name]
+            if len(nxt):
+                keep.append(nxt.index[0])
+    return t.loc[keep]
+
+
+def stats_jour(t, end=None):
+    """Statistiques journalières sur 2011 → fin des données (jours ouvrés sans trade = 0 €)."""
+    t = t[t["day"] >= START]
+    if len(t) == 0:
+        return {}
+    p = ((t["gross_r"] - t["cost_r"]) * 100).groupby(t["day"]).sum()
+    days = pd.bdate_range(START, end or DATA_END)
+    full = p.reindex(days, fill_value=0.0)
+    neg = (p < 0).astype(int).values
+    run = best = 0
+    for v in neg:
+        run = run + 1 if v else 0
+        best = max(best, run)
+    m = full.resample("ME").sum()
+    yrs = len(days) / 261
+    return {"jours_ouvres": int(len(days)), "jours_avec_trade_pct": round(len(p) / len(days) * 100, 1),
+            "jours_positifs_pct_jours_trades": round(float((p > 0).mean() * 100), 1),
+            "jours_50eur_ou_plus_pct": round(float((p >= 50).mean() * 100), 1),
+            "eur_moyen_par_jour_ouvre": round(float(full.mean()), 2), "eur_par_an": round(float(p.sum() / yrs)),
+            "pire_jour_eur": round(float(p.min())), "pire_serie_jours_perdants": int(best),
+            "mois_positifs_pct": round(float((m > 0).mean() * 100), 1), "pire_mois_eur": round(float(m.min()))}
+
+
+def line_jour(s):
+    return (f"jours trade {s['jours_avec_trade_pct']:4.0f}% | positifs {s['jours_positifs_pct_jours_trades']:4.0f}% | ≥50€ "
+            f"{s['jours_50eur_ou_plus_pct']:4.0f}% | {s['eur_moyen_par_jour_ouvre']:+6.2f} €/jour | {s['eur_par_an']:+6d} €/an | "
+            f"pire série {s['pire_serie_jours_perdants']} j | mois+ {s['mois_positifs_pct']:.0f}% | pire mois {s['pire_mois_eur']} €")
