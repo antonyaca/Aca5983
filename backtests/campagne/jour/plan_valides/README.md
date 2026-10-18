@@ -49,3 +49,10 @@ Recodé séparément : 3 100 trades communs avec l'agent, 7 seulement diffèrent
 Le stop ne coupe pas les pertes de gap (ouverture déjà sous le stop). Portefeuille à 100 €/jour : pire jour
 −11 263 € (sans stop), −12 230 € (3 ATR), −8 751 € (2 ATR) ; trades swing à mi-taille : pire jour −7 812 € mais
 drawdown 22 646 € (contre 18 196 €). Conclusion : le risque de queue vient des gaps de nuit, il se gère par la taille.
+
+## Edges académiques Fed / annonces (`edges_fed.py`, 18/10/2026)
+| Règle (Nasdaq + S&P) | Trades | E nette | t | €/16 ans | Surplus vs simple achat de l'indice sur la même durée |
+|---|---|---|---|---|---|
+| A : achat veille → clôture des jours NFP/CPI/FOMC | 924 | +0,064 R | 2,34 | +5 952 | Nasdaq +0,067 R (t 1,8), S&P +0,047 R (t 1,2) |
+| B : semaines paires du cycle FOMC | 941 | +0,146 R | 2,67 | +13 771 | Nasdaq +0,060 R (t 0,8), S&P +0,023 R (t 0,3) |
+Aucune validée (t < 3). B n'est presque que la hausse naturelle des indices (bêta) ; A garde un petit surplus non significatif.
