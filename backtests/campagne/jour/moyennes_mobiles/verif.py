@@ -213,9 +213,10 @@ def check_trades():
                     e = recompute(full, tr, v)
                     ok = (e["d"] == tr["d"] and close(e["entry"], tr["entry"], tr["entry"])
                           and close(e["stop"], tr["stop"], tr["entry"]) and close(e["exit"], tr["exit"], tr["entry"])
-                          and e["t_out"] == tr["t_out"] and abs(e["gross_r"] - tr["gross_r"]) < 1e-6
-                          and abs(e["cost_r"] - tr["cost_r"]) < 1e-9)
-                    msg = (f"sens {e['d']:+d} entrée {e['entry']:.5f} stop {e['stop']:.5f}/{tr['stop']:.5f} "
+                          and e["t_out"] == tr["t_out"] and abs(e["gross_r"] - tr["gross_r"]) < 2e-6
+                          and abs(e["cost_r"] - tr["cost_r"]) < 2e-6)      # CSV arrondi à 6 décimales
+                    msg = (f"sortie à {e['t_out']}/{tr['t_out']} "
+                           f"sens {e['d']:+d} entrée {e['entry']:.5f} stop {e['stop']:.5f}/{tr['stop']:.5f} "
                            f"sortie {e['exit']:.5f}/{tr['exit']:.5f} ({tr['sortie']}) brut {e['gross_r']:+.3f}/{tr['gross_r']:+.3f} "
                            f"coût {e['cost_r']:.3f}/{tr['cost_r']:.3f}")
                 except AssertionError as err:

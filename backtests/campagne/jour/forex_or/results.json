@@ -2801,5 +2801,164 @@
     "t": -3.65
    }
   }
+ },
+ {
+  "label": "V18 POST-HOC Plus haut/bas semaine préc. cassure, 1:2",
+  "net": {
+   "trades": 1458,
+   "e_r": 0.0553380776657821,
+   "pf": 1.167675301793714,
+   "win_rate": 50.20576131687243,
+   "resultat_eur": 8068.291723671031,
+   "max_dd_eur": 2347.8262371308306
+  },
+  "brut": {
+   "trades": 1458,
+   "e_r": 0.10632351028919598,
+   "pf": 1.3486769178251834,
+   "win_rate": 52.40054869684499,
+   "resultat_eur": 15501.967800164775,
+   "max_dd_eur": 1580.011104874444
+  },
+  "decouverte_2011_2018": {
+   "trades": 768,
+   "e_r": 0.07515924351000743,
+   "pf": 1.2290252304414284,
+   "win_rate": 50.0,
+   "resultat_eur": 5772.22990156857,
+   "max_dd_eur": 1083.1049280253283
+  },
+  "validation_2019_2026": {
+   "trades": 690,
+   "e_r": 0.03327625829134002,
+   "pf": 1.1001987315577177,
+   "win_rate": 50.43478260869565,
+   "resultat_eur": 2296.061822102461,
+   "max_dd_eur": 2347.8262371308383
+  },
+  "e_frais_x2": 0.004352645042368218,
+  "t_stat": 2.410391749374413,
+  "sans_top10": 0.04209224725902473,
+  "annees_positives": "11/16",
+  "par_annee_eur": {
+   "2011": 653,
+   "2012": -136,
+   "2013": 649,
+   "2014": 2016,
+   "2015": 909,
+   "2016": 640,
+   "2017": -229,
+   "2018": 1269,
+   "2019": 1550,
+   "2020": -208,
+   "2021": 910,
+   "2022": 912,
+   "2023": -1441,
+   "2024": -362,
+   "2025": 215,
+   "2026": 720
+  },
+  "valide": false,
+  "jour": {
+   "jours_ouvres": 4115,
+   "jours_avec_trade_pct": 34.6,
+   "jours_positifs_pct_jours_trades": 50.7,
+   "jours_50eur_ou_plus_pct": 29.9,
+   "eur_moyen_par_jour_ouvre": 1.96,
+   "eur_par_an": 512,
+   "pire_jour_eur": -224,
+   "pire_serie_jours_perdants": 10,
+   "mois_positifs_pct": 61.6,
+   "pire_mois_eur": -531
+  },
+  "regles": "V18 POST-HOC (ajoutée le 18/10/2026 APRÈS lecture des résultats V01-V17, inspirée du brut très négatif de V15, à la demande du coordinateur) : plus haut / plus bas de la semaine précédente, CASSURE au 1er contact de la semaine (niveau vierge depuis le début de la semaine jusqu'à 08:00 Londres, comme V15) ; achat stop au PWH, vente stop au PWL ; entrée 08:00 Londres -> 12:00 NY ; stop 0,5 ATR ; objectif 1 ATR (1:2) ; sortie 16:00 NY ; même filtre de coût ; même règle d'Anto sur les 6 marchés. Choisie après lecture : pas une validation propre, même si le critère passe.",
+  "cadre_commun": "- Journée J = journée de trading FX close à 17:00 New York (de 17:00 NY la veille à 17:00 NY) ; étiquette = date de J (la même à Londres et à New York pour toutes les heures utilisées) ; jours ouvrés seulement.\n- Indicateurs connus avant J, sur les journées complètes (>= 600 minutes) précédentes : ATR = ATR14 journalier ; SMA20 = moyenne des 20 dernières clôtures 17:00 NY ; PDH/PDL/PDC = plus haut / plus bas / clôture de la dernière journée complète ; PWH/PWL = plus haut / plus bas de la semaine calendaire précédente. Tendance haussière si PDC > SMA20, baissière si PDC < SMA20.\n- Pré-séance = de 17:00 NY la veille à 08:00 Londres (HS / LS = plus haut / plus bas). Niveau « vierge » = non touché en pré-séance (niveau au-dessus : HS < niveau ; au-dessous : LS > niveau). 1er contact du jour = 1re minute de la fenêtre d'entrée où le prix franchit le niveau (plus haut > niveau, ou plus bas < niveau).\n- Fenêtre d'entrée : de l'heure de début de la variante jusqu'à 12:00 New York ; sortie forcée à 16:00 New York (clôture de la dernière minute < 16:00 NY) : jamais de position la nuit, donc pas de swap.\n- Exécution M1 : ordre limite (rejet) rempli AU niveau ; ordre stop (cassure) rempli à max(ouverture, niveau) à l'achat, min(ouverture, niveau) à la vente ; entrée à heure fixe = ouverture de la 1re minute >= l'heure (<= 5 min de retard, sinon pas de trade). Stop prioritaire sur l'objectif dans la même minute ; dans la minute d'entrée seul le stop est testé (perte s'il est touché) ; gap au-delà du stop -> sortie à l'ouverture ; objectif = limite rempli au niveau.\n- Un trade à la fois par marché ; le candidat suivant ne peut entrer qu'à partir de la minute qui suit la sortie. Niveaux : chaque niveau une fois par jour (son 1er contact ; s'il survient pendant un trade, il est perdu). Cassures de range : chaque côté une fois par jour, 1re cassure après la sortie précédente ; les deux côtés franchis dans la même minute -> plus de trade ce jour-là sur ce marché.\n- Filtre de coût : signal ignoré si le risque < 10 x le coût aller-retour (coût > 0,10 R ; leçon des stops minuscules).\n- Coûts lib.COST, x2 les jours d'annonce US (date NY de J) : NFP, CPI, FOMC officiels 2011-2026 (BLS, Réserve fédérale).\n- 1 R = distance au stop = 100 EUR. Multi-marchés : TOUS les candidats des 6 marchés passent par lib.regle_anto (1er signal du jour tous marchés confondus ; 2e seulement si le 1er perd, entrant strictement après sa sortie). Égalité à la même minute : ordre EURUSD, GBPUSD, USDJPY, AUDUSD, XAUUSD, XAGUSD (V10 : tendance la plus forte, |PDC - SMA20| / ATR). Les résultats par marché sont des diagnostics, pas des variantes.",
+  "echecs": [
+   "t < 3"
+  ],
+  "candidats": 1965,
+  "trades_par_an": 92.5,
+  "cout_median_r": 0.0443,
+  "e_brute_r": 0.1063,
+  "e_nette_1er_trade": 0.0555,
+  "e_nette_2e_trade": 0.049,
+  "part_2e_trades_pct": 2.4,
+  "sorties_pct": {
+   "T": 71.5,
+   "SL": 22.2,
+   "TP": 6.3
+  },
+  "candidats_e_nette": 0.0477,
+  "candidats_t": 2.48,
+  "par_instrument_pris": {
+   "AUDUSD": {
+    "n": 221,
+    "e_nette": -0.0411,
+    "cout_median_r": 0.0465
+   },
+   "EURUSD": {
+    "n": 332,
+    "e_nette": 0.0497,
+    "cout_median_r": 0.0385
+   },
+   "GBPUSD": {
+    "n": 337,
+    "e_nette": 0.0738,
+    "cout_median_r": 0.04
+   },
+   "USDJPY": {
+    "n": 216,
+    "e_nette": -0.0016,
+    "cout_median_r": 0.0601
+   },
+   "XAGUSD": {
+    "n": 51,
+    "e_nette": 0.15,
+    "cout_median_r": 0.0816
+   },
+   "XAUUSD": {
+    "n": 301,
+    "e_nette": 0.1366,
+    "cout_median_r": 0.0511
+   }
+  },
+  "par_instrument_candidats": {
+   "AUDUSD": {
+    "n": 296,
+    "e_brute": 0.0139,
+    "e_nette": -0.0372,
+    "t": -0.86
+   },
+   "EURUSD": {
+    "n": 439,
+    "e_brute": 0.0735,
+    "e_nette": 0.0304,
+    "t": 0.73
+   },
+   "GBPUSD": {
+    "n": 447,
+    "e_brute": 0.1043,
+    "e_nette": 0.0601,
+    "t": 1.56
+   },
+   "USDJPY": {
+    "n": 294,
+    "e_brute": 0.0941,
+    "e_nette": 0.0329,
+    "t": 0.67
+   },
+   "XAGUSD": {
+    "n": 74,
+    "e_brute": 0.1392,
+    "e_nette": 0.0631,
+    "t": 0.62
+   },
+   "XAUUSD": {
+    "n": 415,
+    "e_brute": 0.1755,
+    "e_nette": 0.1211,
+    "t": 2.65
+   }
+  }
  }
 ]

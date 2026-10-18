@@ -1,6 +1,6 @@
-# Forex + métaux, « 1 trade par jour » (Londres / New York) : 17 variantes sur 20, 0 validée
+# Forex + métaux, « 1 trade par jour » (Londres / New York) : 17 variantes pré-enregistrées, 0 validée, plus V18 POST-HOC
 
-Règles : docstring de `run.py`, écrite avant tout calcul de résultat (seuls des diagnostics de coût avaient été faits).
+Règles : docstring de `run.py`. V01-V17 ont été écrites avant tout calcul de résultat. **V18 a été ajoutée APRÈS lecture des résultats** (inspirée de V15), à la demande du coordinateur.
 Résultats complets : `results.json` (`lib.evaluate` des trades pris après `lib.regle_anto`, `jour` = `lib.stats_jour`, `regles`, diagnostics par marché).
 Candidats et trades pris : `trades/Vxx.csv.gz` (colonne `pris`). Contrôle indépendant : `verif.py`.
 
@@ -27,28 +27,52 @@ Un signal est ignoré si son coût dépasse 0,10 R. Découverte 2011-2018, valid
 | V15 | Plus haut/bas semaine préc. rejet, 1:1 | 1494 | -0,114 | -0,164 | 0,0442 | -8,34 | 42 % | -5,97 € | -1 559 € | 25 175 € | 15 j | ✘ rejetée (7/8 critères ratés) |
 | V16 | PDH/PDL rejet sens tendance, 1:1 | 2442 | -0,033 | -0,083 | 0,0431 | -5,34 | 48 % | -4,94 € | -1 289 € | 20 566 € | 15 j | ✘ rejetée (7/8 critères ratés) |
 | V17 | Cassure 1re H1 Londres, stop/TP 0,5 ATR | 5049 | +0,010 | -0,039 | 0,0422 | -3,48 | 49 % | -4,75 € | -1 240 € | 21 670 € | 11 j | ✘ rejetée (7/8 critères ratés) |
+| V18 | POST-HOC Plus haut/bas semaine préc. cassure, 1:2 | 1458 | +0,106 | +0,055 | 0,0443 | +2,41 | 51 % | +1,96 € | 512 € | 2 348 € | 10 j | ✘ rejetée (1/8 critères ratés) — POST-HOC |
 
-## Ce qu'on apprend
+## Ce qu'on apprend (V01-V17)
 - **Les niveaux cassent plus souvent qu'ils ne rebondissent.** Tous les rejets au 1er contact ont un résultat brut négatif, avant même les frais :
   PDH/PDL −0,041 R, pivots −0,018 R, chiffres ronds −0,052 R, plus haut/bas de la semaine précédente −0,114 R. Le filtre de tendance n'y change rien (V13, V14, V16).
 - **Les cassures ont un léger avantage brut, de +0,03 à +0,05 R** (ORB 1re H1 Londres, PDH/PDL, chiffres ronds). C'est à peu près le montant des frais (0,04 à 0,075 R) :
   le net revient à 0 ou devient négatif. La meilleure variante, V07 (cassure des chiffres ronds, 1:2), fait +0,003 R par trade (t 0,2).
 - Tendance SMA20 avec entrée à heure fixe (V10) : +0,013 R brut, donc aucun avantage. Range NY 08:00-09:30 (V08) : +0,006 R brut. Frankfurt (V09) : +0,020 R brut pour 0,075 R de coût.
-- Les jours positifs vont de 42 à 52 % partout. Avec un objectif 1:1 ou 1:2 et un brut proche de zéro, on reste mécaniquement autour d'un jour sur deux. On est loin des 50-100 €/jour visés.
+- Les jours positifs vont de 42 à 52 % partout. On est loin des 50-100 €/jour visés.
 
-## Pistes non validées (à pré-enregistrer avant tout nouveau test)
-1. **Cassure des plus hauts/bas hebdomadaires.** Le rejet (V15) perd entre −0,06 et −0,16 R brut sur chacun des 6 marchés.
-   L'ordre inverse (cassure 1:1, même stop et même objectif de 0,5 ATR) gagnerait donc environ +0,11 R brut, soit +0,07 R net, par symétrie approximative.
-   C'est une déduction faite APRÈS lecture des résultats, pas un test : à coder séparément, puis à confirmer sur des données encore jamais vues (suivi en temps réel).
-2. Sous-résultats par marché (ce sont 102 sous-tests, donc probablement du bruit) : V07 sur l'or, +0,084 R net (t 2,8, 889 candidats) ; V04 sur USDJPY, +0,050 R net (t 1,9).
+## V18 — POST-HOC : cassure du plus haut / plus bas de la semaine précédente
+Règle : 1er contact de la semaine (niveau vierge depuis le début de la semaine jusqu'à 08:00 Londres, comme V15), ordre stop, stop 0,5 ATR, objectif 1 ATR (1:2).
+Entrée 08:00 Londres → 12:00 NY, sortie 16:00 NY, même filtre de coût, règle d'Anto sur les 6 marchés.
+
+| Trades | E nette | E brute | PF | Découverte | Validation | Frais ×2 | t | Sans top 10 | Années + | €/an | DD max | Jours + | €/jour | Pire série |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1458 | +0,055 | +0,106 | 1,17 | +0,075 | +0,033 | +0,004 | +2,41 | +0,042 | 11/16 | 512 € | 2 348 € | 51 % | +1,96 € | 10 j |
+
+Critère `lib.evaluate` : non passé (t < 3).
+
+Par marché (candidats avant la règle du jour, puis trades pris) :
+
+| Marché | Candidats | E brute | E nette | t | Trades pris | E nette des pris |
+|---|---:|---:|---:|---:|---:|---:|
+| AUDUSD | 296 | +0,014 | -0,037 | -0,86 | 221 | -0,041 |
+| EURUSD | 439 | +0,073 | +0,030 | +0,73 | 332 | +0,050 |
+| GBPUSD | 447 | +0,104 | +0,060 | +1,56 | 337 | +0,074 |
+| USDJPY | 294 | +0,094 | +0,033 | +0,67 | 216 | -0,002 |
+| XAGUSD | 74 | +0,139 | +0,063 | +0,62 | 51 | +0,150 |
+| XAUUSD | 415 | +0,175 | +0,121 | +2,65 | 301 | +0,137 |
+
+Par année : 2011 653 € ; 2012 -136 € ; 2013 649 € ; 2014 2 016 € ; 2015 909 € ; 2016 640 € ; 2017 -229 € ; 2018 1 269 € ; 2019 1 550 € ; 2020 -208 € ; 2021 910 € ; 2022 912 € ; 2023 -1 441 € ; 2024 -362 € ; 2025 215 € ; 2026 720 €.
+
+**Avertissement :** V18 a été choisie après avoir vu que le rejet (V15) perdait sur les 6 marchés. Quel que soit son résultat, ce n'est pas une validation propre.
+Seule une confirmation sur des données jamais vues compterait : suivi en temps réel à partir d'octobre 2026, ou autre source de données.
+
+## Sous-résultats par marché à ne pas surinterpréter
+102 sous-tests (17 variantes × 6 marchés), donc probablement du bruit : V07 sur l'or, +0,084 R net (t 2,8, 889 candidats) ; V04 sur USDJPY, +0,050 R net (t 1,9).
 
 ## Anomalies et contrôles
 - « SL 1 ATR H1 » a été remplacé par 0,5 ATR journalier avant tout calcul : l'ATR H1 de 08:00 Londres coûte 0,10 à 0,25 R en forex, et jusqu'à 1,15 R sur l'argent.
-- Argent : un stop de 0,5 ATR coûte 0,10 à 0,33 R sur 2012-2023. Le filtre de coût élimine donc la plupart des signaux, et il ne reste que 49 à 255 trades pris selon la variante.
+- Argent : un stop de 0,5 ATR coûte 0,10 à 0,33 R sur 2012-2023. Le filtre de coût élimine donc la plupart des signaux, et il ne reste que 49 à 255 trades pris selon la variante (V01-V17).
 - Or 2025-2026 : le coût fixe de 0,47 $ devient presque nul (0,01 à 0,02 R, ATR de 50 à 105 $), ce qui avantage la fin de la période de validation.
 - Trou de données du 17/02 au 31/07/2023 (environ 30 % des minutes manquent) : la sortie se fait sur la minute disponible suivante, à l'ouverture s'il y a un gap.
 - V10 : tous les marchés entrent à la même minute. La priorité va à la tendance la plus forte ; sans cela, EURUSD serait toujours choisi.
-- Recalcul indépendant (`verif.py`, autre code) de 13 trades tirés au hasard dans V01, V03, V10 et V15, dont un jour d'annonce à coûts ×2 : **13 sur 13 identiques** (entrée, sortie, brut, coût).
+- Recalcul indépendant (`verif.py`, autre code) de 13 trades tirés au hasard dans V01, V03, V10 et V15, dont un jour d'annonce à coûts ×2 : **13 sur 13 identiques**. Même contrôle sur 3 trades V18 : **3 sur 3 identiques**. Le calcul de V18 seule n'a modifié ni les entrées V01-V17 de `results.json` ni leurs fichiers de trades (vérifié par empreinte md5).
   Le code contrôle aussi, par des assertions : indicateurs calculés sur la veille uniquement, entrées dans les fenêtres, sorties avant 16:00 NY, risque ≥ 10 × coût.
-  Trades pris : 95 à 359 par an, plausible pour 6 marchés avec la règle « 2e trade si perdant ».
-- Budget : 17 variantes sur 20. Les 3 restantes n'ont pas été utilisées (engagement écrit avant les calculs).
+  Trades pris : 95 à 359 par an (V01-V17).
+- Budget : 17 variantes pré-enregistrées, plus V18 post-hoc, soit 18 sur 20 ; 2 restent inutilisées.

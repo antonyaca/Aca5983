@@ -34,7 +34,8 @@ CADRE COMMUN (toutes variantes)
   Égalité à la même minute : ordre EURUSD, GBPUSD, USDJPY, AUDUSD, XAUUSD, XAGUSD (V10 : tendance la plus forte,
   |PDC - SMA20| / ATR). Les résultats par marché sont des diagnostics, pas des variantes.
 
-VARIANTES (17 sur les 20 autorisées ; les 3 restantes ne seront PAS utilisées après lecture des résultats)
+VARIANTES (V01-V17 : 17 sur les 20 autorisées, fixées avant tout calcul. L'engagement initial de ne pas utiliser les 3
+restantes a été levé pour V18 SEULEMENT, à la demande du coordinateur, après lecture des résultats ; 2 restent inutilisées)
 V01 Cassure de la 1re bougie H1 de Londres : range 08:00-09:00 Londres (>= 48 minutes) ; entrée 09:00 Londres ->
     12:00 NY ; stop = bord opposé du range ; objectif 1:1.
 V02 Idem V01 avec objectif 1:2.
@@ -64,6 +65,11 @@ V15 Plus haut / plus bas de la semaine précédente, rejet au 1er contact de la 
 V16 V03 dans le sens de la tendance seulement (achat au PDL si haussière, vente au PDH si baissière).
 V17 V01 avec stop et objectif fixes de 0,5 ATR (entrée à la cassure du range 08:00-09:00 Londres ; risque indépendant
     de la taille du range).
+V18 POST-HOC (ajoutée le 18/10/2026 APRÈS lecture des résultats V01-V17, inspirée du brut très négatif de V15, à la
+    demande du coordinateur) : plus haut / plus bas de la semaine précédente, CASSURE au 1er contact de la semaine
+    (niveau vierge depuis le début de la semaine jusqu'à 08:00 Londres, comme V15) ; achat stop au PWH, vente stop au
+    PWL ; entrée 08:00 Londres -> 12:00 NY ; stop 0,5 ATR ; objectif 1 ATR (1:2) ; sortie 16:00 NY ; même filtre de
+    coût ; même règle d'Anto sur les 6 marchés. Choisie après lecture : pas une validation propre, même si le critère passe.
 
 SOURCES DES DATES D'ANNONCE : NFP 2011-2019 = liste BLS de campagne/nfp_2011/run.py ; CPI 2011-2019 (+ 14/01/2020) =
 noms des communiqués archivés BLS (https://www.bls.gov/bls/news-release/cpi.htm, cpi_MMJJAAAA) ; FOMC 2011-2019 =
@@ -133,7 +139,7 @@ _all = pd.to_datetime(list(_ev.NFP) + list(_ev.CPI) + list(_ev.FOMC) + NFP_2011_
 assert (_all.dayofweek < 5).all()
 MACRO = set(int(x) for x in (_all - EPOCH).days)
 
-VARS = [f"V{i:02d}" for i in range(1, 18)]
+VARS = [f"V{i:02d}" for i in range(1, 19)]
 LABELS = {
     "V01": "Cassure 1re H1 Londres, TP 1:1", "V02": "Cassure 1re H1 Londres, TP 1:2",
     "V03": "PDH/PDL rejet 1er contact, 1:1", "V04": "PDH/PDL cassure 1er contact, 1:2",
@@ -144,6 +150,7 @@ LABELS = {
     "V13": "Pivots rebond sens tendance, 1:1", "V14": "Nombres ronds rejet sens tendance, 1:1",
     "V15": "Plus haut/bas semaine préc. rejet, 1:1", "V16": "PDH/PDL rejet sens tendance, 1:1",
     "V17": "Cassure 1re H1 Londres, stop/TP 0,5 ATR",
+    "V18": "POST-HOC Plus haut/bas semaine préc. cassure, 1:2",
 }
 
 
@@ -288,7 +295,7 @@ def round_levels(HS, LS, step, atr):
     return above + below
 
 
-def gen(inst):
+def gen(inst, keys=None):
     m = Mkt(inst)
     minR = MINR_COST * COST[inst]
     dd, comp = m.dd, m.comp
@@ -315,6 +322,8 @@ def gen(inst):
     N = len(tm)
 
     def add(key, rows, D, extra=None):
+        if keys is not None and key not in keys:
+            return
         for r in rows:
             r["day_n"] = D
             if extra:
@@ -386,6 +395,7 @@ def gen(inst):
             if wl > pwl[k]:
                 wlv.append((pwl[k], -1))
             add("V15", level_trades(m, wlv, "fade", R05, R05, a8, n12, n16, minR, "PW"), D)
+            add("V18", level_trades(m, wlv, "break", R05, 2 * R05, a8, n12, n16, minR, "PW"), D)   # POST-HOC
         # ---------------- tendance + heure fixe
         if trend and R05 >= minR:
             strength = abs(pdc - sma) / atr
@@ -502,11 +512,12 @@ def extras(cand, taken):
     return out
 
 
-def main():
+def main(only=None):
+    """only : liste de variantes à (re)calculer seules ; les autres entrées de results.json restent inchangées."""
     store = {k: [] for k in VARS}
     for inst in INSTS:
         t0 = time.time()
-        r = gen(inst)
+        r = gen(inst, only)
         for k, t in r.items():
             if len(t):
                 store[k].append(t)
@@ -514,7 +525,7 @@ def main():
         del r
         gc.collect()
     results = []
-    for k in VARS:
+    for k in (only or VARS):
         cand = add_tin(pd.concat(store[k], ignore_index=True), k)
         taken = regle_anto(cand)
         cand["pris"] = cand.index.isin(taken.index)
@@ -530,9 +541,13 @@ def main():
         cand[cols].to_csv(os.path.join(HERE, "trades", f"{k}.csv.gz"), index=False, float_format="%.6f")
         print(line(r), f"| {r['trades_par_an']}/an coût~{r['cout_median_r']:.3f}R brut{r['e_brute_r']:+.3f}", flush=True)
         print("    ", line_jour(r["jour"]), flush=True)
+    if only:
+        with open(os.path.join(HERE, "results.json")) as f:
+            old = [r for r in json.load(f) if r["label"][:3] not in only]
+        results = sorted(old + results, key=lambda r: r["label"][:3])
     with open(os.path.join(HERE, "results.json"), "w") as f:
         json.dump(results, f, indent=1, ensure_ascii=False)
 
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:] or None)
