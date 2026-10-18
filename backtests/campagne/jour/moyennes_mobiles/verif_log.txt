@@ -22,3 +22,8 @@
 ÉCART V13 FTSE100   2024-07-23 14:00:00 UTC  sens -1 entrée 8151.82700 stop 8231.42280/8231.42280 sortie 8161.21600/8161.21600 (FIN) brut -0.118/-0.118 coût 0.019/0.019
 ÉCART V15 USDJPY    2018-05-25 14:00:00 UTC  sens -1 entrée 109.18600 stop 109.53342/109.53342 sortie 109.35500/109.35500 (FIN) brut -0.486/-0.486 coût 0.058/0.058
 ÉCART V15 USDJPY    2018-03-13 16:00:00 UTC  sens -1 entrée 106.62900 stop 107.04882/107.04882 sortie 106.60000/106.60000 (FIN) brut +0.069/+0.069 coût 0.048/0.048
+ÉCART V18 XAGUSD    2015-04-28 13:00:00 UTC  sens +1 entrée 16.51800 stop 16.31392/16.31393 sortie 16.60700/16.60700 (FIN) brut +0.436/+0.436 coût 0.196/0.196
+ÉCART V18 XAGUSD    2013-04-15 14:00:00 UTC  sens -1 entrée 23.70000 stop 24.02432/24.02432 sortie 23.37568/23.37568 (TP) brut +1.000/+1.000 coût 0.123/0.123
+=> 0/26 trades recalculés à l'identique (données tronquées à l'entrée)
+
+V03 PORTEFEUILLE jours  4302  jours à 2 trades  1599  candidats  38297 -> pris  5901
