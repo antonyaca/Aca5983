@@ -22,3 +22,13 @@ pire série de 15 jours perdants, 65 % de mois positifs.
 | Williams seul | 967 €/trade → drawdown ≈ 40 600 € | 1 934 €/trade → ≈ 81 200 € |
 | 4 validées | 408 €/trade → drawdown ≈ 11 900 € | 816 €/trade → ≈ 23 700 € |
 Même dans ce cas, environ un jour sur deux reste négatif.
+
+## « Le point d'entrée doit être le stop » (`stop_comme_entree.py`, 18/10/2026)
+Deux lectures testées sur le Williams (Nasdaq, S&P en contrôle), coût ∝ prix :
+| Lecture | Nasdaq | S&P |
+|---|---|---|
+| I1 : entrée limite à l'ouverture (ancien stop) après la cassure, stop niveau opposé, TP 1:1 | −0,063 R (884 trades, t −2,2) | −0,177 R |
+| I1 : idem, sortie 16:00 | −0,027 R | −0,149 R |
+| I2 : Williams puis retournement au stop (2e trade) | trade de retournement ≈ +0,01 R : n'apporte rien | idem |
+Constat annexe : **Williams Nasdaq avec TP 1:1** (au lieu de la clôture) : 2 881 trades, +0,050 R, t 3,20, DD 2 869 €,
+**54 % de jours positifs**, +908 €/an — plus régulier mais moins rentable que la sortie en clôture (+1 350 €/an, 47 %).
