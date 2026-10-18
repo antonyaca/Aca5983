@@ -112,7 +112,7 @@ def regle_anto(t):
     cost_r (t_in/t_out triables : Timestamp ou minutes). Si la stratégie couvre plusieurs marchés, c'est le 1er signal
     de la journée, tous marchés confondus, puis le 1er signal entrant APRÈS la sortie du 1er trade.
     Retourne le sous-ensemble des trades réellement pris."""
-    t = t.sort_values(["day", "t_in"])
+    t = t.reset_index(drop=True).sort_values(["day", "t_in"])   # index unique (concat multi-marchés)
     keep = []
     for _, g in t.groupby("day", sort=False):
         first = g.iloc[0]
