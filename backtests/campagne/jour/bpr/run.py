@@ -16,6 +16,8 @@ Ouvertures : Londres 08:00 heure de Londres ; New York 09:30 heure de New York (
 5. Objectif 1:2 (standard ICT) ou 1:1. Stop prioritaire. Sortie forcée 16:00 New York.
 6. Règle d'Anto : 1er trade du jour (Londres puis New York), 2e seulement si le 1er perd.
 Coûts lib.COST (or 0,47 $, EURUSD 1,5 pip, Nasdaq 1,5 pt, S&P 0,75 pt). 100 € par R. Critère : lib.evaluate.
+VARIANTE M15 (ajoutée le 18/10/2026 à la demande d'Anto, avant calcul) : `python3 run.py M15` → BPR en M15 dans
+les 3 h après l'ouverture (12 bougies), retest M1 dans les 4 h, le reste inchangé.
 Variantes : 2 entrées × 2 objectifs × 4 marchés (jugement par marché ; l'or est la question d'Anto).
 """
 import json, os, sys
@@ -31,7 +33,7 @@ def minutes(ts):
     return ts.values.astype("datetime64[m]").astype(np.int64)
 
 
-def bpr_trades(inst):
+def bpr_trades(inst, tf=5, win=90, ret=180):
     df = lib.load(inst, "America/New_York")
     T = minutes(df["time"]); O, H, L, C = (df[c].values for c in ("open", "high", "low", "close"))
     days = pd.bdate_range("2011-01-01", lib.DATA_END)
@@ -40,10 +42,10 @@ def bpr_trades(inst):
         end_ny = int(minutes(pd.Series([pd.Timestamp(d.date()).tz_localize("America/New_York") + pd.Timedelta(hours=16)]).dt.tz_convert("UTC"))[0])
         for sname, tz, hh, mm in SESS:
             t0 = int(minutes(pd.Series([pd.Timestamp(d.date()).tz_localize(tz) + pd.Timedelta(hours=hh, minutes=mm)]).dt.tz_convert("UTC"))[0])
-            a, z = np.searchsorted(T, t0), np.searchsorted(T, t0 + 90)
-            if z - a < 80:
+            a, z = np.searchsorted(T, t0), np.searchsorted(T, t0 + win)
+            if z - a < 0.85 * win:
                 continue
-            k = (T[a:z] - t0) // 5
+            k = (T[a:z] - t0) // tf
             nb = int(k.max()) + 1
             h5 = np.full(nb, -np.inf); l5 = np.full(nb, np.inf)
             np.maximum.at(h5, k, H[a:z]); np.minimum.at(l5, k, L[a:z])
@@ -67,11 +69,11 @@ def bpr_trades(inst):
             if not found:
                 continue
             ib, d_, lo, hi = found
-            tc = t0 + 5 * (ib + 1)                        # clôture de la bougie M5 qui complète le BPR
+            tc = t0 + tf * (ib + 1)                        # clôture de la bougie M5 qui complète le BPR
             ext_hi, ext_lo = h5[:ib + 1].max(), l5[:ib + 1].min()
             stop = ext_hi if d_ == -1 else ext_lo
             near = lo if d_ == -1 else hi                 # bord proche (vente : bas de zone ; achat : haut de zone)
-            s, e_lim = np.searchsorted(T, tc), np.searchsorted(T, min(tc + 180, end_ny))
+            s, e_lim = np.searchsorted(T, tc), np.searchsorted(T, min(tc + ret, end_ny))
             iend = np.searchsorted(T, end_ny)
             if s >= e_lim:
                 continue
@@ -121,15 +123,16 @@ def bpr_trades(inst):
 
 
 def main():
-    t = pd.concat([bpr_trades(i) for i in MARKETS], ignore_index=True)
-    t.to_csv(os.path.join(HERE, "candidats.csv.gz"), index=False, float_format="%.6f")
+    m15 = len(sys.argv) > 1 and sys.argv[1] == "M15"
+    t = pd.concat([bpr_trades(i, 15, 180, 240) if m15 else bpr_trades(i) for i in MARKETS], ignore_index=True)
+    t.to_csv(os.path.join(HERE, "candidats_M15.csv.gz" if m15 else "candidats.csv.gz"), index=False, float_format="%.6f")
     out = []
     for (inst, mode, tpm), g in t.groupby(["instrument", "entree", "tp"]):
         taken = lib.regle_anto(g)
         r = lib.evaluate(taken, f"{inst} entrée {mode} TP 1:{tpm}"); s = lib.stats_jour(taken)
         r["jour"] = s; r["brut"] = float(taken.gross_r.mean()); r["cout_median_r"] = float(taken.cost_r.median()); out.append(r)
         print(lib.line(r), f"| brut {taken.gross_r.mean():+.3f} coût méd {taken.cost_r.median():.2f}R |", lib.line_jour(s))
-    json.dump(out, open(os.path.join(HERE, "results.json"), "w"), ensure_ascii=False, indent=1, default=float)
+    json.dump(out, open(os.path.join(HERE, "results_M15.json" if m15 else "results.json"), "w"), ensure_ascii=False, indent=1, default=float)
 
 
 if __name__ == "__main__":

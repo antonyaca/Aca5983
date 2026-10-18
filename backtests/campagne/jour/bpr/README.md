@@ -14,3 +14,12 @@ vente au retest 08:02, stop 4 331,18 touché 08:10 : conforme aux bougies brutes
 | Nasdaq | 2 530-2 900 | −0,019 à +0,019 R | 0,11-0,13 R | −0,165 R | 39-50 % |
 | S&P | 2 310-2 630 | +0,021 à +0,052 R | 0,17-0,20 R | −0,181 R | 39-51 % |
 Avant frais le BPR vaut un pile ou face ; avec le spread, il perd sur chaque marché et presque chaque année.
+
+## Variante M15 (BPR en M15 dans les 3 h après l'ouverture, retest M1 dans les 4 h) — `python3 run.py M15`
+| Marché | Trades | Brut / trade | Net coût fixe (meilleure) | Net coût ∝ prix (Nasdaq) |
+|---|---|---|---|---|
+| Or | 1 320-1 450 | +0,03 à +0,04 R | −0,131 R | — |
+| EURUSD | 1 385-1 520 | +0,02 à +0,07 R | −0,058 R | — |
+| Nasdaq | 1 350-1 470 | +0,10 à +0,13 R | −0,026 R | +0,022 à +0,052 R, t ≤ 1,46, 2019-2026 ≈ +0,01 R |
+| S&P | 1 170-1 290 | +0,08 à +0,10 R | −0,065 R | — |
+Mieux qu'en M5 (moins de frais relatifs), mais aucune variante validée ; sur le Nasdaq l'avantage s'efface après 2019.
