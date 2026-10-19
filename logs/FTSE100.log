@@ -1,19 +1,9 @@
 == FTSE100 (ukxgbp)
-  2010: OK, 23811 bougies
-  2011: OK, 191990 bougies
-  2012: OK, 192939 bougies
-  2013: OK, 192874 bougies
-  2014: OK, 192038 bougies
-  2015: OK, 207797 bougies
-  2016: OK, 210520 bougies
-  2017: OK, 203566 bougies
-  2018: OK, 214352 bougies
-  2019: OK, 323644 bougies
   2020: déjà présent, ignoré
   2021: déjà présent, ignoré
   2022: déjà présent, ignoré
   2023: déjà présent, ignoré
   2024: déjà présent, ignoré
   2025: déjà présent, ignoré
-  2026: OK, 262503 bougies
+  2026: OK, 269141 bougies
 Inventaire écrit dans data/manifest.json (0 échec(s))
