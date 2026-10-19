@@ -1,5 +1,5 @@
 {
-  "maj": "2026-10-19T00:16:54+00:00",
+  "maj": "2026-10-19T00:17:45+00:00",
   "source": "HistData.com (M1, bid)",
   "fichiers": {
     "AUDUSD/AUDUSD_M1_2010.csv.gz": {
@@ -578,9 +578,9 @@
       "fin": "2025-12-31T21:11:00Z"
     },
     "NIKKEI225/NIKKEI225_M1_2026.csv.gz": {
-      "bougies": 261513,
+      "bougies": 268073,
       "debut": "2026-01-01T23:01:00Z",
-      "fin": "2026-10-09T20:13:00Z"
+      "fin": "2026-10-16T20:13:00Z"
     },
     "SP500/SP500_M1_2010.csv.gz": {
       "bougies": 29008,
