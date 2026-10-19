@@ -1,9 +1,9 @@
 == WTI (wtiusd)
-  2020: OK, 342633 bougies
-  2021: OK, 346791 bougies
-  2022: OK, 354164 bougies
-  2023: OK, 279986 bougies
   2024: ÉCHEC (aucune donnée renvoyée)
   2025: ÉCHEC (aucune donnée renvoyée)
-  2026: OK, 101656 bougies
+  2020: déjà présent, ignoré
+  2021: déjà présent, ignoré
+  2022: déjà présent, ignoré
+  2023: déjà présent, ignoré
+  2026: OK, 108535 bougies
 Inventaire écrit dans data/manifest.json (2 échec(s))
