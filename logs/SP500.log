@@ -1,19 +1,9 @@
 == SP500 (spxusd)
-  2010: OK, 29008 bougies
-  2011: OK, 277850 bougies
-  2012: OK, 251514 bougies
-  2013: OK, 229617 bougies
-  2014: OK, 233233 bougies
-  2015: OK, 281125 bougies
-  2016: OK, 282913 bougies
-  2017: OK, 222026 bougies
-  2018: OK, 310381 bougies
-  2019: OK, 308298 bougies
   2020: déjà présent, ignoré
   2021: déjà présent, ignoré
   2022: déjà présent, ignoré
   2023: déjà présent, ignoré
   2024: déjà présent, ignoré
   2025: déjà présent, ignoré
-  2026: OK, 263990 bougies
+  2026: OK, 270640 bougies
 Inventaire écrit dans data/manifest.json (0 échec(s))
