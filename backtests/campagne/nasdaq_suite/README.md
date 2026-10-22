@@ -49,3 +49,15 @@ EURUSD (0,8 pip) et Nasdaq MNQ (0,75 pt), stops 10/20 pips et 20/40 pts, 22 h-mi
 Toutes négatives après frais : EURUSD −0,01 à −0,08 R (taux de réussite 50-54 %, brut +0,00 à +0,05 R),
 Nasdaq −0,02 à −0,08 R (brut ≈ 0 ou négatif). Meilleure de 2011-2018 (EURUSD, RSI + Stoch, 20 pips, Asie) :
 −0,017 R, t −2,2 sur 16 ans.
+
+## Renforcement en perte / grille (`grille.py`, 22/10/2026)
+Nasdaq M5, entrée RSI 14 en zone, +1 position tous les 20 pts contre soi (jusqu'à 3 ou 5), sortie du panier à +20 €,
+stop de panier ou fin de séance ; frais MNQ 0,75 pt par position ; 1 €/pt par position.
+- Version 1 (niveaux remplis dans la bougie) : 3-5 renforts → +58 000 à +79 000 € sur 16 ans, MAIS perdant chaque année
+  2011-2019, tout le gain en 2020-2026. **Biais de simulation** : dans une même bougie M5, le code renforçait au plus bas
+  puis sortait au plus haut, sans savoir lequel est venu en premier ; en 2020-2026 (bougies M5 de 30-60 pts) ce biais
+  fabrique des gains.
+- Version 2 (exécution aux clôtures, sans biais d'ordre) : tout perd, et plus on renforce, plus on perd :
+  0 renfort −8 649 €, 3 renforts −37 973 € (pire panier −4 064 €), 5 renforts −58 206 € (pire panier −6 667 €),
+  malgré 83-85 % de paniers gagnants.
+Conclusion : la grille augmente le taux de réussite et le risque de queue, pas l'espérance.
