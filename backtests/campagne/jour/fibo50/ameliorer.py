@@ -111,44 +111,45 @@ def setups(inst):
     s = pd.DataFrame(rows)
     med = s[s.day < SPLIT].refn.median()
     s["compr"], s["large"] = s.refn < med, s.refn >= med
-    return s, (O, H, L, C)
+    return s, (O, H, L, C), T
 
 
 def tstat(x):
     return x.mean() / x.std(ddof=1) * np.sqrt(len(x)) if len(x) > 2 and x.std() > 0 else np.nan
 
 
-FILTERS = ["tout", "tendJ", "mom24", "pre", "immed", "corps", "compr", "large"] + \
-          [f"{a}+{b}" for a, b in itertools.product(["tendJ", "mom24", "pre"], ["immed", "corps", "compr", "large"])]
-res, keep = [], {}
-for inst in MARKETS:
-    s, (O, H, L, C) = setups(inst)
-    arr = {c: s[c].values for c in ("ke", "idl", "iend", "d", "sl", "x0")}
-    for f, tp in itertools.product(ENTRIES, TPS):
-        fill, g, r = sim(O, H, L, C, arr["ke"].astype(np.int64), arr["idl"].astype(np.int64), arr["iend"].astype(np.int64),
-                         arr["d"].astype(np.int64), arr["sl"].astype(float), arr["x0"].astype(float), f, tp)
-        t = s[fill].copy(); t["gross_r"] = g[fill]; t["cost_r"] = lib.COST[inst] / r[fill]; t["net"] = t.gross_r - t.cost_r
-        for sess in ("Londres", "New York", "les deux"):
-            ts = t if sess == "les deux" else t[t.session == sess]
-            for flt in FILTERS:
-                m = np.ones(len(ts), bool)
-                for p in flt.split("+"):
-                    if p != "tout":
-                        m &= ts[p].values
-                k = ts[m]; dsc, val = k[k.day < SPLIT], k[k.day >= SPLIT]
-                key = (inst, f, tp, sess, flt)
-                res.append(dict(marché=inst, entrée=f, objectif=tp, session=sess, filtre=flt, n=len(k), n_dsc=len(dsc),
-                                brut=k.gross_r.mean(), net_dsc=dsc.net.mean(), t_dsc=tstat(dsc.net), net_val=val.net.mean(), t_val=tstat(val.net)))
-                keep[key] = k
-    print(inst, len(s), "setups", flush=True)
+if __name__ == "__main__":
+    FILTERS = ["tout", "tendJ", "mom24", "pre", "immed", "corps", "compr", "large"] + \
+              [f"{a}+{b}" for a, b in itertools.product(["tendJ", "mom24", "pre"], ["immed", "corps", "compr", "large"])]
+    res, keep = [], {}
+    for inst in MARKETS:
+        s, (O, H, L, C), _ = setups(inst)
+        arr = {c: s[c].values for c in ("ke", "idl", "iend", "d", "sl", "x0")}
+        for f, tp in itertools.product(ENTRIES, TPS):
+            fill, g, r = sim(O, H, L, C, arr["ke"].astype(np.int64), arr["idl"].astype(np.int64), arr["iend"].astype(np.int64),
+                             arr["d"].astype(np.int64), arr["sl"].astype(float), arr["x0"].astype(float), f, tp)
+            t = s[fill].copy(); t["gross_r"] = g[fill]; t["cost_r"] = lib.COST[inst] / r[fill]; t["net"] = t.gross_r - t.cost_r
+            for sess in ("Londres", "New York", "les deux"):
+                ts = t if sess == "les deux" else t[t.session == sess]
+                for flt in FILTERS:
+                    m = np.ones(len(ts), bool)
+                    for p in flt.split("+"):
+                        if p != "tout":
+                            m &= ts[p].values
+                    k = ts[m]; dsc, val = k[k.day < SPLIT], k[k.day >= SPLIT]
+                    key = (inst, f, tp, sess, flt)
+                    res.append(dict(marché=inst, entrée=f, objectif=tp, session=sess, filtre=flt, n=len(k), n_dsc=len(dsc),
+                                    brut=k.gross_r.mean(), net_dsc=dsc.net.mean(), t_dsc=tstat(dsc.net), net_val=val.net.mean(), t_val=tstat(val.net)))
+                    keep[key] = k
+        print(inst, len(s), "setups", flush=True)
 
-R = pd.DataFrame(res)
-R.to_csv(os.path.join(HERE, "ameliorer_grille.csv.gz"), index=False, float_format="%.4f")
-print(f"\n{len(R)} variantes testées. Positives en découverte : {(R.net_dsc > 0).sum()} ; positives en découverte ET validation : {((R.net_dsc > 0) & (R.net_val > 0)).sum()}")
-top = R[R.n_dsc >= 80].sort_values("t_dsc", ascending=False).head(15)
-print("\nTop 15 choisis sur 2011-2018, puis jugés sur 2019-2026 :")
-print(top.round(3).to_string(index=False))
-print("\nCritère complet (lib.evaluate) sur le top 15 :")
-for r in top.itertuples():
-    k = keep[(r.marché, r.entrée, r.objectif, r.session, r.filtre)]
-    print(lib.line(lib.evaluate(k, f"{r.marché} {r.session} e{r.entrée} tp{r.objectif} {r.filtre}")))
+    R = pd.DataFrame(res)
+    R.to_csv(os.path.join(HERE, "ameliorer_grille.csv.gz"), index=False, float_format="%.4f")
+    print(f"\n{len(R)} variantes testées. Positives en découverte : {(R.net_dsc > 0).sum()} ; positives en découverte ET validation : {((R.net_dsc > 0) & (R.net_val > 0)).sum()}")
+    top = R[R.n_dsc >= 80].sort_values("t_dsc", ascending=False).head(15)
+    print("\nTop 15 choisis sur 2011-2018, puis jugés sur 2019-2026 :")
+    print(top.round(3).to_string(index=False))
+    print("\nCritère complet (lib.evaluate) sur le top 15 :")
+    for r in top.itertuples():
+        k = keep[(r.marché, r.entrée, r.objectif, r.session, r.filtre)]
+        print(lib.line(lib.evaluate(k, f"{r.marché} {r.session} e{r.entrée} tp{r.objectif} {r.filtre}")))
