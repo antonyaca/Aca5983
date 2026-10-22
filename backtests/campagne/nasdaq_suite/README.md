@@ -43,3 +43,9 @@ Frais bas : EURUSD raw spread + commission 0,8 pip ; Nasdaq micro-future MNQ 0,7
   (bascule quotidienne du forex, brut +0,54 R) : **artefact d'illiquidité**. Les données HistData sont en prix bid seul
   et ne montrent pas l'écartement du spread à cette heure (souvent plusieurs pips). Net à 1,5 pip : −0,03 R ; à 2 pips :
   −0,13 R. Non exploitable.
+
+## Scalping M5 1:1 (−10 € / +10 €) filtré RSI / Stochastique (`scalp_m5.py`, 22/10/2026)
+EURUSD (0,8 pip) et Nasdaq MNQ (0,75 pt), stops 10/20 pips et 20/40 pts, 22 h-minuit exclu. 36 combinaisons.
+Toutes négatives après frais : EURUSD −0,01 à −0,08 R (taux de réussite 50-54 %, brut +0,00 à +0,05 R),
+Nasdaq −0,02 à −0,08 R (brut ≈ 0 ou négatif). Meilleure de 2011-2018 (EURUSD, RSI + Stoch, 20 pips, Asie) :
+−0,017 R, t −2,2 sur 16 ans.
