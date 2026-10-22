@@ -25,3 +25,12 @@
 Toutes validées (lib.evaluate). Achats seulement : variante prévue avant calcul, cohérente avec la dérive haussière du
 Nasdaq. Limite : à objectif de gain égal, le drawdown du meilleur mélange (≈ 10 mois de gains) est le même que celui du
 mélange précédent (Williams régulier + RSI2<20 + 3 baisses, gain/DD 1,19) ; il demande seulement moins de trades.
+
+## Micro-scalping « objectif +2, stop −1 » en boucle (`micro_scalp.py`, 22/10/2026)
+Nasdaq 2011-2026, toutes les heures de 0 h à 23 h (Paris), stop 5/10/20 pts, sens momentum ou retour, coût 1,5 pt (et 1,0).
+- Espérance nette négative dans 142 des 144 cases (coût 1,5 pt) : stop 5 pts ≈ −0,30 R, 10 pts ≈ −0,14 R, 20 pts ≈ −0,07 R.
+  Avant frais ≈ 0 partout (+2/−1 = 1 chance sur 3, comme le hasard).
+- Meilleure case 2011-2018 (stop 20, retour, 13 h) → −0,063 R en 2019-2026 (t −4,8). Seule case positive (21 h) :
+  379 trades, années alternées → bruit.
+- Journée simulée avec 1 R = 1 € et arrêt à ±100 € : −100 € atteint dans 100 % des cas, après ~670 trades (médiane).
+Conclusion : non viable ; chaque trade paie un spread pour un avantage nul.
