@@ -34,3 +34,12 @@ Nasdaq 2011-2026, toutes les heures de 0 h à 23 h (Paris), stop 5/10/20 pts, se
   379 trades, années alternées → bruit.
 - Journée simulée avec 1 R = 1 € et arrêt à ±100 € : −100 € atteint dans 100 % des cas, après ~670 trades (médiane).
 Conclusion : non viable ; chaque trade paie un spread pour un avantage nul.
+
+## Micro-scalping +2/−1 filtré RSI / Stochastique M1 (`scalp_rsi_stoch.py`, 22/10/2026)
+Frais bas : EURUSD raw spread + commission 0,8 pip ; Nasdaq micro-future MNQ 0,75 pt. 54 combinaisons (filtre × stop × session).
+- Nasdaq : négatif partout (−0,02 à −0,10 R) ; avant frais ≈ 0.
+- EURUSD Asie / Londres / New York : négatif partout (−0,04 à −0,23 R).
+- Seule exception : **EURUSD « soir » 22 h-minuit Paris**, RSI : +0,14 R après 0,8 pip, t 7,1. Concentré à 23:00-23:30
+  (bascule quotidienne du forex, brut +0,54 R) : **artefact d'illiquidité**. Les données HistData sont en prix bid seul
+  et ne montrent pas l'écartement du spread à cette heure (souvent plusieurs pips). Net à 1,5 pip : −0,03 R ; à 2 pips :
+  −0,13 R. Non exploitable.
