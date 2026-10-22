@@ -61,7 +61,7 @@ def main():
                     entry = max(O[k], up) if d == 1 else min(O[k], dn)
                     if (entry - op) * d > 0:
                         gr, kx = manage(hm, O, H, L, C, k, d, entry, op)
-                        rows.append({"day": day, "n": 1, "t_in": int(hm[k]), "entry": entry, "risque": (entry - op) * d,
+                        rows.append({"day": day, "n": 1, "d": d, "t_in": int(hm[k]), "entry": entry, "risque": (entry - op) * d,
                                      "gross_r": gr})
                         if gr < 0 and kx is not None:   # stoppé en perte → 2e chance
                             d2, lvl = -d, (dn if d == 1 else up)
@@ -72,7 +72,7 @@ def main():
                                 e2 = min(O[k2], lvl) if d2 == -1 else max(O[k2], lvl)
                                 if (e2 - op) * d2 > 0:
                                     gr2, _ = manage(hm, O, H, L, C, k2, d2, e2, op)
-                                    rows.append({"day": day, "n": 2, "t_in": int(hm[k2]), "entry": e2,
+                                    rows.append({"day": day, "n": 2, "d": d2, "t_in": int(hm[k2]), "entry": e2,
                                                  "risque": (e2 - op) * d2, "gross_r": gr2})
         prev_range = H[s].max() - L[s].min()
     t = pd.DataFrame(rows)

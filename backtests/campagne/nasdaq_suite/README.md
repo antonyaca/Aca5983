@@ -14,3 +14,14 @@
 | RSI3 < 10 | 46 | +0,622 R | 3,29 | +182 | 80 % |
    **Confirmé** : tous les réglages voisins gagnent, sur les deux périodes → l'avantage n'est pas un hasard de réglage.
    Seuil plus large = plus de trades et plus d'euros, avantage par trade un peu plus faible.
+
+## Réduire le drawdown (`drawdown.py`) — classement par gain annuel / drawdown max (coût ∝ prix, 100 € par R)
+| Stratégie | Trades/jour | €/an | DD | Gain/DD |
+|---|---|---|---|---|
+| Williams régulier achats si > SMA200 + RSI2<20 + 3 baisses | 0,39 | 1 339 | 1 147 | 1,17 |
+| Williams régulier achats seulement | 0,37 | 667 | 882 | 0,76 |
+| RSI2 < 20 | 0,05 | 506 | 713 | 0,71 |
+| Williams régulier (base) | 0,75 | 1 042 | 2 807 | 0,37 |
+Toutes validées (lib.evaluate). Achats seulement : variante prévue avant calcul, cohérente avec la dérive haussière du
+Nasdaq. Limite : à objectif de gain égal, le drawdown du meilleur mélange (≈ 10 mois de gains) est le même que celui du
+mélange précédent (Williams régulier + RSI2<20 + 3 baisses, gain/DD 1,19) ; il demande seulement moins de trades.
