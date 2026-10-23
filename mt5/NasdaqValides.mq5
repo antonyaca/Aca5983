@@ -225,6 +225,15 @@ int SessionsHeld(ulong ticket, datetime nyMid)
    return n;
 }
 
+// Trading automatique autorisé ? Sinon on ne « consomme » pas le signal du jour : il sera retenté au tick suivant.
+bool TradingAllowed()
+{
+   if(TerminalInfoInteger(TERMINAL_TRADE_ALLOWED) && MQLInfoInteger(MQL_TRADE_ALLOWED)) return true;
+   static datetime warned = 0;
+   if(TimeCurrent() - warned > 300) { Print("Trading automatique désactivé : active le bouton « Trading Algo » (signal retenté automatiquement)."); warned = TimeCurrent(); }
+   return false;
+}
+
 //--------------------------------------------------------------------
 // 1. Williams régulier, achat seulement
 //--------------------------------------------------------------------
@@ -243,7 +252,7 @@ void Williams(datetime ny, datetime nyMid, int m)
       }
    }
    // placement à 09:30 NY, une fois par jour
-   if(m >= 570 && m < 600 && g_lastWDay != nyMid)
+   if(m >= 570 && m < 600 && g_lastWDay != nyMid && TradingAllowed())
    {
       g_lastWDay = nyMid; g_halfDone = false;
       double c[]; if(!DailyCloses(c, 202)) { Print("Historique D1 insuffisant"); return; }
@@ -284,7 +293,7 @@ void Williams(datetime ny, datetime nyMid, int m)
 //--------------------------------------------------------------------
 void Swings(datetime nyMid, int m)
 {
-   if(m < 956 || m >= 960 || g_lastSwingDay == nyMid) return;
+   if(m < 956 || m >= 960 || g_lastSwingDay == nyMid || !TradingAllowed()) return;
    g_lastSwingDay = nyMid;
    double c[]; if(!DailyCloses(c, 302)) { Print("Historique D1 insuffisant (300 jours requis)"); return; }
    double sma200 = SMA(c, 0, 200), sma5 = SMA(c, 0, 5), rsi = RSIWilder(c, 2, 300), atr = ATR14();
