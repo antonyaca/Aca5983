@@ -255,6 +255,7 @@ void Williams(datetime ny, datetime nyMid, int m)
    if(m >= 570 && m < 600 && g_lastWDay != nyMid && TradingAllowed())
    {
       g_lastWDay = nyMid; g_halfDone = false;
+      if(CountPending(LEG_W) > 0 || HasPosition(LEG_W, t)) { Print("Williams : ordre ou position du jour déjà en place → rien à faire."); return; }
       double c[]; if(!DailyCloses(c, 202)) { Print("Historique D1 insuffisant"); return; }
       if(!(c[1] > SMA(c, 1, 200))) { Print("Williams : clôture d'hier sous la SMA200 → pas de trade aujourd'hui."); return; }
       double range;
