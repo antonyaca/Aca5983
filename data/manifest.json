@@ -1,5 +1,5 @@
 {
-  "maj": "2026-11-02T01:35:35+00:00",
+  "maj": "2026-11-02T01:37:32+00:00",
   "source": "HistData.com (M1, bid)",
   "fichiers": {
     "AUDUSD/AUDUSD_M1_2010.csv.gz": {
@@ -773,9 +773,9 @@
       "fin": "2023-12-01T21:58:00Z"
     },
     "WTI/WTI_M1_2026.csv.gz": {
-      "bougies": 108535,
+      "bougies": 122341,
       "debut": "2026-06-28T22:00:00Z",
-      "fin": "2026-10-16T20:58:00Z"
+      "fin": "2026-10-30T20:58:00Z"
     },
     "XAGUSD/XAGUSD_M1_2010.csv.gz": {
       "bougies": 298572,
