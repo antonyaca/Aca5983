@@ -1,0 +1,145 @@
+//@version=5
+// Pullback structurel M15 — Nasdaq (US 100 Cash CFD). Mêmes règles que le backtest
+// backtests/campagne/pullback_structure_m15/run.py (repo Aca5983, 05/11/2026).
+//
+// 1. Swings : fractale 2/2 (connue 2 bougies après).
+// 2. Structure haussière = 2 derniers sommets ET 2 derniers creux croissants (baissière = décroissants), sinon rien.
+// 3. Cassure : clôture au-dessus du dernier sommet (vente : sous le dernier creux) → niveau L.
+// 4. Pullback : retour à L ± 0,25 ATR. Annulé si clôture au-delà de L de 0,5 ATR, ou après 16 bougies (4 h).
+// 5. Signal : 1re bougie verte (vente : rouge) qui clôture du bon côté de L après le toucher.
+//    Entrée au marché à l'ouverture suivante. SL = extrême du pullback ± 0,1 ATR. TP = RR × risque.
+// 6. Un seul trade à la fois. Signaux de 09:00 à 21:00 Paris, sortie forcée à 21:45 Paris.
+//
+// Backtest 2011-2026 : pas d'edge validé (net ≈ 0). Meilleur réglage : séance US (15:30-18:00), RR 2,5.
+//
+// Usage : graphique US 100 Cash CFD en M15. Créer UNE alerte sur ce script, condition
+// « Tout appel de la fonction alert() », notification push → tu reçois Entrée / SL / TP, puis TP ou SL touché.
+indicator("Pullback structurel M15 — Nasdaq", overlay = true, max_labels_count = 500, max_lines_count = 500)
+
+rr       = input.float(2.5, "Ratio risque / rendement (TP = RR × risque)", minval = 0.5, step = 0.5)
+sess     = input.session("0900-2100", "Fenêtre des signaux (heure de Paris)")
+exitMin  = input.int(21 * 60 + 45, "Sortie forcée (minutes après minuit, Paris) — 1305 = 21:45")
+riskEUR  = input.float(100.0, "Risque par trade (€)", minval = 1)
+pointEUR = input.float(1.0, "Valeur d'1 point pour 1 lot (€) — à vérifier chez ton broker", minval = 0.0001)
+cost     = input.float(1.5, "Spread + slippage (points)", minval = 0)
+
+tz = "Europe/Paris"
+if timeframe.period != "15"
+    runtime.error("Ce script est prévu pour le M15.")
+
+f_txt(x) => str.tostring(x, format.mintick)
+f_lots(d) => d > 0 ? riskEUR / (d * pointEUR) : na
+
+atr   = ta.sma(ta.tr(true), 14)[1]
+inWin = not na(time(timeframe.period, sess, tz))
+mNow  = hour(time_close, tz) * 60 + minute(time_close, tz)    // heure de clôture de la bougie
+
+// ---------- swings confirmés
+var float sh1 = na
+var float sh2 = na
+var float sl1 = na
+var float sl2 = na
+ph = ta.pivothigh(high, 2, 2)
+pl = ta.pivotlow(low, 2, 2)
+if not na(ph)
+    sh2 := sh1
+    sh1 := ph
+if not na(pl)
+    sl2 := sl1
+    sl1 := pl
+up = sh1 > sh2 and sl1 > sl2
+dn = sh1 < sh2 and sl1 < sl2
+
+// ---------- setup en cours
+var int   sSide = 0
+var float sL = na
+var int   sJ0 = na
+var bool  sTouch = false
+var float sExt = na
+// ---------- trade en cours
+var int   tSide = 0
+var float tSL = na
+var float tTP = na
+var float tEntry = na
+
+newBreak = false
+if not na(atr)
+    if up and close > sh1 and (sSide == 0 or sL != sh1)
+        sSide := 1
+        sL := sh1
+        sJ0 := bar_index
+        sTouch := false
+        sExt := na
+        newBreak := true
+    else if dn and close < sl1 and (sSide == 0 or sL != sl1)
+        sSide := -1
+        sL := sl1
+        sJ0 := bar_index
+        sTouch := false
+        sExt := na
+        newBreak := true
+
+signal = 0
+float sigSL = na
+if sSide != 0 and not newBreak
+    expired = bar_index - sJ0 > 16
+    invalid = sSide == 1 ? close < sL - 0.5 * atr : close > sL + 0.5 * atr
+    if expired or invalid
+        sSide := 0
+    else
+        if not sTouch
+            if (sSide == 1 and low <= sL + 0.25 * atr) or (sSide == -1 and high >= sL - 0.25 * atr)
+                sTouch := true
+                sExt := sSide == 1 ? low : high
+        else
+            sExt := sSide == 1 ? math.min(sExt, low) : math.max(sExt, high)
+        if sTouch
+            if sSide == 1 and close > open and close > sL
+                signal := 1
+                sigSL := sExt - 0.1 * atr
+                sSide := 0
+            else if sSide == -1 and close < open and close < sL
+                signal := -1
+                sigSL := sExt + 0.1 * atr
+                sSide := 0
+
+// ---------- suivi du trade (stop prioritaire dans la même bougie)
+if tSide != 0
+    slHit = tSide == 1 ? low <= tSL : high >= tSL
+    tpHit = tSide == 1 ? high >= tTP : low <= tTP
+    if slHit
+        alert("Nasdaq — SL TOUCHÉ à " + f_txt(tSL) + " (−1 R). Fin du trade.", alert.freq_once_per_bar)
+        label.new(bar_index, tSL, "SL", color = color.red, textcolor = color.white, style = label.style_label_left, size = size.tiny)
+        tSide := 0
+    else if tpHit
+        alert("Nasdaq — TP TOUCHÉ à " + f_txt(tTP) + " (+" + str.tostring(rr) + " R). Fin du trade.", alert.freq_once_per_bar)
+        label.new(bar_index, tTP, "TP", color = color.green, textcolor = color.white, style = label.style_label_left, size = size.tiny)
+        tSide := 0
+    else if barstate.isconfirmed and mNow >= exitMin
+        alert("Nasdaq — 21:45 : ferme le trade au marché (≈ " + f_txt(close) + ").", alert.freq_once_per_bar_close)
+        tSide := 0
+
+// ---------- nouveau signal
+if signal != 0 and tSide == 0 and inWin and barstate.isconfirmed
+    entry = close                                  // exécution à l'ouverture de la bougie suivante ≈ cette clôture
+    risk = (entry - sigSL) * signal
+    if risk >= 3 * cost and risk <= 3 * atr
+        tp = entry + signal * rr * risk
+        tSide := signal
+        tSL := sigSL
+        tTP := tp
+        tEntry := entry
+        side = signal == 1 ? "ACHAT" : "VENTE"
+        alert("Nasdaq — " + side + " au marché ≈ " + f_txt(entry) + " | SL " + f_txt(sigSL) + " | TP " + f_txt(tp) +
+              " | risque " + str.tostring(risk, "#") + " pts → " + str.tostring(f_lots(risk), "#.##") + " lot pour " +
+              str.tostring(riskEUR) + " €. Sortie forcée 21:45.", alert.freq_once_per_bar_close)
+        label.new(bar_index, signal == 1 ? low : high, side + "\nE " + f_txt(entry) + "\nSL " + f_txt(sigSL) + "\nTP " + f_txt(tp),
+                  color = signal == 1 ? color.new(color.blue, 0) : color.new(color.orange, 0), textcolor = color.white,
+                  style = signal == 1 ? label.style_label_up : label.style_label_down, size = size.small)
+        line.new(bar_index, sigSL, bar_index + 12, sigSL, color = color.red)
+        line.new(bar_index, tp, bar_index + 12, tp, color = color.green)
+        line.new(bar_index, entry, bar_index + 12, entry, color = color.gray, style = line.style_dashed)
+
+// niveau cassé en attente de pullback
+plot(sSide != 0 ? sL : na, "Niveau cassé (attente pullback)", color = sSide == 1 ? color.blue : color.orange,
+     style = plot.style_linebr, linewidth = 2)
