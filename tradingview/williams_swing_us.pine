@@ -1,25 +1,21 @@
 //@version=5
-// Williams (Nasdaq, intraday) + RSI2 et 3 baisses (Nasdaq et S&P, swing) — stratégies validées par backtest 2011-2026 (repo Aca5983).
-// L'ORB 30 min est retiré : nul hors 2019-2026 (backtest du 06/11/2026).
-//
-// Williams : ouverture 09:30 NY ± 0,5 × amplitude de la séance de la veille. 1er niveau touché = trade, stop = ouverture.
-//            Pas de TP, clôture 16:00 NY (22:00 Paris).
-// RSI2     : à 15:55 NY (21:55 Paris), achat si RSI2 < 10 et clôture > SMA200 ; sortie le jour où clôture > SMA5.
-// 3 baisses: à 15:55 NY, achat après 3 clôtures consécutives en baisse ; sortie à la 1re clôture en hausse ou après 5 séances.
-// Swing : calculé sur les indices cash (NDX, SPX), à exécuter sur tes CFD US100 / US500. Taille = risque / ATR14.
-//         Le backtest n'avait PAS de stop loss sur ces deux stratégies : la sortie se fait uniquement par les règles ci-dessus.
-//
-// Alertes : mettre le script sur un graphique Nasdaq en M1 ou M5, puis créer UNE alerte avec la condition
-// « Tout appel de la fonction alert() ».
-indicator("Williams + RSI2 + 3 baisses — US", overlay = true, max_labels_count = 500)
+// Williams TOP (Nasdaq, intraday) + RSI2 et 3 baisses (Nasdaq et S&P, swing) — repo Aca5983, backtests du 06/11/2026.
+// Williams TOP : k = 0,4 × amplitude de la veille autour de l'ouverture 15h30 Paris. UN seul ordre, dans le sens de la SMA200
+//   journalière du NDX (achat stop si au-dessus, vente stop si en dessous). Stop = ouverture. Entrée possible jusqu'à 17h30 Paris,
+//   sinon annuler. Trailing stop de 1R (= distance entrée-ouverture). Clôture 22h00 Paris si pas sorti avant.
+// RSI2 / 3 baisses : contrôle à 21h55 Paris (achat / sortie), taille = risque / ATR14, sans stop (comme le backtest).
+// Utilisation : graphique NAS100 en M1. UNE alerte « Tout appel de la fonction alert() ».
+indicator("Williams TOP + RSI2 + 3 baisses — US", overlay = true, max_labels_count = 500)
 
 riskEUR  = input.float(100.0, "Risque par trade (€)", minval = 1)
-pointEUR = input.float(1.0, "Valeur d'1 point pour 1 lot (€) — à vérifier chez ton broker", minval = 0.0001)
-k        = input.float(0.5, "Williams : k", minval = 0.05, step = 0.05)
-useW     = input.bool(true, "Activer Williams (Nasdaq)")
+pointEUR = input.float(0.9, "Valeur d'1 point pour 1 lot (€)", minval = 0.0001)
+mt5mult  = input.int(100, "Points MT5 par point d'indice (2 décimales = 100)", minval = 1)
+k        = input.float(0.4, "Williams : k", minval = 0.05, step = 0.05)
+trailR   = input.float(1.0, "Trailing (en R)", minval = 0.1, step = 0.25)
+useW     = input.bool(true, "Activer Williams TOP (Nasdaq)")
 useRSI   = input.bool(true, "Activer RSI2 (Nasdaq + S&P)")
 use3B    = input.bool(true, "Activer 3 baisses (Nasdaq + S&P)")
-symN     = input.symbol("NASDAQ:NDX", "Indice Nasdaq (swing)")
+symN     = input.symbol("NASDAQ:NDX", "Indice Nasdaq (filtre + swing)")
 symS     = input.symbol("SP:SPX", "Indice S&P 500 (swing)")
 
 tz      = "America/New_York"
@@ -31,16 +27,29 @@ mEnd    = m + tfMin
 
 f_lots(dist) => dist > 0 ? riskEUR / (dist * pointEUR) : na
 f_txt(x) => str.tostring(x, format.mintick)
-f_size(dist) => str.tostring(f_lots(dist), "#.##") + " lot pour " + str.tostring(riskEUR) + " €"
+f_lotTxt(dist) => str.tostring(f_lots(dist), "#.##") + " lot"
 
-// =====================================================================  WILLIAMS (intraday)
+// ===== données journalières des indices
+f_daily() =>
+    tr14 = ta.sma(ta.tr(true), 14)
+    down3 = close < close[1] and close[1] < close[2] and close[2] < close[3]
+    [close, close[1], ta.rsi(close, 2), ta.sma(close, 200), ta.sma(close, 5), tr14, down3, ta.sma(close, 200)[1]]
+[cN, pcN, rsiN, s200N, s5N, atrN, d3N, s200Nprev] = request.security(symN, "D", f_daily())
+[cS, pcS, rsiS, s200S, s5S, atrS, d3S, s200Sprev] = request.security(symS, "D", f_daily())
+
+// ===== WILLIAMS TOP
 var float curH = na
 var float curL = na
 var float prevRange = na
 var float dayOpen = na
-var float wUp = na
-var float wDn = na
-var int   wDir = 0          // 0 en attente, 1 achat, -1 vente, 9 terminé sans trade
+var float lvl = na          // niveau d'entrée du jour
+var int   dir = 0           // 1 achat, -1 vente (sens SMA200)
+var int   st = 0            // 0 attente 15h30, 1 ordre posé, 2 en position, 3 terminé
+var float entry = na
+var float R = na
+var float best = na
+var float trail = na
+var string fin = ""
 
 if newSess
     if not na(curH)
@@ -48,110 +57,141 @@ if newSess
     curH := high
     curL := low
     dayOpen := open
-    wUp := na(prevRange) ? na : dayOpen + k * prevRange
-    wDn := na(prevRange) ? na : dayOpen - k * prevRange
-    wDir := 0
-    if useW and not na(wUp) and barstate.isconfirmed
-        alert("Nasdaq — Williams : achat stop " + f_txt(wUp) + " / vente stop " + f_txt(wDn) + " / stop loss " + f_txt(dayOpen) +
-              " (" + f_size(wUp - dayOpen) + "). Annule l'autre ordre au 1er déclenchement.", alert.freq_once_per_bar_close)
+    fin := ""
+    entry := na
+    trail := na
+    if useW and not na(prevRange) and not na(s200Nprev)
+        // ouverture au-dessus de la SMA200 journalière du NDX (calculée jusqu'à la veille) ? → achats seulement, sinon ventes
+        dir := dayOpen > s200Nprev ? 1 : -1
+        lvl := dayOpen + dir * k * prevRange
+        R := k * prevRange
+        st := 1
+        if barstate.isconfirmed
+            alert("NASDAQ — À FAIRE : place une " + (dir == 1 ? "ACHAT STOP" : "VENTE STOP") + " à " + f_txt(lvl) +
+                  " | Stop loss " + f_txt(dayOpen) + " | Trailing " + str.tostring(math.round(R * trailR * mt5mult)) +
+                  " points MT5 | " + f_lotTxt(R) + ". Annule à 17h30 si pas déclenché.", alert.freq_once_per_bar_close)
+    else
+        st := 3
+        fin := "Pas de trade aujourd'hui"
 else if inSess
     curH := math.max(curH, high)
     curL := math.min(curL, low)
 
-wBuy = false
-wSell = false
-if useW and inSess and not newSess and wDir == 0 and not na(wUp)
-    upHit = high >= wUp
-    dnHit = low <= wDn
-    if upHit and dnHit
-        wDir := 9
-    else if upHit
-        wDir := 1
-        wBuy := true
-    else if dnHit
-        wDir := -1
-        wSell := true
+trig = false
+exitTrail = false
+if useW and inSess and not newSess
+    if st == 1
+        if m >= 660
+            st := 3
+            fin := "Pas déclenché : ordre annulé"
+            if barstate.isconfirmed
+                alert("NASDAQ — À FAIRE : 17h30, pas déclenché. SUPPRIME ton ordre. Plus de Williams aujourd'hui.", alert.freq_once_per_bar_close)
+        else if (dir == 1 and high >= lvl) or (dir == -1 and low <= lvl)
+            st := 2
+            entry := dir == 1 ? math.max(lvl, open) : math.min(lvl, open)
+            best := entry
+            trail := dayOpen
+            trig := true
+    else if st == 2
+        hitStop = dir == 1 ? low <= trail : high >= trail
+        if hitStop
+            st := 3
+            exitTrail := true
+            fin := "Sorti par le stop à " + f_txt(trail)
+        else
+            best := dir == 1 ? math.max(best, high) : math.min(best, low)
+            ns = best - dir * trailR * R
+            trail := dir == 1 ? math.max(trail, ns) : math.min(trail, ns)
 
-if wBuy
-    alert("Nasdaq — Williams DÉCLENCHÉ : ACHAT à " + f_txt(wUp) + ", stop " + f_txt(dayOpen) + ". Supprime la vente stop. Clôture à 22h00 Paris.", alert.freq_once_per_bar)
-if wSell
-    alert("Nasdaq — Williams DÉCLENCHÉ : VENTE à " + f_txt(wDn) + ", stop " + f_txt(dayOpen) + ". Supprime l'achat stop. Clôture à 22h00 Paris.", alert.freq_once_per_bar)
-closeSoon = inSess and m < 955 and mEnd >= 955 and (wDir == 1 or wDir == -1)
+if trig
+    alert("NASDAQ — DÉCLENCHÉ : tu es " + (dir == 1 ? "ACHETEUR" : "VENDEUR") + " à " + f_txt(entry) + ". Vérifie que ton trailing stop est actif. Clôture 22h00.", alert.freq_once_per_bar)
+if exitTrail
+    alert("NASDAQ — SORTI par le trailing stop. Trade terminé pour aujourd'hui.", alert.freq_once_per_bar)
+closeSoon = inSess and m < 955 and mEnd >= 955 and st == 2
 if useW and closeSoon and barstate.isconfirmed
-    alert("Nasdaq — Williams : clôture dans 5 min, ferme la position à 22h00 Paris.", alert.freq_once_per_bar_close)
+    alert("NASDAQ — À FAIRE : 21h55, FERME ta position Williams avant 22h00.", alert.freq_once_per_bar_close)
+if useW and inSess and m < 960 and mEnd >= 960 and st == 2
+    st := 3
+    fin := "Clôturé à 22h00"
 
-// =====================================================================  SWING (RSI2, 3 baisses) sur bougies journalières des indices
-f_daily() =>
-    tr14 = ta.sma(ta.tr(true), 14)
-    down3 = close < close[1] and close[1] < close[2] and close[2] < close[3]
-    [close, close[1], ta.rsi(close, 2), ta.sma(close, 200), ta.sma(close, 5), tr14, down3]
-
-[cN, pcN, rsiN, s200N, s5N, atrN, d3N] = request.security(symN, "D", f_daily())
-[cS, pcS, rsiS, s200S, s5S, atrS, d3S] = request.security(symS, "D", f_daily())
-
-checkTime = inSess and m < 955 and mEnd >= 955 and barstate.isconfirmed   // bougie qui se termine à 15:55 NY
-
+// ===== SWING (RSI2, 3 baisses)
+checkTime = inSess and m < 955 and mEnd >= 955 and barstate.isconfirmed
 var bool rsiInN = false
 var bool rsiInS = false
 var bool b3InN = false
 var bool b3InS = false
 var int  b3DaysN = 0
 var int  b3DaysS = 0
-
-f_name(isN) => isN ? "Nasdaq (US100)" : "S&P 500 (US500)"
-
+f_name(isN) => isN ? "NASDAQ (NAS100)" : "S&P 500 (US500)"
 if checkTime
-    // ---- RSI2 : sorties puis entrées
     if useRSI
         if rsiInN and cN > s5N
             rsiInN := false
-            alert("RSI2 " + f_name(true) + " — SORTIE : clôture au-dessus de la SMA5. Ferme la position avant 22h00 Paris.")
+            alert("RSI2 " + f_name(true) + " — À FAIRE : VENDS ta position avant 22h00.")
         else if not rsiInN and rsiN < 10 and cN > s200N
             rsiInN := true
-            alert("RSI2 " + f_name(true) + " — ACHAT avant 22h00 Paris (RSI2 " + str.tostring(rsiN, "#.0") + "). Taille : " + f_size(atrN) + ". Sortie quand clôture > SMA5 (" + f_txt(s5N) + ").")
+            alert("RSI2 " + f_name(true) + " — À FAIRE : ACHÈTE " + f_lotTxt(atrN) + " avant 22h00. Pas de stop. Je te dirai quand sortir.")
         if rsiInS and cS > s5S
             rsiInS := false
-            alert("RSI2 " + f_name(false) + " — SORTIE : clôture au-dessus de la SMA5. Ferme la position avant 22h00 Paris.")
+            alert("RSI2 " + f_name(false) + " — À FAIRE : VENDS ta position avant 22h00.")
         else if not rsiInS and rsiS < 10 and cS > s200S
             rsiInS := true
-            alert("RSI2 " + f_name(false) + " — ACHAT avant 22h00 Paris (RSI2 " + str.tostring(rsiS, "#.0") + "). Taille : " + f_size(atrS) + ". Sortie quand clôture > SMA5 (" + f_txt(s5S) + ").")
-    // ---- 3 baisses : sorties puis entrées
+            alert("RSI2 " + f_name(false) + " — À FAIRE : ACHÈTE " + f_lotTxt(atrS) + " avant 22h00. Pas de stop. Je te dirai quand sortir.")
     if use3B
         if b3InN
             b3DaysN += 1
             if cN > pcN or b3DaysN >= 5
                 b3InN := false
-                alert("3 baisses " + f_name(true) + " — SORTIE (" + (cN > pcN ? "1re hausse" : "5 séances") + "). Ferme la position avant 22h00 Paris.")
+                alert("3 baisses " + f_name(true) + " — À FAIRE : VENDS ta position avant 22h00.")
         else if d3N
             b3InN := true
             b3DaysN := 0
-            alert("3 baisses " + f_name(true) + " — ACHAT avant 22h00 Paris. Taille : " + f_size(atrN) + ". Sortie à la 1re clôture en hausse ou après 5 séances.")
+            alert("3 baisses " + f_name(true) + " — À FAIRE : ACHÈTE " + f_lotTxt(atrN) + " avant 22h00. Pas de stop. Je te dirai quand sortir.")
         if b3InS
             b3DaysS += 1
             if cS > pcS or b3DaysS >= 5
                 b3InS := false
-                alert("3 baisses " + f_name(false) + " — SORTIE (" + (cS > pcS ? "1re hausse" : "5 séances") + "). Ferme la position avant 22h00 Paris.")
+                alert("3 baisses " + f_name(false) + " — À FAIRE : VENDS ta position avant 22h00.")
         else if d3S
             b3InS := true
             b3DaysS := 0
-            alert("3 baisses " + f_name(false) + " — ACHAT avant 22h00 Paris. Taille : " + f_size(atrS) + ". Sortie à la 1re clôture en hausse ou après 5 séances.")
+            alert("3 baisses " + f_name(false) + " — À FAIRE : ACHÈTE " + f_lotTxt(atrS) + " avant 22h00. Pas de stop. Je te dirai quand sortir.")
 
-// =====================================================================  AFFICHAGE
-plot(useW and inSess ? wUp : na, "Williams achat stop", color.new(color.green, 0), 1, plot.style_linebr)
-plot(useW and inSess ? wDn : na, "Williams vente stop", color.new(color.red, 0), 1, plot.style_linebr)
-plot(useW and inSess ? dayOpen : na, "Ouverture (stop Williams)", color.new(color.gray, 0), 1, plot.style_linebr)
-plotshape(wBuy, "Williams achat", shape.triangleup, location.belowbar, color.green, size = size.small, text = "W")
-plotshape(wSell, "Williams vente", shape.triangledown, location.abovebar, color.red, size = size.small, text = "W")
+// ===== AFFICHAGE SUR LE GRAPHIQUE
+showLvl = useW and inSess and (st == 1 or st == 2 or (st == 3 and not na(entry)))
+plot(showLvl ? lvl : na, "Niveau d'entrée", dir == 1 ? color.green : color.red, 2, plot.style_linebr)
+plot(useW and inSess and st >= 1 ? dayOpen : na, "Stop initial (ouverture)", color.gray, 1, plot.style_linebr)
+plot(useW and inSess and st == 2 ? trail : na, "Trailing stop", color.orange, 2, plot.style_linebr)
+plotshape(trig and dir == 1, "Achat", shape.labelup, location.belowbar, color.green, text = "ACHAT", textcolor = color.white, size = size.small)
+plotshape(trig and dir == -1, "Vente", shape.labeldown, location.abovebar, color.red, text = "VENTE", textcolor = color.white, size = size.small)
+plotshape(exitTrail, "Sortie trailing", shape.xcross, location.abovebar, color.orange, size = size.small)
 
-var table tb = table.new(position.top_right, 2, 5, bgcolor = color.new(color.black, 80), border_width = 1)
+// ===== PANNEAU « QUE FAIRE MAINTENANT »
+var table tb = table.new(position.top_right, 2, 8, bgcolor = color.new(color.black, 15), border_width = 1, border_color = color.gray)
+f_row(r, a, b, col) =>
+    table.cell(tb, 0, r, a, text_color = color.white, text_size = size.normal, text_halign = text.align_left)
+    table.cell(tb, 1, r, b, text_color = col, text_size = size.normal, text_halign = text.align_left)
 if barstate.islast
-    table.cell(tb, 0, 0, "Swing", text_color = color.white)
-    table.cell(tb, 1, 0, "Nasdaq / S&P", text_color = color.white)
-    table.cell(tb, 0, 1, "RSI2", text_color = color.white)
-    table.cell(tb, 1, 1, str.tostring(rsiN, "#.0") + " / " + str.tostring(rsiS, "#.0"), text_color = color.white)
-    table.cell(tb, 0, 2, "> SMA200", text_color = color.white)
-    table.cell(tb, 1, 2, (cN > s200N ? "oui" : "non") + " / " + (cS > s200S ? "oui" : "non"), text_color = color.white)
-    table.cell(tb, 0, 3, "Pos. RSI2", text_color = color.white)
-    table.cell(tb, 1, 3, (rsiInN ? "OUI" : "-") + " / " + (rsiInS ? "OUI" : "-"), text_color = color.white)
-    table.cell(tb, 0, 4, "Pos. 3 baisses", text_color = color.white)
-    table.cell(tb, 1, 4, (b3InN ? "OUI" : "-") + " / " + (b3InS ? "OUI" : "-"), text_color = color.white)
+    string action = ""
+    color  acol = color.white
+    if not useW
+        action := "Williams désactivé"
+    else if not inSess
+        action := "Attendre 15h30 Paris"
+    else if st == 1
+        action := (dir == 1 ? "ACHAT STOP " : "VENTE STOP ") + f_txt(lvl)
+        acol := dir == 1 ? color.lime : color.red
+    else if st == 2
+        action := "EN POSITION — laisse courir"
+        acol := color.orange
+    else
+        action := fin == "" ? "Rien à faire" : fin
+    table.cell(tb, 0, 0, "WILLIAMS NASDAQ", text_color = color.yellow, text_size = size.large)
+    table.cell(tb, 1, 0, "", text_color = color.white)
+    f_row(1, "À faire", action, acol)
+    f_row(2, "Sens du jour", dir == 1 ? "ACHAT seulement" : dir == -1 ? "VENTE seulement" : "-", dir == 1 ? color.lime : color.red)
+    f_row(3, "Stop loss", f_txt(dayOpen), color.white)
+    f_row(4, "Trailing MT5", na(R) ? "-" : str.tostring(math.round(R * trailR * mt5mult)) + " points", color.orange)
+    f_row(5, "Taille", na(R) ? "-" : f_lotTxt(R) + " (" + str.tostring(riskEUR) + " €)", color.white)
+    f_row(6, "RSI2 en cours", (rsiInN ? "NAS OUI" : "NAS -") + " / " + (rsiInS ? "S&P OUI" : "S&P -"), color.white)
+    f_row(7, "3 baisses en cours", (b3InN ? "NAS OUI" : "NAS -") + " / " + (b3InS ? "S&P OUI" : "S&P -"), color.white)
