@@ -76,26 +76,43 @@ def run(p):
         else:
             if not allow_short: continue
             s, j0 = -1, idn; e = min(dn, o[j0])
-        if p["stop"] == "anchor": st = anchor
-        elif p["stop"] == "half": st = e - s * 0.5 * p["k"] * vol
-        elif p["stop"] == "atr": st = e - s * row.atr14 * 0.5
-        elif p["stop"] == "opposite": st = dn if s == 1 else up
-        R = abs(e - st)
-        if R <= 0 or (s == 1 and st >= e) or (s == -1 and st <= e): continue
-        # sortie
-        r = None; best = 0.0; stop = st
-        for j in range(j0, len(m)):
-            if m[j] >= p["texit"]: r = s * (o[j] - e) / R; break
-            worst = (l[j] - e) / R if s == 1 else (e - h[j]) / R
-            fav = (h[j] - e) / R if s == 1 else (e - l[j]) / R
-            sr = s * (stop - e) / R
-            if worst <= sr: r = sr; break
-            if j > j0: best = max(best, fav)
-            if p["trail"]:
-                ns = e + s * (best - p["trail"]) * R
-                stop = max(stop, ns) if s == 1 else min(stop, ns)
-        if r is None: r = s * (c[-1] - e) / R
-        out.append((day, r, COST / R, s))
+        def sim(s, e, j0):
+            if p["stop"] == "anchor": st = anchor
+            elif p["stop"] == "half": st = e - s * 0.5 * p["k"] * vol
+            elif p["stop"] == "atr": st = e - s * row.atr14 * 0.5
+            elif p["stop"] == "opposite": st = dn if s == 1 else up
+            R = abs(e - st)
+            if R <= 0 or (s == 1 and st >= e) or (s == -1 and st <= e): return None
+            stop = st; best = 0.0; part = 0.0; w = 1.0
+            for j in range(j0, len(m)):
+                if m[j] >= p["texit"]: return part + w * s * (o[j] - e) / R, COST / R, j
+                worst = (l[j] - e) / R if s == 1 else (e - h[j]) / R
+                fav = (h[j] - e) / R if s == 1 else (e - l[j]) / R
+                sr = s * (stop - e) / R
+                if worst <= sr: return part + w * sr, COST / R, j
+                if j > j0:
+                    if p.get("tp") and fav >= p["tp"]: return part + w * p["tp"], COST / R, j
+                    if p.get("partial") and w == 1.0 and fav >= p["partial"]:
+                        part = 0.5 * p["partial"]; w = 0.5
+                    best = max(best, fav)
+                if p.get("be") and best >= p["be"]:
+                    stop = max(stop, e) if s == 1 else min(stop, e)
+                if p["trail"] and best >= p.get("tstart", 0):
+                    ns = e + s * (best - p["trail"]) * R
+                    stop = max(stop, ns) if s == 1 else min(stop, ns)
+            return part + w * s * (c[-1] - e) / R, COST / R, len(m) - 1
+        res = sim(s, e, j0)
+        if res is None: continue
+        out.append((day, res[0], res[1], s))
+        if p.get("reentry") and res[0] < 0:
+            # 2e trade : niveau opposé touché après la sortie, dans la fenêtre
+            jx = res[2] + 1
+            if s == 1: hit = (l[jx:] <= dn) & win[jx:]; s2 = -1
+            else: hit = (h[jx:] >= up) & win[jx:]; s2 = 1
+            if hit.any() and ((s2 == 1 and allow_long) or (s2 == -1 and allow_short)):
+                j2 = jx + np.argmax(hit); e2 = max(up, o[j2]) if s2 == 1 else min(dn, o[j2])
+                r2 = sim(s2, e2, j2)
+                if r2: out.append((day, r2[0], r2[1], s2))
     t = pd.DataFrame(out, columns=["day", "g", "c", "s"]); t["r"] = t.g - t.c
     return t[t.day >= "2011-01-01"]
 

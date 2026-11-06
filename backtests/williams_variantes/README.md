@@ -18,3 +18,13 @@ S&P 500 : ne se transpose pas (net ≈ 0). Effet propre au Nasdaq.
 Positives sur les 2 périodes : k 0,4 ; achats seuls ; sens SMA200 ; entrée avant 17h30 ; gros gap (> 0,3 ATR14, t 3,1) ;
 trailing 1R. Rejetées : ATR comme volatilité, ancre clôture veille, sorties anticipées (17h-21h), filtre jour de semaine
 (échantillons trop petits), NR4, stop opposé / 0,5 ATR.
+
+## Tour 2 (06/11/2026) : ajouts sur le combo puis walk-forward
+Ajouts au combo (k 0,4, < 17h30, trailing 1R) : gap > 0,1 ATR → t 6,1, 16/16 ; sens SMA200 → E +0,165 R, DD 1 060 € ;
+2e trade si 1er perdant → +7 % d'€ ; BE, TP, sortie partielle, démarrage différé du trailing → moins bien.
+
+**Walk-forward** (`wf.py`, 64 configs ; chaque année, config au meilleur gain/DD sur les années passées, jouée sur l'année) :
+2015-2026 hors échantillon : 1 168 trades, E +0,167 R, t 5,2, **+1 622 €/an, DD 1 000 €, 12 années positives sur 12**
+(version actuelle sur la même période : +1 566 €/an, DD 2 457 €).
+Choix stable : k 0,4 / avant 17h30 / trailing 1R, avec sens SMA200 (8 ans sur 12) ou gap > 0,1 (4 ans).
+→ **Version retenue : Williams k 0,4, entrée 15h30-17h30 Paris dans le sens de la SMA200 journalière, stop ouverture, trailing 1R, clôture 22h.**
