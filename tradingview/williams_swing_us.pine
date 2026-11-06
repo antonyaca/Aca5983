@@ -1,0 +1,157 @@
+//@version=5
+// Williams (Nasdaq, intraday) + RSI2 et 3 baisses (Nasdaq et S&P, swing) — stratégies validées par backtest 2011-2026 (repo Aca5983).
+// L'ORB 30 min est retiré : nul hors 2019-2026 (backtest du 06/11/2026).
+//
+// Williams : ouverture 09:30 NY ± 0,5 × amplitude de la séance de la veille. 1er niveau touché = trade, stop = ouverture.
+//            Pas de TP, clôture 16:00 NY (22:00 Paris).
+// RSI2     : à 15:55 NY (21:55 Paris), achat si RSI2 < 10 et clôture > SMA200 ; sortie le jour où clôture > SMA5.
+// 3 baisses: à 15:55 NY, achat après 3 clôtures consécutives en baisse ; sortie à la 1re clôture en hausse ou après 5 séances.
+// Swing : calculé sur les indices cash (NDX, SPX), à exécuter sur tes CFD US100 / US500. Taille = risque / ATR14.
+//         Le backtest n'avait PAS de stop loss sur ces deux stratégies : la sortie se fait uniquement par les règles ci-dessus.
+//
+// Alertes : mettre le script sur un graphique Nasdaq en M1 ou M5, puis créer UNE alerte avec la condition
+// « Tout appel de la fonction alert() ».
+indicator("Williams + RSI2 + 3 baisses — US", overlay = true, max_labels_count = 500)
+
+riskEUR  = input.float(100.0, "Risque par trade (€)", minval = 1)
+pointEUR = input.float(1.0, "Valeur d'1 point pour 1 lot (€) — à vérifier chez ton broker", minval = 0.0001)
+k        = input.float(0.5, "Williams : k", minval = 0.05, step = 0.05)
+useW     = input.bool(true, "Activer Williams (Nasdaq)")
+useRSI   = input.bool(true, "Activer RSI2 (Nasdaq + S&P)")
+use3B    = input.bool(true, "Activer 3 baisses (Nasdaq + S&P)")
+symN     = input.symbol("NASDAQ:NDX", "Indice Nasdaq (swing)")
+symS     = input.symbol("SP:SPX", "Indice S&P 500 (swing)")
+
+tz      = "America/New_York"
+tfMin   = timeframe.isminutes ? timeframe.multiplier : 1
+inSess  = not na(time(timeframe.period, "0930-1600", tz))
+newSess = inSess and not inSess[1]
+m       = hour(time, tz) * 60 + minute(time, tz)
+mEnd    = m + tfMin
+
+f_lots(dist) => dist > 0 ? riskEUR / (dist * pointEUR) : na
+f_txt(x) => str.tostring(x, format.mintick)
+f_size(dist) => str.tostring(f_lots(dist), "#.##") + " lot pour " + str.tostring(riskEUR) + " €"
+
+// =====================================================================  WILLIAMS (intraday)
+var float curH = na
+var float curL = na
+var float prevRange = na
+var float dayOpen = na
+var float wUp = na
+var float wDn = na
+var int   wDir = 0          // 0 en attente, 1 achat, -1 vente, 9 terminé sans trade
+
+if newSess
+    if not na(curH)
+        prevRange := curH - curL
+    curH := high
+    curL := low
+    dayOpen := open
+    wUp := na(prevRange) ? na : dayOpen + k * prevRange
+    wDn := na(prevRange) ? na : dayOpen - k * prevRange
+    wDir := 0
+    if useW and not na(wUp) and barstate.isconfirmed
+        alert("Nasdaq — Williams : achat stop " + f_txt(wUp) + " / vente stop " + f_txt(wDn) + " / stop loss " + f_txt(dayOpen) +
+              " (" + f_size(wUp - dayOpen) + "). Annule l'autre ordre au 1er déclenchement.", alert.freq_once_per_bar_close)
+else if inSess
+    curH := math.max(curH, high)
+    curL := math.min(curL, low)
+
+wBuy = false
+wSell = false
+if useW and inSess and not newSess and wDir == 0 and not na(wUp)
+    upHit = high >= wUp
+    dnHit = low <= wDn
+    if upHit and dnHit
+        wDir := 9
+    else if upHit
+        wDir := 1
+        wBuy := true
+    else if dnHit
+        wDir := -1
+        wSell := true
+
+if wBuy
+    alert("Nasdaq — Williams DÉCLENCHÉ : ACHAT à " + f_txt(wUp) + ", stop " + f_txt(dayOpen) + ". Supprime la vente stop. Clôture à 22h00 Paris.", alert.freq_once_per_bar)
+if wSell
+    alert("Nasdaq — Williams DÉCLENCHÉ : VENTE à " + f_txt(wDn) + ", stop " + f_txt(dayOpen) + ". Supprime l'achat stop. Clôture à 22h00 Paris.", alert.freq_once_per_bar)
+closeSoon = inSess and m < 955 and mEnd >= 955 and (wDir == 1 or wDir == -1)
+if useW and closeSoon and barstate.isconfirmed
+    alert("Nasdaq — Williams : clôture dans 5 min, ferme la position à 22h00 Paris.", alert.freq_once_per_bar_close)
+
+// =====================================================================  SWING (RSI2, 3 baisses) sur bougies journalières des indices
+f_daily() =>
+    tr14 = ta.sma(ta.tr(true), 14)
+    down3 = close < close[1] and close[1] < close[2] and close[2] < close[3]
+    [close, close[1], ta.rsi(close, 2), ta.sma(close, 200), ta.sma(close, 5), tr14, down3]
+
+[cN, pcN, rsiN, s200N, s5N, atrN, d3N] = request.security(symN, "D", f_daily())
+[cS, pcS, rsiS, s200S, s5S, atrS, d3S] = request.security(symS, "D", f_daily())
+
+checkTime = inSess and m < 955 and mEnd >= 955 and barstate.isconfirmed   // bougie qui se termine à 15:55 NY
+
+var bool rsiInN = false
+var bool rsiInS = false
+var bool b3InN = false
+var bool b3InS = false
+var int  b3DaysN = 0
+var int  b3DaysS = 0
+
+f_name(isN) => isN ? "Nasdaq (US100)" : "S&P 500 (US500)"
+
+if checkTime
+    // ---- RSI2 : sorties puis entrées
+    if useRSI
+        if rsiInN and cN > s5N
+            rsiInN := false
+            alert("RSI2 " + f_name(true) + " — SORTIE : clôture au-dessus de la SMA5. Ferme la position avant 22h00 Paris.")
+        else if not rsiInN and rsiN < 10 and cN > s200N
+            rsiInN := true
+            alert("RSI2 " + f_name(true) + " — ACHAT avant 22h00 Paris (RSI2 " + str.tostring(rsiN, "#.0") + "). Taille : " + f_size(atrN) + ". Sortie quand clôture > SMA5 (" + f_txt(s5N) + ").")
+        if rsiInS and cS > s5S
+            rsiInS := false
+            alert("RSI2 " + f_name(false) + " — SORTIE : clôture au-dessus de la SMA5. Ferme la position avant 22h00 Paris.")
+        else if not rsiInS and rsiS < 10 and cS > s200S
+            rsiInS := true
+            alert("RSI2 " + f_name(false) + " — ACHAT avant 22h00 Paris (RSI2 " + str.tostring(rsiS, "#.0") + "). Taille : " + f_size(atrS) + ". Sortie quand clôture > SMA5 (" + f_txt(s5S) + ").")
+    // ---- 3 baisses : sorties puis entrées
+    if use3B
+        if b3InN
+            b3DaysN += 1
+            if cN > pcN or b3DaysN >= 5
+                b3InN := false
+                alert("3 baisses " + f_name(true) + " — SORTIE (" + (cN > pcN ? "1re hausse" : "5 séances") + "). Ferme la position avant 22h00 Paris.")
+        else if d3N
+            b3InN := true
+            b3DaysN := 0
+            alert("3 baisses " + f_name(true) + " — ACHAT avant 22h00 Paris. Taille : " + f_size(atrN) + ". Sortie à la 1re clôture en hausse ou après 5 séances.")
+        if b3InS
+            b3DaysS += 1
+            if cS > pcS or b3DaysS >= 5
+                b3InS := false
+                alert("3 baisses " + f_name(false) + " — SORTIE (" + (cS > pcS ? "1re hausse" : "5 séances") + "). Ferme la position avant 22h00 Paris.")
+        else if d3S
+            b3InS := true
+            b3DaysS := 0
+            alert("3 baisses " + f_name(false) + " — ACHAT avant 22h00 Paris. Taille : " + f_size(atrS) + ". Sortie à la 1re clôture en hausse ou après 5 séances.")
+
+// =====================================================================  AFFICHAGE
+plot(useW and inSess ? wUp : na, "Williams achat stop", color.new(color.green, 0), 1, plot.style_linebr)
+plot(useW and inSess ? wDn : na, "Williams vente stop", color.new(color.red, 0), 1, plot.style_linebr)
+plot(useW and inSess ? dayOpen : na, "Ouverture (stop Williams)", color.new(color.gray, 0), 1, plot.style_linebr)
+plotshape(wBuy, "Williams achat", shape.triangleup, location.belowbar, color.green, size = size.small, text = "W")
+plotshape(wSell, "Williams vente", shape.triangledown, location.abovebar, color.red, size = size.small, text = "W")
+
+var table tb = table.new(position.top_right, 2, 5, bgcolor = color.new(color.black, 80), border_width = 1)
+if barstate.islast
+    table.cell(tb, 0, 0, "Swing", text_color = color.white)
+    table.cell(tb, 1, 0, "Nasdaq / S&P", text_color = color.white)
+    table.cell(tb, 0, 1, "RSI2", text_color = color.white)
+    table.cell(tb, 1, 1, str.tostring(rsiN, "#.0") + " / " + str.tostring(rsiS, "#.0"), text_color = color.white)
+    table.cell(tb, 0, 2, "> SMA200", text_color = color.white)
+    table.cell(tb, 1, 2, (cN > s200N ? "oui" : "non") + " / " + (cS > s200S ? "oui" : "non"), text_color = color.white)
+    table.cell(tb, 0, 3, "Pos. RSI2", text_color = color.white)
+    table.cell(tb, 1, 3, (rsiInN ? "OUI" : "-") + " / " + (rsiInS ? "OUI" : "-"), text_color = color.white)
+    table.cell(tb, 0, 4, "Pos. 3 baisses", text_color = color.white)
+    table.cell(tb, 1, 4, (b3InN ? "OUI" : "-") + " / " + (b3InS ? "OUI" : "-"), text_color = color.white)
