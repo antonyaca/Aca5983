@@ -1,5 +1,5 @@
 {
-  "maj": "2026-11-16T01:55:49+00:00",
+  "maj": "2026-11-16T01:56:43+00:00",
   "source": "HistData.com (M1, bid)",
   "fichiers": {
     "AUDUSD/AUDUSD_M1_2010.csv.gz": {
@@ -323,9 +323,9 @@
       "fin": "2025-12-31T18:13:00Z"
     },
     "FTSE100/FTSE100_M1_2026.csv.gz": {
-      "bougies": 282374,
+      "bougies": 290219,
       "debut": "2026-01-01T23:02:00Z",
-      "fin": "2026-10-30T20:59:00Z"
+      "fin": "2026-11-06T20:59:00Z"
     },
     "GBPUSD/GBPUSD_M1_2010.csv.gz": {
       "bougies": 348663,
