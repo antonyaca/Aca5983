@@ -1,9 +1,9 @@
 == NASDAQ100 (nsxusd)
+  2026: ÉCHEC (<urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1011)>)
   2020: déjà présent, ignoré
   2021: déjà présent, ignoré
   2022: déjà présent, ignoré
   2023: déjà présent, ignoré
   2024: déjà présent, ignoré
   2025: déjà présent, ignoré
-  2026: OK, 292590 bougies
-Inventaire écrit dans data/manifest.json (0 échec(s))
+Inventaire écrit dans data/manifest.json (1 échec(s))
